@@ -1,0 +1,4 @@
+-- add user = php ..\root\IIS\nette\bin\create-user.php name pwd
+-- admin 00
+-- 0 0
+-- 1 1

@@ -31,8 +31,8 @@ CREATE TABLE Zamestnanec (
     ID INT NOT NULL AUTO_INCREMENT,
     uid VARCHAR(30) NOT NULL,
     upx VARCHAR(30) NOT NULL,
-    role INT NOT NULL,
-    lang VARCHAR(3) NOT NULL,
+    role INT NULL,
+    lang VARCHAR(3) NULL,
     chng DATETIME NULL,
 
     KEY (ID)
@@ -220,9 +220,9 @@ ALTER TABLE Vysetrenie ADD CONSTRAINT FK_Vykon4 FOREIGN KEY(ID) REFERENCES Vykon
 -- *************************************************************************************************************************************
 -- Zamestnanci
 INSERT INTO Zamestnanec (uid,upx,role,lang,chng) VALUES
-('admin','0000',0,'SK',CURRENT_TIMESTAMP),
-('0','0000',1,'SK',CURRENT_TIMESTAMP),
-('1','0000',1,'SK',CURRENT_TIMESTAMP);
+('admin','$2y$10$LbN4HjAfOFW9qOCnybRpKeP',0,'SK',CURRENT_TIMESTAMP),
+('0','$2y$10$1IOOVRST5amR4xUe968.De0',1,'SK',CURRENT_TIMESTAMP),
+('1','$2y$10$ADgalRAvAeml/ufV2K0GoOF',1,'SK',CURRENT_TIMESTAMP);
 
 
 
