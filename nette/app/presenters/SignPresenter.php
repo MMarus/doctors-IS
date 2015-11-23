@@ -11,6 +11,12 @@ class SignPresenter extends BasePresenter
 	/** @var SignFormFactory @inject */
 	public $factory;
 
+	protected function beforeRender()
+	{
+		parent::beforeRender();
+		$this->setLayout('layoutSign');
+	}
+
 
 
 
