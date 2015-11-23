@@ -12,6 +12,8 @@ class SignPresenter extends BasePresenter
 	public $factory;
 
 
+
+
 	/**
 	 * Sign-in form factory.
 	 * @return Nette\Application\UI\Form
