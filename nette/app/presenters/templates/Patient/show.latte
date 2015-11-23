@@ -39,13 +39,33 @@
         <div class="col-md-4">
             <div class="panel panel-primary">
                 <!-- Default panel contents -->
-                <div class="panel-heading">Plány</div>
+                <div class="panel-heading">
+                    Návštevy 
+                    <div class="pull-right"></div>
+                    {*<a n:href="Patient:show 1">*}
+                        <span class="glyphicon glyphicon-plus pull-right" aria-hidden="true"></span>
+                    {*</a>*}
+                </div>
+                <!-- Table with plans -->
+                <table class="table table-striped">
+                  <tr>
+                    <th>Datum</th>
+                    <th>Poznamky</th>
+                  </tr>
+                  {foreach $visits as $visit}
+                    <tr>
+                      <td>{$visit->niceDate}</td>
+                      <td>{$visit->Poznamky}</td>
+                    </tr>
+                  {/foreach}
+                </table>
+                
             </div>
         </div>
         <div class="col-md-4">
             <div class="panel panel-primary">
                 <!-- Default panel contents -->
-                <div class="panel-heading">Plány</div>
+                <div class="panel-heading">Výkony</div>
             </div>
         </div>
     </div>
