@@ -7,13 +7,16 @@
 <html>
 <head>
 	<meta charset="utf-8">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>{ifset title}{include title|striptags} | {/ifset}Nette Sandbox</title>
 
-	<link rel="stylesheet" href="{$basePath}/css/style.css">
-        <link rel="stylesheet" href="{$basePath}/css/bootstrap.css">
+	{*<link rel="stylesheet" href="{$basePath}/css/style.css">*}
+        <link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css">
 	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
-	<meta name="viewport" content="width=device-width">
+	
 	{block head}{/block}
 </head>
 

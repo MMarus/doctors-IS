@@ -1,23 +1,61 @@
 {block content}
-
-<p><a n:href="Homepage:default">← zpět na výpis příspěvků</a></p>
-
-<p>{$id}</p>
-<p>{$patient->ID}</p>
-<p>{$patient->Poznamky}</p>
-<p>{$patient->id_Poistovna}</p>
-
-
-<div class="panel panel-default">
-  <div class="panel-body">
-      <strong>Meno: </strong> {$patient->Meno} {$patient->Priezvisko}
-      <strong>Rodné číslo: </strong> {$patient->Rodne_cislo}
-      <strong>Adresa: </strong> {$patient->Adresa}
-  </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <strong>Meno: </strong> {$patient->Meno} {$patient->Priezvisko}
+                <strong>Rodné číslo: </strong> {$patient->Rodne_cislo}
+                <strong>Adresa: </strong> {$patient->Adresa}
+                <strong>Poznamky: </strong> {$patient->Poznamky}
+            </div>
+        </div>
+    </div> 
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    Plány 
+                    <div class="pull-right"></div>
+                    {*<a n:href="Patient:show 1">*}
+                        <span class="glyphicon glyphicon-plus pull-right" aria-hidden="true"></span>
+                    {*</a>*}
+                </div>
+                <!-- Table with plans -->
+                <table class="table table-striped">
+                  <tr>
+                    <th>Datum</th>
+                    <th>Poznamky</th>
+                  </tr>
+                  {foreach $plans as $plan}
+                    <tr>
+                      <td>{$plan->niceDate}</td>
+                      <td>{$plan->Poznamky}</td>
+                    </tr>
+                  {/foreach}
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Plány</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Plány</div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div id="plans">
-    {foreach $plans as $plan}
-        <div>{$plan->niceDate} {$plan->Poznamky}</div>
-    {/foreach}
-</div>
+
+
+
+  
+
+          
+          
+{/block}
