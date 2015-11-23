@@ -30,7 +30,7 @@ DROP TABLE IF EXISTS VykonMaPlan;
 CREATE TABLE Zamestnanec (
     ID INT NOT NULL AUTO_INCREMENT,
     uid VARCHAR(30) NOT NULL,
-    upx VARCHAR(30) NOT NULL,
+    upx VARCHAR(100) NOT NULL,
     role INT NULL,
     lang VARCHAR(3) NULL,
     chng DATETIME NULL,
@@ -220,9 +220,9 @@ ALTER TABLE Vysetrenie ADD CONSTRAINT FK_Vykon4 FOREIGN KEY(ID) REFERENCES Vykon
 -- *************************************************************************************************************************************
 -- Zamestnanci
 INSERT INTO Zamestnanec (uid,upx,role,lang,chng) VALUES
-('admin','$2y$10$LbN4HjAfOFW9qOCnybRpKeP',0,'SK',CURRENT_TIMESTAMP),
-('0','$2y$10$1IOOVRST5amR4xUe968.De0',1,'SK',CURRENT_TIMESTAMP),
-('1','$2y$10$ADgalRAvAeml/ufV2K0GoOF',1,'SK',CURRENT_TIMESTAMP);
+('admin','$2y$10$KUjGlc7QFaYXi8N0z6hkT.JtSo/Knp/7iuIpNX9BM89wIcBIWfnNG',0,'SK',CURRENT_TIMESTAMP),
+('0','$2y$10$GSlim4PHnbiAKz7aFz8lZuqJpXKLFnd/0RYlWf2OlEYBG4ev92mFK',1,'SK',CURRENT_TIMESTAMP),
+('1','$2y$10$AoAfAjARyVhBIT0ebJlvN.y96Gke2mq0HgFGP3JWk8mMVDVKRwpfS',1,'SK',CURRENT_TIMESTAMP);
 
 
 
