@@ -7,10 +7,17 @@
 <p>{$patient->Poznamky}</p>
 <p>{$patient->id_Poistovna}</p>
 
+
 <div class="panel panel-default">
   <div class="panel-body">
       <strong>Meno: </strong> {$patient->Meno} {$patient->Priezvisko}
       <strong>Rodné číslo: </strong> {$patient->Rodne_cislo}
       <strong>Adresa: </strong> {$patient->Adresa}
   </div>
+</div>
+
+<div id="plans">
+    {foreach $plans as $plan}
+        <div>{$plan->niceDate} {$plan->Poznamky}</div>
+    {/foreach}
 </div>

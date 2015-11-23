@@ -29,7 +29,12 @@ class PatientPresenter extends BasePresenter
             if (!$patient) {
                 $this->error('Stránka nebyla nalezena');
             }
-            $this->template->patient = $patient ;
+            $this->template->patient = $patient;
+            
+            $plans = $this->db->query("SELECT *, DATE_FORMAT(Planovany_datum,'%H:%i %d.%m.%Y') AS niceDate FROM Plan WHERE id_Pacient=? ORDER BY Planovany_datum DESC ", $id);
+            
+            $this->template->plans = $plans;
+            
     }
 
 }
