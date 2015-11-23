@@ -31,8 +31,14 @@ CREATE TABLE Zamestnanec (
     ID INT NOT NULL AUTO_INCREMENT,
     uid VARCHAR(30) NOT NULL,
     upx VARCHAR(100) NOT NULL,
-    role INT NULL,
+    role VARCHAR(10) NULL DEFAULT 'user',
     lang VARCHAR(3) NULL,
+
+    meno VARCHAR(30) NULL,
+    priezvisko VARCHAR(30) NULL,
+    adresa VARCHAR(50) NULL,
+
+
     chng DATETIME NULL,
 
     KEY (ID)
@@ -220,10 +226,10 @@ ALTER TABLE Vysetrenie ADD CONSTRAINT FK_Vykon4 FOREIGN KEY(ID) REFERENCES Vykon
 -- ****************************************************** INSERTY **********************************************************************
 -- *************************************************************************************************************************************
 -- Zamestnanci
-INSERT INTO Zamestnanec (uid,upx,role,lang,chng) VALUES
-('admin','$2y$10$KUjGlc7QFaYXi8N0z6hkT.JtSo/Knp/7iuIpNX9BM89wIcBIWfnNG',0,'SK',CURRENT_TIMESTAMP),
-('0','$2y$10$GSlim4PHnbiAKz7aFz8lZuqJpXKLFnd/0RYlWf2OlEYBG4ev92mFK',1,'SK',CURRENT_TIMESTAMP),
-('1','$2y$10$AoAfAjARyVhBIT0ebJlvN.y96Gke2mq0HgFGP3JWk8mMVDVKRwpfS',1,'SK',CURRENT_TIMESTAMP);
+INSERT INTO Zamestnanec (uid,upx,role,lang,chng,meno,priezvisko,adresa) VALUES
+('admin','$2y$10$KUjGlc7QFaYXi8N0z6hkT.JtSo/Knp/7iuIpNX9BM89wIcBIWfnNG','admin','SK',CURRENT_TIMESTAMP,'Meno1','Priezvisko1','Adresa 1'),
+('0','$2y$10$GSlim4PHnbiAKz7aFz8lZuqJpXKLFnd/0RYlWf2OlEYBG4ev92mFK','doktor','SK',CURRENT_TIMESTAMP,'Meno2','Priezvisko2','Adresa 2'),
+('1','$2y$10$AoAfAjARyVhBIT0ebJlvN.y96Gke2mq0HgFGP3JWk8mMVDVKRwpfS','sestra','SK',CURRENT_TIMESTAMP,'Meno3','Priezvisko3','Adresa 3');
 
 
 
