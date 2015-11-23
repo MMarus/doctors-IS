@@ -75,6 +75,7 @@ CREATE TABLE Plan (
 	Planovany_datum DATETIME NOT NULL,
 	Poznamky VARCHAR(255),
 	id_Pacient INT NOT NULL,
+	id_NavstevaOrdinacie INT NULL,
 
 	PRIMARY KEY (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
