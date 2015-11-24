@@ -34,7 +34,7 @@
                         <th>Pozn.</th>
                       </tr>
                       {foreach $plans as $plan}
-                        <tr class="dateWarn" >
+                        <tr   {if $plan->datum < $date} class="dateWarn" {/if} >
                           <td>{$plan->datum}</td>
                           <td>{$plan->priez}</td>
                           <td>{$plan->rc}</td>
