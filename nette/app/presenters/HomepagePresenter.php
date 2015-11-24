@@ -23,6 +23,9 @@ class HomepagePresenter extends BasePresenter
 			$this->error('Stranka sa nenasla');
 		}
 		$this->template->plans = $plans;
+		$date = new Nette\Utils\DateTime();
+		$date->getTimestamp();
+		$this->template->date = $date;
 	}
 
 }

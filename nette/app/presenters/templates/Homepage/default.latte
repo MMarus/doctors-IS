@@ -7,39 +7,45 @@
 
 <div id="content">
 	Následujúce plány..
-	{block plans}
-    <div class="container-fluid">
-        <div class="col-md-9">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Planovany_datum</th>
-                    <th>Priezvisko</th>
-                    <th>rodne cislo</th>
-                    <th>vykon</th>
-                    <th>Poznamky</th>
-                </tr>
-            </thead>
-            <tbody>
-                {foreach $plans as $plan}
-                  <tr>
-                    <td>{$plan->datum}</td>
-                    <td>{$plan->priez}</td>
-                    <td>{$plan->rc}</td>
-                    <td>{$plan->vykon}</td>
-                    <td>{$plan->pozn}</td>
-                    <td>
-                        <button type="button" class="btn btn-trans-border">
-                            <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
-                        </button>
-                    </td>
-                  </tr>
-                {/foreach}
-            </tbody>
-        </table>
-        </div>
+
+    <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h4>Plány</h4>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-trans-default pull-right" aria-label="Left Align" data-toggle="modal" data-target="#myModal">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Table with plans -->
+                    <table class="table table-striped">
+                      <tr>
+                        <th>Čas</th>
+                        <th>Pacient</th>
+                        <th>RČ</th>
+                        <th>Výkonn</th>
+                        <th>Pozn.</th>
+                      </tr>
+                      {foreach $plans as $plan}
+                        <tr   {if $plan->datum < $date} class="dateWarn" {/if} >
+                          <td>{$plan->datum}</td>
+                          <td>{$plan->priez}</td>
+                          <td>{$plan->rc}</td>
+                          <td>{$plan->vykon}</td>
+                          <td>{$plan->pozn}</td>
+                        </tr>
+                      {/foreach}
+                    </table>
+                </div>
+            </div>
      </div>
-    {/block}
 
 
 	Pacient __ hladacik
