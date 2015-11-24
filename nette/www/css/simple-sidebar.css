@@ -14,6 +14,13 @@
 
 }
 
+.menuuname {
+    position: absolute !important;
+    bottom:20px !important;
+    text-decoration: none !important;
+    width: 250px !important;
+}
+
 #wrapper {
     position: absolute;
     right:0;
