@@ -17,7 +17,12 @@ class PatientPresenter extends BasePresenter
     
     public function renderDefault()
     {
-            $this->template->anyVariable = 'any value';
+            $patients = $this->db->table('Pacient');
+            if (!$patients) {
+                $this->error('Stránka nebyla nalezena');
+            }
+            $this->template->patients = $patients;
+            
             //$this->template->patient = $this->db->table('Pacient')->get($patientId);
     }
     

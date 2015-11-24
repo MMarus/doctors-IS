@@ -1,0 +1,105 @@
+/*Still need to fit the :hove efect*/
+
+    /* CSS used here will be applied after bootstrap.css */
+
+
+
+
+.btn-trans-default {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #ccc;
+}
+.btn-trans-default:focus,
+.btn-trans-default.focus {
+    color: #fff;
+    background-color: #e6e6e6;
+    border-color: #8c8c8c;
+}
+.btn-trans-default:hover {
+    color: #fff;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+.btn-trans-default:active,
+.btn-trans-default.active,
+.open > .dropdown-toggle.btn-trans-default {
+    color: #fff;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+.btn-trans-default:active:hover,
+.btn-trans-default.active:hover,
+.open > .dropdown-toggle.btn-trans-default:hover,
+.btn-trans-default:active:focus,
+.btn-trans-default.active:focus,
+.open > .dropdown-toggle.btn-trans-default:focus,
+.btn-trans-default:active.focus,
+.btn-trans-default.active.focus,
+.open > .dropdown-toggle.btn-trans-default.focus {
+    color: #fff;
+    background-color: #d4d4d4;
+    border-color: #8c8c8c;
+}
+.btn-trans-default:active,
+.btn-trans-default.active,
+.open > .dropdown-toggle.btn-trans-default {
+    background-image: none;
+}
+.btn-trans-default.disabled,
+.btn-trans-default[disabled],
+fieldset[disabled] .btn-trans-default,
+.btn-trans-default.disabled:hover,
+.btn-trans-default[disabled]:hover,
+fieldset[disabled] .btn-trans-default:hover,
+.btn-trans-default.disabled:focus,
+.btn-trans-default[disabled]:focus,
+fieldset[disabled] .btn-trans-default:focus,
+.btn-trans-default.disabled.focus,
+.btn-trans-default[disabled].focus,
+fieldset[disabled] .btn-trans-default.focus,
+.btn-trans-default.disabled:active,
+.btn-trans-default[disabled]:active,
+fieldset[disabled] .btn-trans-default:active,
+.btn-trans-default.disabled.active,
+.btn-trans-default[disabled].active,
+fieldset[disabled] .btn-trans-default.active {
+    background-color: #fff;
+    border-color: #ccc;
+}
+.btn-trans-default .badge {
+    color: #333;
+    background-color: #fff;
+}
+
+.btn-trans {
+    background:none;
+    box-shadow:none;
+}
+
+.btn-trans-border {
+    border: 2px solid #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-trans-primary {
+    border: 2px solid #0044CC;
+    color:#0044CC;
+}
+.btn-trans-success {
+    border: 2px solid #51A351;
+    color:#51A351;
+}
+
+.btn-trans-info {
+    border: 2px solid #0088CC;
+    color:#0088CC;
+}
+.btn-trans-warning {
+    border: 2px solid #F89406;
+    color:#F89406;
+}
+.btn-trans-danger {
+    border: 2px solid #BD362F;
+    color:#BD362F;
+}
