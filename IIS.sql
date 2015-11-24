@@ -55,7 +55,7 @@ CREATE TABLE NavstevaOrdinacie (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE Faktura (
-	ID INT NOT NULL,
+	ID INT NOT NULL AUTO_INCREMENT,
 	Datum_vystavenia DATETIME NOT NULL,
 	Suma INT NOT NULL,
 	Splatnost DATETIME NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE Poistovna (
 
 CREATE TABLE Pacient (
 	ID INT NOT NULL AUTO_INCREMENT,
-	Rodne_cislo INT NOT NULL,
+	Rodne_cislo VARCHAR(15) NOT NULL,
 	Meno VARCHAR(25) NOT NULL,
 	Priezvisko VARCHAR(25) NOT NULL,
 	Adresa VARCHAR(100) NOT NULL,
@@ -301,22 +301,24 @@ INSERT INTO Pacient (Rodne_cislo,Meno,Priezvisko,Adresa,Krvna_skupina,Poznamky,i
 
 -- NavstevaOrdinacie (ma pacienta) (AUTOINCREMENT)
 INSERT INTO NavstevaOrdinacie (Datum,Poznamky,id_Pacient) VALUES
-( '20/DEC/2014', 'Vsetko prebehlo ok.', '001'),
-( '20/DEC/2014', 'Toto bol novy pacient, novo registrovany.', '003'),
-( '20/DEC/2015', 'Bez popisu', '003'),
-( '30/DEC/2015', 'abcdcdcsdvgs', '004');
+( '2015-05-05 15:00:00', 'Vsetko prebehlo ok.', '001'),
+( '2015-05-05 16:00:00', 'Toto bol novy pacient, novo registrovany.', '003'),
+( '2015-05-05 16:00:00', 'Bez popisu', '003'),
+( '2015-05-05 17:00:00', 'abcdcdcsdvgs', '004');
 
 -- Plany (nakonci PACIENT)
 INSERT INTO Plan (Planovany_datum,Poznamky,id_Pacient) VALUES
-( '22/APR/2015' , 'Priniest karticku poistenca.' , '001'),
-( '21/APR/2015' , 'Priniest zdravotnu kartu' , '002'),
-( '23/APR/2015' , 'Nejaka poznamka.' , '001');
+( '2015-11-24 15:00:00' , 'Priniest karticku poistenca.' , '001'),
+( '2015-11-25 14:00:00' , 'ajajajjj' , '002'),
+( '2015-11-25 16:00:00' , 'volaco' , '003'),
+( '2015-11-25 17:00:00' , 'popit volaco' , '004'),
+( '2015-11-26 17:00:00' , 'Nejaka poznamka.' , '001');
 
 -- Faktury (ma : Navstevu ordinacie, Poistovnu)
 INSERT INTO Faktura (Datum_vystavenia,Suma,Splatnost,id_NavstevaOrdinacie,id_Poistovna) VALUES
-( '20/DEC/2015', '50', '30/DEC/2014', '001', '001'),
-( '20/DEC/2015', '20', '30/DEC/2014', '002', '002'),
-( '20/DEC/2015', '300', '30/DEC/2015', '003', '002');
+( '2015-05-05 15:00:00', '50', '2015-06-05 15:00:00', '001', '001'),
+( '2015-05-05 16:00:00', '20', '2015-06-05 15:00:00', '002', '002'),
+( '2015-05-05 17:00:00', '300', '2015-06-05 15:00:00', '003', '002');
 
 
 
