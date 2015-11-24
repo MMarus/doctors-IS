@@ -23,21 +23,28 @@
                     <!-- Table with plans -->
                     <table class="table table-striped">
                       <tr>
+                         <th>ID</th>
                         <th>Čas</th>
                         <th>Pacient</th>
                         <th>RČ</th>
                         <th>Výkonn</th>
                         <th>Pozn.</th>
                       </tr>
-                      {foreach $plans as $plan}
+                     {* {foreach $plans as $plan}
                         <tr   {if $plan->datum < $date} class="dateWarn" {/if} >
+                          <td>{$plan->idp}</td>
                           <td>{$plan->datum}</td>
                           <td>{$plan->priez}</td>
                           <td>{$plan->rc}</td>
+
+
                           <td>{$plan->vykon}</td>
+
+
+
                           <td>{$plan->pozn}</td>
                         </tr>
-                      {/foreach}
+                      {/foreach} *}
                     </table>
                 </div>
             </div>
