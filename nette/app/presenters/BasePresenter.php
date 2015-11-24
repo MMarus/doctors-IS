@@ -21,6 +21,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
             $this->redirect('Sign:in');
         }
         $this->template->username = $this->user->getIdentity()->meno . " " . $this->user->getIdentity()->priezvisko;
+        $this->template->userinfo = $this->user->getIdentity();
 
     }
 

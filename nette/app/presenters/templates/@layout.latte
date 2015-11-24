@@ -54,16 +54,20 @@
                         <a href="#">About</a>
                     </li>
 
-                    <li>
-                        <a href="{$basePath}/sign/out">Odhlásiť</a>
 
-                    </li>
 
                 </ul>
 
 
 
-                <a class="menuuname">{$username}</a>
+                <span class="menuuname">
+
+                    {$username}</br>
+                    {$userinfo->role}</br>
+                    <a href="{$basePath}/sign/out">Odhlásiť</a>
+
+
+               </span>
             </div>
             <!-- /#sidebar-wrapper -->
 
