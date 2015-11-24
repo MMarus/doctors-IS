@@ -30,21 +30,35 @@
                         <th>Výkonn</th>
                         <th>Pozn.</th>
                       </tr>
-                     {* {foreach $plans as $plan}
-                        <tr   {if $plan->datum < $date} class="dateWarn" {/if} >
-                          <td>{$plan->idp}</td>
-                          <td>{$plan->datum}</td>
-                          <td>{$plan->priez}</td>
-                          <td>{$plan->rc}</td>
+
+                      {foreach $plans as $plan}
+                        <tr   {if $plan[0]->datum < $date} class="dateWarn" {/if} >
+
+                          <td>{$plan[0]->idp}</td>
+                          <td>{$plan[0]->datum}</td>
+                          <td>{$plan[0]->priez}</td>
+                          <td>{$plan[0]->rc}</td>
+
+                          <td>
+                            <ul>
+                              {foreach $plan as $pp}
+
+                                {ifset $pp->idp}
+                                {else }
+
+                                    <li>
+                                        {$pp}
+                                    </li>
+
+                                {/ifset}
+                              {/foreach}
+                            </ul>
+                          </td>
 
 
-                          <td>{$plan->vykon}</td>
-
-
-
-                          <td>{$plan->pozn}</td>
+                          <td>{$plan[0]->pozn}</td>
                         </tr>
-                      {/foreach} *}
+                      {/foreach}
                     </table>
                 </div>
             </div>

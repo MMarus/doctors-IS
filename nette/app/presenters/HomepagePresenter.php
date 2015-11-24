@@ -26,7 +26,8 @@ class HomepagePresenter extends BasePresenter
 		$idp	= $idp->fetchAll();
 
 		$xx = array();
-		$i = $x = 1;
+		$x = 1;
+		$i = 0;
 
 
 
@@ -35,13 +36,14 @@ class HomepagePresenter extends BasePresenter
 
 			foreach ($plans as $plansx)
 			{
+
 				if( $idpx->idp == $plansx->idp )
 				{
-					$xx[$idpx->idp][$x] = $plansx->vykon;
+					$xx[$i][$x] = $plansx->vykon;
 					$x++;
-					$xx[$idpx->idp][0] = $plansx;
+					$xx[$i][0] = $plansx;
 				}
-			}$x=1;
+			}$x=1;$i++;
 		}
 
 		Debugger::barDump($xx);
@@ -51,7 +53,7 @@ class HomepagePresenter extends BasePresenter
 		if (!$plans) {
 			$this->error('Stranka sa nenasla');
 		}
-		$this->template->plans = $plans;
+		$this->template->plans = $xx;
 		$date = new Nette\Utils\DateTime();
 		$date->getTimestamp();
 		$this->template->date = $date;
