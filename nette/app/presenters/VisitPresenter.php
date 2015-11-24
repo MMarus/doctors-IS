@@ -25,17 +25,27 @@ class VisitPresenter extends BasePresenter
 
 	public function renderEdit($id)
 	{
-		$this->template->id = $id;
+        $this->template->services = $this->db->query("SELECT Vykon.* FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $id);
 	}
 
     protected function createComponentRegistrationForm()
     {
-        //$drugs = $this->db->table('Liek')->order('Nazov DESC')->;
+
+        $allServices = $this->db->table('Vykon');
+        $serviceInputs = [];
+        foreach($allServices as $service) {
+            $serviceInputs[$service->ID] = $service->Nazov;
+        }
+
         $form = new UI\Form;
-        $form->addText('name', 'Jméno*')->setRequired('Zadejte prosím jméno');
-        $form->addPassword('password', 'Heslo*')->setRequired('Zadejte prosím Heslo');
-        $form->addSelect('drug', 'Liek:', $drugs)->setPrompt('Zvolte liek');
-        $form->addSubmit('login', 'Registrovat');
+        $form->addText('search', 'Vykon*')->setRequired('Zadejte prosím jméno');
+        $form->addSelect('hladaj', 'Vykon', $serviceInputs);
+
+
+        //$form['country']->setDefaultValue('sk');
+
+
+        $form->addSubmit('send', '');
         $form->onSuccess[] = array($this, 'registrationFormSucceeded');
         $form->setRenderer(new Bs3FormRenderer);
         return $form;
