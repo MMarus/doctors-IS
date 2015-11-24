@@ -20,6 +20,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
             if($this->name == 'Sign'){return;}
             $this->redirect('Sign:in');
         }
+        $this->template->username = $this->user->getIdentity()->meno . " " . $this->user->getIdentity()->priezvisko;
 
     }
 
