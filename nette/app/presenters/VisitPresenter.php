@@ -33,7 +33,7 @@ class VisitPresenter extends BasePresenter
 	public function renderEdit()
 	{
         if($this->visitId){
-            $this->template->services = $this->db->query("SELECT Vykon.* FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->visitId);
+            $this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as serviceID FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->visitId);
         }
         else
             $this->error("TEST");
