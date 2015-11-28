@@ -8,48 +8,25 @@
                 <!-- Default panel contents -->
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <h4>Vykony</h4>
                         </div>
-                        <div class="col-md-8">
-
-                            {*form registrationForm}
-
-                            <!-- Jednoduché vykreslení chyb -->
-                            <div class="input-group">
-                                <ul class="errors" n:if="$form->hasErrors()">
-                                        <li n:foreach="$form->errors as $error">{$error}</li>
-                                </ul>
-                                <input n:name=search onchange="$('.typeahead').typeahead()" type="text" class="form-control" placeholder="Novy vykon" data-provide="typeahead" data-items="4" data-source="[&quot;Alabama&quot;,&quot;Alaska&quot;,&quot;Arizona&quot;,&quot;Arkansas&quot;,&quot;California&quot;,&quot;Colorado&quot;,&quot;Connecticut&quot;,&quot;Delaware&quot;,&quot;Florida&quot;,&quot;Georgia&quot;,&quot;Hawaii&quot;,&quot;Idaho&quot;,&quot;Illinois&quot;,&quot;Indiana&quot;,&quot;Iowa&quot;,&quot;Kansas&quot;,&quot;Kentucky&quot;,&quot;Louisiana&quot;,&quot;Maine&quot;,&quot;Maryland&quot;,&quot;Massachusetts&quot;,&quot;Michigan&quot;,&quot;Minnesota&quot;,&quot;Mississippi&quot;,&quot;Missouri&quot;,&quot;Montana&quot;,&quot;Nebraska&quot;,&quot;Nevada&quot;,&quot;New Hampshire&quot;,&quot;New Jersey&quot;,&quot;New Mexico&quot;,&quot;New York&quot;,&quot;North Dakota&quot;,&quot;North Carolina&quot;,&quot;Ohio&quot;,&quot;Oklahoma&quot;,&quot;Oregon&quot;,&quot;Pennsylvania&quot;,&quot;Rhode Island&quot;,&quot;South Carolina&quot;,&quot;South Dakota&quot;,&quot;Tennessee&quot;,&quot;Texas&quot;,&quot;Utah&quot;,&quot;Vermont&quot;,&quot;Virginia&quot;,&quot;Washington&quot;,&quot;West Virginia&quot;,&quot;Wisconsin&quot;,&quot;Wyoming&quot;]">
-                                {*<input n:name=search type="text" class="form-control" placeholder="Novy vykon">*}{*
-                                <span class="input-group-btn">
-                                    <button n:name=send class="btn btn-trans-default" type="submit" aria-label="Left Align">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </button>
-                                </span>
-                            </div>
-
-
-
-
-
-  <div class="row-fluid">
-      <select class="selectpicker" data-show-subtext="true" data-live-search="true">
-        <option data-subtext="Rep California">Tom Foolery</option>
-        <option data-subtext="Sen California">Bill Gordon</option>
-        <option data-subtext="Sen Massacusetts">Elizabeth Warren</option>
-        <option data-subtext="Rep Alabama">Mario Flores</option>
-        <option data-subtext="Rep Alaska">Don Young</option>
-        <option data-subtext="Rep California" disabled="disabled">Marvin Martinez</option>
-      </select>
-  </div>
-
-
-
-
-
-
-                            {/form*}
+                        <div class="col-md-9">
+                            {*control addService*}
+                            {form addService}
+                              <div class="row-fluid pull-right">
+                                {if isset($form[service])}
+                                  <select n:name=service class="selectpicker" data-live-search="true">
+                                   {foreach $form[service]->items as $key => $label}
+                                    <option value="{$key}">{$label}</option>
+                                   {/foreach}
+                                  </select>
+                                  <button n:name=send type="submit" class="btn btn-trans-default" aria-label="Left Align">
+                                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                  </button>
+                                {/if}
+                              </div>
+                            {/form}
                         </div>
                     </div>
                 </div>
@@ -73,18 +50,5 @@
 
 
 
-{form registrationForm}
 
-  <div class="row-fluid">
-      <select class="selectpicker" data-show-subtext="true" data-live-search="true">
-       {foreach $form[hladaj]->items as $key => $label}
-        <option value="{$key}">{$label}</option>
-
-         {/foreach}
-      </select>
-  </div>
-
-
-
-{/form}
 
