@@ -35,7 +35,7 @@ class VisitPresenter extends BasePresenter
     {
         if ($this->visitId) {
             $this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as serviceID FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->visitId);
-            $this->template->services = $this->db->query("SELECT Liek.*, PredpisanyLiek.ID as drugID FROM PredpisanyLiek, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->visitId);
+            //$this->template->services = $this->db->query("SELECT Liek.*, PredpisanyLiek.ID as drugID FROM PredpisanyLiek, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->visitId);
         } else
             $this->error("TEST");
     }
