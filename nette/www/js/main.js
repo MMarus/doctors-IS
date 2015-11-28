@@ -3,6 +3,7 @@ $(function(){
 });
 
 
+
 function basepath()
 {
     var pth;
@@ -108,4 +109,11 @@ function menu(action)
 
 }
 
+
+
+//Toto je na zakliknutie vsetkych checkboxov
+$('#checkBoxes .toggle-button').click( function () {
+
+    $( '#checkBoxes input[type="checkbox"]' ).prop('checked', this.checked)
+})
 

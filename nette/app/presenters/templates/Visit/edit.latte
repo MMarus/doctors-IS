@@ -3,35 +3,34 @@
 <div class="container-fluid">
     <div class="row"><h1>Editacia navstevy</h1></div>
     <div class="row">
+        <!-- VYKONY -->
         <div class="col-md-4">
             <div class="panel panel-primary">
-                <!-- Default panel contents -->
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-2">
                             <h4>Vykony</h4>
                         </div>
 
-                            {*control addService*}
-                            {form addService}
-                              <div class="row-fluid">
+                        {*control addService*}
+                        {form addService}
+                            <div class="row-fluid">
                                 {if isset($form[service])}
-
-                                  <select n:name=service class="selectpicker" data-live-search="true">
-                                   {foreach $form[service]->items as $key => $label}
-                                    <option value="{$key}">{$label}</option>
-                                   {/foreach}
-                                  </select>
-                                  <button n:name=send type="submit" class="btn btn-trans-default" aria-label="Left Align">
-                                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                  </button>
-
+                                    <select n:name=service class="selectpicker" data-live-search="true">
+                                        {foreach $form[service]->items as $key => $label}
+                                            <option value="{$key}">{$label}</option>
+                                        {/foreach}
+                                    </select>
+                                    <button n:name=send type="submit" class="btn btn-trans-default"
+                                            aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    </button>
                                 {/if}
-                                    <label for="submitRemove" class="btn btn-trans-default" aria-label="Left Align">
-                                                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                                                                              </label>
-                              </div>
-                            {/form}
+                                <label for="submitRemove" class="btn btn-trans-default" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </label>
+                            </div>
+                        {/form}
 
                         {*<label for="submitRemove">Submit</label>*}
 
@@ -42,23 +41,22 @@
                 </div>
                 <!-- Table with plans -->
                 <table id="checkBoxes" class="table table-striped">
-                  <tr>
-                    <td><input id="toggle-button" class="toggle-button" type="checkbox" value="ALL"></td>
-                    <th>Nazov</th>
-                    <th>Popis</th>
-                  </tr>
+                    <tr>
+                        <td><input id="toggle-button" class="toggle-button" type="checkbox" value="ALL"></td>
+                        <th>Nazov</th>
+                        <th>Popis</th>
+                    </tr>
                     {form removeService}
                     {foreach $services as $service}
-                     <tr>
+                        <tr>
 
-                       <td><input type="checkbox" name="sel[]" value={$service->serviceID}></td>
-                       <td>{$service->Nazov}</td>
-                       <td>{$service->Popis}</td>
+                            <td><input type="checkbox" name="sel[]" value={$service->serviceID}></td>
+                            <td>{$service->Nazov}</td>
+                            <td>{$service->Popis}</td>
 
-                     </tr>
+                        </tr>
                     {/foreach}
-                    <input type="submit" id="submitRemove" class="hidden" />
-
+                        <input type="submit" id="submitRemove" class="hidden"/>
                     {/form}
                 </table>
             </div>

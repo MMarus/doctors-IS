@@ -22,33 +22,34 @@ class VisitPresenter extends BasePresenter
     }
 
     public function renderDefault()
-	{
-		$this->template->anyVariable = 'any value';
-	}
+    {
+        $this->template->anyVariable = 'any value';
+    }
 
-    public function actionEdit($id){
+    public function actionEdit($id)
+    {
         $this->visitId = $id;
     }
 
-	public function renderEdit()
-	{
-        if($this->visitId){
+    public function renderEdit()
+    {
+        if ($this->visitId) {
             $this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as serviceID FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->visitId);
-        }
-        else
+            $this->template->services = $this->db->query("SELECT Liek.*, PredpisanyLiek.ID as drugID FROM PredpisanyLiek, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->visitId);
+        } else
             $this->error("TEST");
-	}
+    }
 
     protected function createComponentAddService()
     {
         $allServices = $this->db->table('Vykon');
         $serviceInputs = NULL;
-        foreach($allServices as $service) {
+        foreach ($allServices as $service) {
             $serviceInputs[$service->ID] = $service->Nazov;
         }
 
         $form = new UI\Form;
-        if($serviceInputs){
+        if ($serviceInputs) {
             $form->addSelect('service', 'Vykon', $serviceInputs)->setPrompt('Vybrat vykon');
             $form->addSubmit('send', '');
         }
@@ -63,14 +64,13 @@ class VisitPresenter extends BasePresenter
         var_dump($values);
         var_dump($this->visitId);
 
-        if($values["service"] && $this->visitId > 0 ){
+        if ($values["service"] && $this->visitId > 0) {
             $this->db->query('INSERT INTO PocasNavstevy', array(
                 'ID' => '',
                 'id_NavstevaOrdinacie' => $this->visitId,
                 'id_Vykon' => $values["service"]));
-            $this->flashMessage('DEBUG: id_NavstevaOrdinacie = '.$this->visitId.' vykon - '.$values["service"]);
-        }
-        else
+            $this->flashMessage('DEBUG: id_NavstevaOrdinacie = ' . $this->visitId . ' vykon - ' . $values["service"]);
+        } else
             $this->flashMessage('Zle zadany formular');
     }
 
@@ -89,11 +89,11 @@ class VisitPresenter extends BasePresenter
     {
         $valuesCheck = $form->getHttpData($form::DATA_TEXT | $form::DATA_KEYS, 'sel[]');
 
-        if($valuesCheck){
-            foreach($valuesCheck as $val){
+        if ($valuesCheck) {
+            foreach ($valuesCheck as $val) {
                 $this->db->query("DELETE FROM PocasNavstevy WHERE ID = ?", $val);
             }
-        }else{
+        } else {
             $this->flashMessage('Zle zadany formular');
         }
 
