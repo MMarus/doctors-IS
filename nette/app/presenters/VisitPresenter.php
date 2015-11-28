@@ -74,4 +74,29 @@ class VisitPresenter extends BasePresenter
             $this->flashMessage('Zle zadany formular');
     }
 
+    protected function createComponentRemoveService()
+    {
+        $form = new UI\Form;
+        $form->addSubmit('sendRemove', '');
+        $form->onSuccess[] = array($this, 'removeServiceSucceeded');
+        $form->setRenderer(new Bs3FormRenderer);
+        return $form;
+    }
+
+
+    // volá se po úspěšném odeslání formuláře
+    public function removeServiceSucceeded(UI\Form $form, $values)
+    {
+        $valuesCheck = $form->getHttpData($form::DATA_TEXT | $form::DATA_KEYS, 'sel[]');
+
+        if($valuesCheck){
+            foreach($valuesCheck as $val){
+                $this->db->query("DELETE FROM PocasNavstevy WHERE ID = ?", $val);
+            }
+        }else{
+            $this->flashMessage('Zle zadany formular');
+        }
+
+    }
+
 }
