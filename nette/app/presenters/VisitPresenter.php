@@ -41,7 +41,7 @@ class VisitPresenter extends BasePresenter
 
     protected function createComponentAddService()
     {
-        $allServices = $this->db->query('SELECT * from Vykon WHERE ID NOT IN(SELECT id_Vykon From PocasNavstevy WHERE id_NavstevaOrdinacie = ?)', $this->visitId);
+        $allServices = $this->db->table('Vykon');
         $serviceInputs = NULL;
         foreach($allServices as $service) {
             $serviceInputs[$service->ID] = $service->Nazov;
@@ -69,7 +69,6 @@ class VisitPresenter extends BasePresenter
                 'id_NavstevaOrdinacie' => $this->visitId,
                 'id_Vykon' => $values["service"]));
             $this->flashMessage('DEBUG: id_NavstevaOrdinacie = '.$this->visitId.' vykon - '.$values["service"]);
-            $this->redirect("Visit:edit", $this->visitId);
         }
         else
             $this->flashMessage('Zle zadany formular');
