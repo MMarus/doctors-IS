@@ -1,6 +1,33 @@
 {block content}
 
-<p><a n:href="Homepage:default">← zpět na výpis příspěvků</a></p>
+<div class="container-fluid">
 
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2><strong>{$title}</strong></h2>
+            
+        </div>
+            <!-- Table with plans -->
+            <table id="{*$UpravovanaTabulka*}All" class="table table-striped">
+                <tr>
+                    <td><input id="{*$UpravovanaTabulka*}" class="toggle-button" type="checkbox"></td>
+                    {foreach $theads as $thead}
+                        <th>{$thead}</th>
+                    {/foreach}
+                </tr>
+                {*form removeRow-$UpravovanaTabulka*}
+                {foreach $rows as $row}
+                    <tr>
+                        <td><input type="checkbox" name="{*$UpravovanaTabulka*}Sel[]" value={*$row->IDcko*}></td>
+                        {foreach $theads as $thead}
+                            <td>{$row->$thead}</td>
+                        {/foreach}
+                    </tr>
+                {/foreach}
+                <input type="submit" id="submitRemove{*$UpravovanaTabulka*}" class="hidden"/>
+                {*/form*}
+            </table>
 
-
+    </div>
+</div>
+{/block}

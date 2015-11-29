@@ -1,10 +1,10 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-md-2 col-sm-2 col-xs-2">
-                <h4>{$MenoPanelu} {$UpravovanaTabulka}</h4>
+            <div class="col-md-4 col-sm-4 col-xs-4">
+                <h4>{$MenoPanelu}</h4>
             </div>
-
+            <div class="col-md-8 col-sm-8 col-xs-">
             {form addDropdown-$UpravovanaTabulka}
                 <div class="row-fluid">
                     {if isset($form[$UpravovanaTabulka])}
@@ -23,11 +23,6 @@
                     </label>
                 </div>
             {/form}
-
-            {*<label for="submitRemove">Submit</label>*}
-
-            <div class="row-fluid">
-
             </div>
         </div>
     </div>

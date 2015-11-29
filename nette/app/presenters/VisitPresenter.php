@@ -37,7 +37,9 @@ class VisitPresenter extends BasePresenter
     //Renderers
     public function renderDefault()
     {
-        $this->template->anyVariable = 'any value';
+        $this->template->title = "Navsteva Ordinacie";
+        $this->template->rows = $this->db->query("SELECT * FROM NavstevaOrdinacie");
+        $this->template->theads = array("ID", "Datum", "Poznamky", "id_Pacient");
     }
 
     public function renderEdit()
@@ -50,7 +52,7 @@ class VisitPresenter extends BasePresenter
 
             $this->template->ext = $this->db->query("SELECT ExternePracovisko.*, Odporucenie.ID as IDcko FROM Odporucenie, ExternePracovisko WHERE Odporucenie.id_NavstevaOrdinacie = ? AND Odporucenie.id_ExternePracovisko = ExternePracovisko.ID", $this->ID);
             $this->template->formExt = "Odporucenie";
-            $this->template->theadsExt = array("Nazov", "Adresa", "Specializacia", "Lekar", "ICPE");
+            $this->template->theadsExt = array("Nazov", "Specializacia", "Lekar");
         } else
             $this->error("TEST");
     }
@@ -83,7 +85,7 @@ class VisitPresenter extends BasePresenter
             Debugger::barDump($options);
             $form = new UI\Form;
             if ($options) {
-                $form->addMultiSelect($tableTo, '', $options);
+                $form->addMultiSelect($tableTo, 'Vyber', $options);
                 $form->addSubmit('send'.$tableTo, '');
             }
 
