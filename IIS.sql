@@ -294,9 +294,9 @@ INSERT INTO Vysetrenie (ID,Casova_narocnost) VALUES
 
 -- Pacienti (maju poistovnu) (AUTOINCREMENT)
 INSERT INTO Pacient (Rodne_cislo,Meno,Priezvisko,Adresa,Krvna_skupina,Poznamky,id_Poistovna) VALUES
-( '0000001111', 'Filip', 'Jezovica', 'Bozetechova 2, 61200 Brno', 'A', 'Alergia na Penicilin.', '001'),
-( '1111112222', 'Marek', 'Marusic',  'Bozetechova 2, 61200 Brno', 'B', 'Alergia na Ibalgin.', '002'),
-( '2222223333', 'Nikto', 'Niktos',  'Bozetechova 1, 61200 Brno', '0', 'Bez poznamky.', '002'),
+( '0000001111', 'Filip', 'Jezovica', 'Bozetechova 2, 61200 Brno', 'A+', 'Alergia na Penicilin.', '001'),
+( '1111112222', 'Marek', 'Marusic',  'Bozetechova 2, 61200 Brno', 'AB+', 'Alergia na Ibalgin.', '002'),
+( '2222223333', 'Nikto', 'Niktos',  'Bozetechova 1, 61200 Brno', '0-', 'Bez poznamky.', '002'),
 ( '3333334444', 'Volakto', 'Nejaky',  'Bozetechova 1, 61200 Brno', 'B+', 'Bez poznamky.', '002');
 
 -- NavstevaOrdinacie (ma pacienta) (AUTOINCREMENT)

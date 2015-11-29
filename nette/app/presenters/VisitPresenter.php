@@ -12,6 +12,9 @@ use Nette\Application\UI\Multiplier;
 
 use Tracy\Debugger;
 
+//TODO: treba pridat editacia datumu + pacienta + poznamky
+//TODO: pridavanie novej navstevy
+
 
 class VisitPresenter extends BasePresenter
 {
@@ -29,6 +32,11 @@ class VisitPresenter extends BasePresenter
     }
 
     //Actions
+    public function actionShow($id)
+    {
+        $this->ID = $id;
+    }
+
     public function actionEdit($id)
     {
         $this->ID = $id;
@@ -42,7 +50,11 @@ class VisitPresenter extends BasePresenter
         $this->template->theads = array("ID", "Datum", "Poznamky", "id_Pacient");
     }
 
-    public function renderEdit()
+    public function renderEdit(){
+        $this->template->title = "Tu sa bude nastavovat Basic info o navstevach, pridavanie a chobotin je na /show/xx";
+    }
+
+    public function renderShow()
     {
         if ($this->ID) {
             $this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as IDcko FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->ID);

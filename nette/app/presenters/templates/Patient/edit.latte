@@ -1,76 +1,17 @@
 {block content}
 
 <div class="container-fluid">
-    <div class="row"><h1>Pacient editacia</h1></div>
-        <div class="col-md-4">
-            <div class="panel panel-primary">
-                <!-- Default panel contents -->
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h4>Navstevy</h4>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="input-group">
-                                  <input type="text" class="form-control" placeholder="Search for...">
-                                  <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">Go!</button>
-                                  </span>
-                            </div><!-- /input-group -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Table with plans -->
-                <table class="table table-striped">
-                  <tr>
-                    <th>Datum</th>
-                    <th>Poznamky</th>
-                  </tr>
-                  {*foreach $visits as $visit*}
-                    <tr>
-                      <td>{*$visit->niceDate*}</td>
-                      <td>{*$visit->Poznamky*}</td>
-                    </tr>
-                  {*/foreach*}
-                </table>
-
-            </div>
+    <div class="row">
+        <h1>{$title}</h1></div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-lg-8 col-sm-8">
+            {control pacientForm}
         </div>
-
-
-{*
-    <form n:name=registrationForm class=form>
-        <p><label n:name=Meno>Username: <input n:name=Meno size=20></label>
-        <p><label n:name=Priezvisko>Password: <input n:name=Priezvisko></label>
-        <p><input n:name=send class="btn btn-default">
-    </form>
-
-{form registrationForm}
-
-<!-- Jednoduché vykreslení chyb -->
-<ul class="errors" n:if="$form->hasErrors()">
-        <li n:foreach="$form->errors as $error">{$error}</li>
-</ul>
-
-<table>
-<tr class="required">
-    <th>{label Meno /}</th>
-    <td>{input Meno}</td>
-</tr>
-
-...
-
-</table>
-{/form}
-*}
-
-
-
-
-
-
+    </div>
 
 </div>
 
+{/block}
 
 
