@@ -8,7 +8,7 @@
             {form addDropdown-$UpravovanaTabulka}
                 <div class="row-fluid">
                     {if isset($form[$UpravovanaTabulka])}
-                        <select n:name=$UpravovanaTabulka    class="selectpicker" data-live-search="true">
+                        <select n:name=$UpravovanaTabulka class="selectpicker" data-live-search="true">
                             {foreach $form[$UpravovanaTabulka]->items as $key => $label}
                                 <option value="{$key}">{$label}</option>
                             {/foreach}

@@ -7,8 +7,8 @@
         <div class="col-md-4">
             {include '../components/formAddDropdown.latte',
                 MenoPanelu => 'Vykon',
-                UpravovanaTabulka => 'PocasNavstevy',
-                theads => $theads,
+                UpravovanaTabulka => $form1,
+                theads => $theads1,
                 rows => $services,
             }
         </div>
@@ -16,58 +16,12 @@
 
         <!-- Ext Pracovisko -->
        <div class="col-md-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2 col-xs-2">
-                            <h4>Ext Pracovisko</h4>
-                        </div>
-                        {*control addService*}
-                        {*form }
-                            <div class="row-fluid">
-                                {if isset($form[service])}
-                                    <select n:name=service class="selectpicker" data-live-search="true">
-                                        {foreach $form[service]->items as $key => $label}
-                                            <option value="{$key}">{$label}</option>
-                                        {/foreach}
-                                    </select>
-                                    <button n:name=send type="submit" class="btn btn-trans-default"
-                                            aria-label="Left Align">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </button>
-                                {/if}
-                                <label for="submitRemove" class="btn btn-trans-default" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                </label>
-                            </div>
-                        {/form*}
-
-                        <div class="row-fluid">
-
-                        </div>
-                    </div>
-                </div>
-                <!-- Table with plans -->
-                <table id="checkBoxes" class="table table-striped">
-                    <tr>
-                        <td><input id="toggle-button" class="toggle-button" type="checkbox" value="ALL"></td>
-                        <th>Nazov</th>
-                        <th>Popis</th>
-                    </tr>
-                    {* form removeRecomm}
-                    {foreach $services as $service}
-                        <tr>
-
-                            <td><input type="checkbox" name="sel[]" value={$service->serviceID}></td>
-                            <td>{$service->Nazov}</td>
-                            <td>{$service->Popis}</td>
-
-                        </tr>
-                    {/foreach}
-                        <input type="submit" id="submitRemove" class="hidden"/>
-                    {/form*}
-                </table>
-            </div>
+           {include '../components/formAddDropdown.latte',
+           MenoPanelu => 'Ext. Pracovisko',
+           UpravovanaTabulka => $formExt,
+           theads => $theadsExt,
+           rows => $ext,
+           }
         </div>
     </div>
 </div>

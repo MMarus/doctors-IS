@@ -44,13 +44,13 @@ class VisitPresenter extends BasePresenter
     {
         if ($this->ID) {
             $this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as IDcko FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->ID);
-
             //Nazvy foriem
             $this->template->form1 = "PocasNavstevy";
-            $this->template->theads = array("Nazov", "Popis");
+            $this->template->theads1 = array("Nazov", "Popis");
 
-            $this->template->ext = $this->db->query("SELECT ExternePracovisko.*, Odporucenie.ID as recommendID FROM Odporucenie, ExternePracovisko WHERE Odporucenie.id_NavstevaOrdinacie = ? AND Odporucenie.id_ExternePracovisko = ExternePracovisko.ID", $this->ID);
-
+            $this->template->ext = $this->db->query("SELECT ExternePracovisko.*, Odporucenie.ID as IDcko FROM Odporucenie, ExternePracovisko WHERE Odporucenie.id_NavstevaOrdinacie = ? AND Odporucenie.id_ExternePracovisko = ExternePracovisko.ID", $this->ID);
+            $this->template->formExt = "Odporucenie";
+            $this->template->theadsExt = array("Nazov", "Adresa", "Specializacia", "Lekar", "ICPE");
         } else
             $this->error("TEST");
     }
@@ -69,8 +69,13 @@ class VisitPresenter extends BasePresenter
                     $tableFrom =  "ExternePracovisko";
                     break;
             }
+            Debugger::barDump($tableTo);
+            $results = $this->db->query("SELECT ID, Nazov FROM ".$tableFrom." WHERE ID NOT IN
+                                        (SELECT id_".$tableFrom." FROM ".$tableTo."
+                                        WHERE id_".$this->presenterName." = ".$this->ID.")");
+            //table($tableFrom);
 
-            $results = $this->db->table($tableFrom);
+
             $options = NULL;
             foreach ($results as $result) {
                 $options[$result->ID] = $result->Nazov;
@@ -78,7 +83,7 @@ class VisitPresenter extends BasePresenter
             Debugger::barDump($options);
             $form = new UI\Form;
             if ($options) {
-                $form->addSelect($tableTo, '', $options)->setPrompt('Vybrat');
+                $form->addMultiSelect($tableTo, '', $options);
                 $form->addSubmit('send'.$tableTo, '');
             }
 
@@ -98,16 +103,19 @@ class VisitPresenter extends BasePresenter
 
     public function addDropdownSubmitSucceeded($form, $tableTo, $tableFrom){
         $values = $form->getValues();
-        var_dump($values);
 
         if ($values[$tableTo] && $this->ID > 0) {
-            $this->db->query('INSERT INTO '.$tableTo, array(
-                'ID' => '',
-                'id_'.$this->presenterName => $this->ID,
-                'id_'.$tableFrom => $values[$tableTo]));
+
+            foreach( $values[$tableTo] as $val ){
+                Debugger::barDump($val);
+                $this->db->query('INSERT INTO '.$tableTo, array(
+                    'ID' => '',
+                    'id_'.$this->presenterName => $this->ID,
+                    'id_'.$tableFrom => $val));
+            }
+            $this->redirect('this');
         } else
             $this->flashMessage('Zle zadany formular');
-
     }
 
     protected function createComponentRemoveRow()
