@@ -4,7 +4,8 @@
 
 <div id="content">
 
-    <div class="row">
+    <div class="container-fluid">
+        <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-primary">
                     <!-- Default panel contents -->
@@ -60,37 +61,39 @@
                         </tr>
                       {/foreach}
                     </table>
-
-
-
-
-
-
                 </div>
             </div>
-     </div>
-
-
-	</br>
-	</br>
-
-	<div class="col-md-7">
-        {*control addService*}
-        {form addService}
-          <div class="row-fluid pull-right">
-            {if isset($form[service])}
-              <select n:name=service class="selectpicker" data-live-search="true">
-               {foreach $form[service]->items as $key => $label}
-                <option value="{$key}">{$label}</option>
-               {/foreach}
-              </select>
-              <button n:name=send type="submit" class="btn btn-trans-default" aria-label="Left Align">
-                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-              </button>
-            {/if}
-          </div>
-        {/form}
+            <div class="col-md-6">
+                CLOCK
+                <div id="clock">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+            </div>
+             <div class="col-md-6">
+                {*control addService*}
+                {form addService}
+                  <div class="row-fluid pull-right">
+                    {if isset($form[service])}
+                      <select n:name=service class="selectpicker" data-live-search="true">
+                       {foreach $form[service]->items as $key => $label}
+                        <option value="{$key}">{$label}</option>
+                       {/foreach}
+                      </select>
+                      <button n:name=send type="submit" class="btn btn-trans-default" aria-label="Left Align">
+                          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                      </button>
+                    {/if}
+                  </div>
+                {/form}
+            </div>
+        </div>
     </div>
+
+
+
 
 </div>
 {/block}
