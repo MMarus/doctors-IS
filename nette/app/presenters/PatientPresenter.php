@@ -6,6 +6,8 @@ use Nette;
 use App\Model;
 use Test\Bs3FormRenderer;
 use Nette\Application\UI;
+use Nette\Application\UI\Form;
+use Tracy\Debugger;
 
 
 class PatientPresenter extends BasePresenter
@@ -88,42 +90,67 @@ class PatientPresenter extends BasePresenter
         foreach($poistovneRows as $row){
             $poistovne[$row->ID] = $row->Nazov;
         }
+        $poistovneKeys = array_keys($poistovne);
+        Debugger::barDump($poistovneKeys);
         $blood_types = array("A+" => "A+", "A-" => "A-", "B+" => "B+", "B-" => "B-", "AB+" => "AB+", "AB-" => "AB-", "0+" => "0+", "0-" => "0-");
 
         $form = new UI\Form;
         foreach($this->theads as $key => $thead){
             if($key == "Poistovna"){
-                $form->addSelect($key, $thead."*:", $poistovne)->setDefaultValue($patient->$key);
+                $form->addSelect($key, $thead.":", $poistovne)
+                    ->setPrompt("Vybrat");
             }
             elseif($key == "Poznamky"){
-                $form->addTextArea($key, $thead."*:");
+                $form->addTextArea($key, $thead.":")
+
+                ;
             }
             elseif($key == "Krvna_skupina"){
-                $form->addSelect($key, $thead."*:", $blood_types)->setDefaultValue($patient->$key);
+                $form->addSelect($key, $thead.":", $blood_types)
+                    ->setPrompt("Vybrat");
             }
             else
-            $form->addText($key, $thead."*:");
+            $form->addText($key, $thead.":");
+
+            //Nastavenie Default values
+            if($patient){
+                $form[$key]->setDefaultValue($patient->$key);
+            }
+            //Nastavenie Required Policok
+            if($key == "Meno" || $key == "Priezvisko" || $key == "Rodne_cislo" || $key == "Krvna_skupina" || $key == "Poistovna")
+                $form[$key]->setRequired('Vyplnte policko '.$thead."!");
         }
-/*
-        $form->addText('Priezvisko', 'Priezvisko*');
-        $form->addText('Rodne', 'Rodne cislo*')->setRequired('Zadejte prosím jméno');
-        $form->addText('Adresa', 'Adresa*')->setRequired('Zadejte prosím jméno');
-        $form->addText('Krvna', 'Krvna skupina*')->setRequired('Zadejte prosím jméno');
-        $form->addTextArea('Poznamky', 'Poznamky*')->setRequired('Zadejte prosím jméno');
-        $form->addText('Poistovna', 'Poistovna*')->setRequired('Zadejte prosím jméno');
-*/
+
         $form->addSubmit('send', 'Ulozit');
-        $form->onSuccess[] = array($this, 'registrationFormSucceeded');
+        $form->onSuccess[] = array($this, 'PacientFormSucceeded');
         $form->setRenderer(new Bs3FormRenderer);
         return $form;
     }
 
     // volá se po úspěšném odeslání formuláře
-    public function registrationFormSucceeded(UI\Form $form, $values)
+    public function PacientFormSucceeded(UI\Form $form, $values)
     {
-        // ...
-        $this->flashMessage('Byl jste úspěšně registrován.');
-        //$this->redirect($this);
+        Debugger::barDump($values);
+        Debugger::barDump($this->ID);
+
+        //Ak ID neexistuje pridaj ho
+        $this->db->query("INSERT INTO Pacient
+            (ID, Rodne_cislo, Meno, Priezvisko, Adresa, Krvna_skupina, Poznamky, id_Poistovna)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+            Rodne_cislo = ?, Meno = ?, Priezvisko = ?, Adresa = ?, Krvna_skupina = ?, Poznamky = ?, id_Poistovna = ?",
+            $this->ID, $values->Rodne_cislo, $values->Meno, $values->Priezvisko, $values->Adresa, $values->Krvna_skupina, $values->Poznamky, $values->Poistovna,
+            $values->Rodne_cislo, $values->Meno, $values->Priezvisko, $values->Adresa, $values->Krvna_skupina, $values->Poznamky, $values->Poistovna
+        );
+        if(!isset($this->ID)){
+            $id = $this->db->getInsertId('Pacient');
+            $this->flashMessage('Pacient uspesne pridany.');
+            $this->redirect("edit", array($id));
+        }else
+            $this->flashMessage('Pacient uspesne upraveny.');
+
+
+
     }
 
 }
