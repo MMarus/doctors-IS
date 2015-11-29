@@ -103,17 +103,14 @@ function menu(action)
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.send(post);
     }
-
-
-
-
 }
 
 
 
 //Toto je na zakliknutie vsetkych checkboxov
-$('#checkBoxes .toggle-button').click( function () {
+$('.toggle-button').click( function () {
+    var id = this.id;
 
-    $( '#checkBoxes input[type="checkbox"]' ).prop('checked', this.checked)
+    $( '#'+id+'All input[type="checkbox"]' ).prop('checked', this.checked)
 })
 

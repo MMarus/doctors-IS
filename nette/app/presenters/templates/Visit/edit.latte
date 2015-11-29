@@ -5,15 +5,25 @@
     <div class="row">
         <!-- VYKONY -->
         <div class="col-md-4">
+            {include '../components/formAddDropdown.latte',
+                MenoPanelu => 'Vykon',
+                UpravovanaTabulka => 'PocasNavstevy',
+                theads => $theads,
+                rows => $services,
+            }
+        </div>
+
+
+        <!-- Ext Pracovisko -->
+       <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-md-2 col-sm-2 col-xs-2">
-                            <h4>Vykony</h4>
+                            <h4>Ext Pracovisko</h4>
                         </div>
-
                         {*control addService*}
-                        {form addService}
+                        {*form }
                             <div class="row-fluid">
                                 {if isset($form[service])}
                                     <select n:name=service class="selectpicker" data-live-search="true">
@@ -30,9 +40,7 @@
                                     <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                 </label>
                             </div>
-                        {/form}
-
-                        {*<label for="submitRemove">Submit</label>*}
+                        {/form*}
 
                         <div class="row-fluid">
 
@@ -46,7 +54,7 @@
                         <th>Nazov</th>
                         <th>Popis</th>
                     </tr>
-                    {form removeService}
+                    {* form removeRecomm}
                     {foreach $services as $service}
                         <tr>
 
@@ -57,7 +65,7 @@
                         </tr>
                     {/foreach}
                         <input type="submit" id="submitRemove" class="hidden"/>
-                    {/form}
+                    {/form*}
                 </table>
             </div>
         </div>

@@ -8,95 +8,139 @@ use App\Model;
 use Test\Bs3FormRenderer;
 use Nette\Application\UI;
 use Nette\Application\UI\Control;
+use Nette\Application\UI\Multiplier;
+
+use Tracy\Debugger;
 
 
 class VisitPresenter extends BasePresenter
 {
     private $db;
-    private $visitId;
+    private $ID;
+    //Musi byt rovnake meno ako meno Tabulky, pre ktoru je tento prezenter
+    //inak by sa nedalo vkladat nove zaznamy pomocou addDropdownSubmitSucceeded()
+    private $presenterName;
 
 
     public function __construct(Nette\Database\Context $database)
     {
         $this->db = $database;
+        $this->presenterName = "NavstevaOrdinacie";
     }
 
+    //Actions
+    public function actionEdit($id)
+    {
+        $this->ID = $id;
+    }
+
+    //Renderers
     public function renderDefault()
     {
         $this->template->anyVariable = 'any value';
     }
 
-    public function actionEdit($id)
-    {
-        $this->visitId = $id;
-    }
-
     public function renderEdit()
     {
-        if ($this->visitId) {
-            $this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as serviceID FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->visitId);
-            //$this->template->services = $this->db->query("SELECT Liek.*, PredpisanyLiek.ID as drugID FROM PredpisanyLiek, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->visitId);
+        if ($this->ID) {
+            $this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as IDcko FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->ID);
+
+            //Nazvy foriem
+            $this->template->form1 = "PocasNavstevy";
+            $this->template->theads = array("Nazov", "Popis");
+
+            $this->template->ext = $this->db->query("SELECT ExternePracovisko.*, Odporucenie.ID as recommendID FROM Odporucenie, ExternePracovisko WHERE Odporucenie.id_NavstevaOrdinacie = ? AND Odporucenie.id_ExternePracovisko = ExternePracovisko.ID", $this->ID);
+
         } else
             $this->error("TEST");
     }
 
-    protected function createComponentAddService()
+    //Component SERVICE
+    protected function createComponentAddDropdown()
     {
-        $allServices = $this->db->table('Vykon');
-        $serviceInputs = NULL;
-        foreach ($allServices as $service) {
-            $serviceInputs[$service->ID] = $service->Nazov;
-        }
 
-        $form = new UI\Form;
-        if ($serviceInputs) {
-            $form->addSelect('service', 'Vykon', $serviceInputs)->setPrompt('Vybrat vykon');
-            $form->addSubmit('send', '');
-        }
-        $form->onSuccess[] = array($this, 'addServiceSucceeded');
-        $form->setRenderer(new Bs3FormRenderer);
-        return $form;
+        return new Multiplier(function ($tableTo) {
+            Debugger::barDump($tableTo);
+            switch ($tableTo) {
+                case "PocasNavstevy":
+                    $tableFrom =  "Vykon";
+                    break;
+                case "Odporucenie":
+                    $tableFrom =  "ExternePracovisko";
+                    break;
+            }
+
+            $results = $this->db->table($tableFrom);
+            $options = NULL;
+            foreach ($results as $result) {
+                $options[$result->ID] = $result->Nazov;
+            }
+            Debugger::barDump($options);
+            $form = new UI\Form;
+            if ($options) {
+                $form->addSelect($tableTo, '', $options)->setPrompt('Vybrat');
+                $form->addSubmit('send'.$tableTo, '');
+            }
+
+            $form->onSuccess[] = function($form) use($tableTo, $tableFrom) {
+                $this->addDropdownSubmitSucceeded($form, $tableTo, $tableFrom);
+            };
+
+            $form->setRenderer(new Bs3FormRenderer);
+
+            return $form;
+
+        });
+
+
+
     }
 
-    // volá se po úspěšném odeslání formuláře
-    public function addServiceSucceeded(UI\Form $form, $values)
-    {
+    public function addDropdownSubmitSucceeded($form, $tableTo, $tableFrom){
+        $values = $form->getValues();
         var_dump($values);
-        var_dump($this->visitId);
 
-        if ($values["service"] && $this->visitId > 0) {
-            $this->db->query('INSERT INTO PocasNavstevy', array(
+        if ($values[$tableTo] && $this->ID > 0) {
+            $this->db->query('INSERT INTO '.$tableTo, array(
                 'ID' => '',
-                'id_NavstevaOrdinacie' => $this->visitId,
-                'id_Vykon' => $values["service"]));
-            $this->flashMessage('DEBUG: id_NavstevaOrdinacie = ' . $this->visitId . ' vykon - ' . $values["service"]);
+                'id_'.$this->presenterName => $this->ID,
+                'id_'.$tableFrom => $values[$tableTo]));
         } else
             $this->flashMessage('Zle zadany formular');
+
     }
 
-    protected function createComponentRemoveService()
+    protected function createComponentRemoveRow()
     {
-        $form = new UI\Form;
-        $form->addSubmit('sendRemove', '');
-        $form->onSuccess[] = array($this, 'removeServiceSucceeded');
-        $form->setRenderer(new Bs3FormRenderer);
-        return $form;
+
+        return new Multiplier(function ($table) {
+            $form = new UI\Form;
+            $form->onSuccess[] = function($form) use($table) {
+
+                //Debugger::barDump($form);
+                $valuesChecked = $form->getHttpData($form::DATA_TEXT | $form::DATA_KEYS, $table."Sel[]");
+                Debugger::barDump($valuesChecked);
+
+                if ($valuesChecked) {
+                    foreach ($valuesChecked as $val) {
+                        $this->db->query("DELETE FROM ".$table." WHERE ID = ?", $val);
+                    }
+                } else {
+                    $this->flashMessage('Zle zadany formular');
+                }
+            };
+
+            $form->setRenderer(new Bs3FormRenderer);
+
+            return $form;
+        });
+
+
+
     }
 
 
-    // volá se po úspěšném odeslání formuláře
-    public function removeServiceSucceeded(UI\Form $form, $values)
-    {
-        $valuesCheck = $form->getHttpData($form::DATA_TEXT | $form::DATA_KEYS, 'sel[]');
 
-        if ($valuesCheck) {
-            foreach ($valuesCheck as $val) {
-                $this->db->query("DELETE FROM PocasNavstevy WHERE ID = ?", $val);
-            }
-        } else {
-            $this->flashMessage('Zle zadany formular');
-        }
-
-    }
+    //Component SERVICE
 
 }

@@ -1,0 +1,55 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <h4>{$MenoPanelu} {$UpravovanaTabulka}</h4>
+            </div>
+
+            {form addDropdown-$UpravovanaTabulka}
+                <div class="row-fluid">
+                    {if isset($form[$UpravovanaTabulka])}
+                        <select n:name=$UpravovanaTabulka    class="selectpicker" data-live-search="true">
+                            {foreach $form[$UpravovanaTabulka]->items as $key => $label}
+                                <option value="{$key}">{$label}</option>
+                            {/foreach}
+                        </select>
+                        <button n:name=send$UpravovanaTabulka type="submit" class="btn btn-trans-default"
+                                aria-label="Left Align">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                    {/if}
+                    <label for="submitRemove{$UpravovanaTabulka}" class="btn btn-trans-default" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                    </label>
+                </div>
+            {/form}
+
+            {*<label for="submitRemove">Submit</label>*}
+
+            <div class="row-fluid">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Table with plans -->
+     <table id="{$UpravovanaTabulka}All" class="table table-striped">
+        <tr>
+            <td><input id="{$UpravovanaTabulka}" class="toggle-button" type="checkbox"></td>
+            {foreach $theads as $thead}
+            <th>{$thead}</th>
+            {/foreach}
+        </tr>
+        {form removeRow-$UpravovanaTabulka}
+        {foreach $rows as $row}
+            <tr>
+                <td><input type="checkbox" name="{$UpravovanaTabulka}Sel[]" value={$row->IDcko}></td>
+                {foreach $theads as $thead}
+                    <td>{$row->$thead}</td>
+                {/foreach}
+            </tr>
+        {/foreach}
+            <input type="submit" id="submitRemove{$UpravovanaTabulka}" class="hidden"/>
+        {/form}
+    </table>
+</div>
