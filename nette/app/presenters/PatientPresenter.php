@@ -30,10 +30,15 @@ class PatientPresenter extends BasePresenter
         "Krvna_skupina" => 3,
         "Poznamky"  => 255
     );
+
+
     
     public function __construct(Nette\Database\Context $database)
     {
         $this->db = $database;
+
+
+
     }
 
     //Actions
@@ -50,6 +55,7 @@ class PatientPresenter extends BasePresenter
     //Renderers
     public function renderDefault()
     {
+
         $this->template->title = "Pacienti";
 
         $patients = $this->db->query("
@@ -62,6 +68,22 @@ class PatientPresenter extends BasePresenter
 
         $this->template->rows = $patients;
         $this->template->theads = $this->theads;
+
+        if( isset($_POST['type']) )
+        {
+            $this->template->type = $_POST['type'];//rc  /  name
+            $this->template->data1 = $_POST['data1'];
+            $this->template->data2 = $_POST['data2'];
+        }
+        else
+        {
+            //def
+            $this->template->type = "";
+            $this->template->data1 =  "";
+            $this->template->data2 = "";
+        }
+
+
     }
 
     public function renderEdit()
@@ -129,6 +151,27 @@ class PatientPresenter extends BasePresenter
 
             $form[$key]->addRule(Form::MAX_LENGTH, 'Prilis vela znakov v '.$thead.'!', $this->theadsMaxLength[$key]);
         }
+
+
+
+
+
+        if(isset($_GET['type']))
+        {
+            if($_GET['type'] == "rc")
+            {
+                $form["Rodne_cislo"]->setDefaultValue($_GET['data1']);
+            }
+            else if($_GET['type'] == "name")
+            {
+                $form["Meno"]->setDefaultValue($_GET['data1']);
+                $form["Priezvisko"]->setDefaultValue($_GET['data2']);
+            }
+
+        }
+
+
+
 
         $form->addSubmit('send', 'Ulozit');
         $form->onSuccess[] = array($this, 'PacientFormSucceeded');

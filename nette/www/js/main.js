@@ -45,8 +45,45 @@ function goPatient(slf)
     {
         //new
         console.log("NEW");
-        window.open("patient/edit", "_self");
+        sel = document.getElementsByClassName("no-results");
+        var n = sel[0].textContent;
+        n = n.replace("No results match \"", "");//delete
+        n = n.replace("\"", "");//delete
+        var post= "";
+
+        if(isNum(n))
+        {
+            post = "type=rc&data1=" + n;
+        }
+        else
+        {
+            post = "type=name";
+            var list = n.split( " " );
+
+            if(list.length > 1)
+            {
+                post += "&data1=" + list[0];
+                post += "&data2=" + list[1];
+            }
+            else
+            {
+                post += "&data1=" + n;
+                post += "&data2=";
+            }
+
+
+        }
+
+
+        window.open("patient/edit?"  +  post, "_self");
         return;
+    }
+
+
+
+
+    function isNum(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
 
