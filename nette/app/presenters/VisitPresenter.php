@@ -217,7 +217,7 @@ class VisitPresenter extends BasePresenter
             if($key == "id_Pacient" || $key == "Datum")
                 $form[$key]->setRequired('Vyplnte policko '.$thead."!");
         }
-
+        $form->addText('txt', 'txt');
         $form->addSubmit('send', 'Ulozit');
         $form->onSuccess[] = array($this, 'VisitFormSucceeded');
         $form->setRenderer(new Bs3FormRenderer);

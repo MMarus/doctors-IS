@@ -119,10 +119,14 @@ class Bs3FormRenderer extends DefaultFormRenderer
 				$control->getControlPrototype()->addClass($class);
 
 			} elseif ($control instanceof Controls\TextBase || $control instanceof Controls\SelectBox || $control instanceof Controls\MultiSelectBox) {
-				$control->getControlPrototype()->addClass('form-control selectpicker');
-				$control->getControlPrototype()->addAttributes(array( // bulk attributes set
-					'data-live-search' => "true",
-				));
+				$control->getControlPrototype()->addClass('form-control');
+
+				if($control instanceof Controls\SelectBox || $control instanceof Controls\MultiSelectBox){
+					$control->getControlPrototype()->addClass('selectpicker');
+					$control->getControlPrototype()->addAttributes(array( // bulk attributes set
+						'data-live-search' => "true",
+					));
+				}
 
 			} elseif ($control instanceof Controls\Checkbox || $control instanceof Controls\CheckboxList || $control instanceof Controls\RadioList) {
 				if ($control->getSeparatorPrototype()->getName() !== NULL) {
