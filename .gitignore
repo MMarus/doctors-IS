@@ -1,4 +1,3 @@
 nette/temp/*
 */nbproject/*
 *.idea*
-nette/app/config/config.local.neon
