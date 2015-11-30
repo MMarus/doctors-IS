@@ -15,9 +15,9 @@
                 </div>
             </div>
             <!-- Table with plans -->
-            <table id="{*$UpravovanaTabulka*}All" class="table table-striped">
+            <table id="{$UpravovanaTabulka}All" class="table table-striped">
                 <tr>
-                    <td><input id="{*$UpravovanaTabulka*}" class="toggle-button" type="checkbox"></td>
+                    <td><input id="{$UpravovanaTabulka}" class="toggle-button" type="checkbox"></td>
                     {foreach $theads as $key => $thead}
                         <th>{$thead}</th>
                     {/foreach}
@@ -25,15 +25,16 @@
                         <a n:href="edit" class="btn btn-default">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </a>
-                        <a n:href="edit" class="btn btn-default">
+                        <button type="button" class="btn btn-default"
+                                aria-label="Left Align" data-toggle="modal" data-target="#areYouSure">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>
+                        </button>
                     </td>
                 </tr>
-                {*form removeRow-$UpravovanaTabulka*}
+                {form removeRow-$UpravovanaTabulka}
                 {foreach $rows as $row}
                     <tr>
-                        <td><input type="checkbox" name="{*$UpravovanaTabulka*}Sel[]" value={*$row->IDcko*}></td>
+                        <td><input type="checkbox" name="{$UpravovanaTabulka}Sel[]" value={$row->ID}></td>
                         {foreach $theads as $key => $thead}
                             <td>{$row->$key}</td>
                         {/foreach}
@@ -47,9 +48,33 @@
                         </td>
                     </tr>
                 {/foreach}
-                <input type="submit" id="submitRemove{*$UpravovanaTabulka*}" class="hidden"/>
-                {*/form*}
+                <input type="submit" id="submitRemove{$UpravovanaTabulka}" class="hidden"/>
+                {/form}
             </table>
+
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-sm" id="areYouSure" tabindex="-1" role="dialog" aria-labelledby="areYouSure">
+        <div class="modal-dialog">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Určite chcete pokračovať?</h4>
+                    </div>
+                    <div class="modal-body">
+                        Ste si naozaj istý, že chceťe vymazať označené údaje?<br \>
+                        <strong>Tieto údaje už nebude možné vrátiť späť.<strong>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zavriet</button>
+                        <label for="submitRemove{$UpravovanaTabulka}" class="btn btn-danger" aria-label="Left Align">
+                            <span>Ano, chcem.</span>
+                        </label>
+                    </div>
+                </div>
 
         </div>
     </div>

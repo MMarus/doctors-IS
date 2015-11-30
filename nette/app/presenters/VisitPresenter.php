@@ -65,6 +65,7 @@ class VisitPresenter extends BasePresenter
 
         $this->template->rows = $visits;
         $this->template->theads = $this->theads;
+        $this->template->UpravovanaTabulka = $this->presenterName;
     }
 
     public function renderEdit(){
@@ -79,6 +80,8 @@ class VisitPresenter extends BasePresenter
                 $this->flashMessage('Neexistujuca navsteva ordinacie, chcete ju vytvorit?');
                 $this->redirect("edit", array($this->ID));
             }
+
+            $this->template->patient = $this->db->table('Pacient')->get($navsteva->id_Pacient);
 
             $this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as IDcko FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->ID);
             //Nazvy foriem
