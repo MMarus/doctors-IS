@@ -2,7 +2,7 @@ parameters:
 
 
 database:
-	dsn: 'mysql:host=db55.websupport.sk:3310;dbname=ordinacia'
+	dsn: 'mysql:host=mariadb55.websupport.sk:3310;dbname=ordinacia'
 	user: 'yp6st6wu'
 	password: '{Quatsov7'
 	options:
