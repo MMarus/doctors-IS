@@ -12,6 +12,8 @@ use Nette\Application\UI\Multiplier;
 
 use Tracy\Debugger;
 
+
+
 //TODO: treba pridat editacia datumu + pacienta + poznamky
 //TODO: pridavanie novej navstevy
 
@@ -23,6 +25,10 @@ class VisitPresenter extends BasePresenter
     //Musi byt rovnake meno ako meno Tabulky, pre ktoru je tento prezenter
     //inak by sa nedalo vkladat nove zaznamy pomocou addDropdownSubmitSucceeded()
     private $presenterName;
+    private $theads = array("ID" => "ID",
+        "Datum" => "Dátum",
+        "Poznamky" => "Poznámky",
+        "id_Pacient" => "Pacient");
 
 
     public function __construct(Nette\Database\Context $database)
@@ -46,12 +52,22 @@ class VisitPresenter extends BasePresenter
     public function renderDefault()
     {
         $this->template->title = "Navsteva Ordinacie";
-        $this->template->rows = $this->db->query("SELECT * FROM NavstevaOrdinacie");
-        $this->template->theads = array("ID", "Datum", "Poznamky", "id_Pacient");
+
+        $visits = $this->db->query("
+            SELECT NavstevaOrdinacie.ID, NavstevaOrdinacie.Datum, NavstevaOrdinacie.Poznamky,
+            CONCAT_WS(' ', Pacient.Meno, Pacient.Priezvisko)  as id_Pacient FROM NavstevaOrdinacie
+            LEFT JOIN Pacient ON NavstevaOrdinacie.id_Pacient = Pacient.ID
+        ");
+        if (!$visits) {
+            $this->error('Stránka nebyla nalezena');
+        }
+
+        $this->template->rows = $visits;
+        $this->template->theads = $this->theads;
     }
 
     public function renderEdit(){
-        $this->template->title = "Tu sa bude nastavovat Basic info o navstevach, pridavanie a chobotin je na /show/xx";
+        $this->template->title = "Navsteva editacia";
     }
 
     public function renderShow()
@@ -161,8 +177,77 @@ class VisitPresenter extends BasePresenter
 
     }
 
+    //Component editacia navstevy (datum pacient atd)
+
+    //Components
+    protected function createComponentVisitForm()
+    {
+        $visit = $this->db->table('NavstevaOrdinacie')->get($this->ID);
+
+        $pacientiRows = $this->db->table('Pacient');
+        foreach($pacientiRows as $row){
+            $pacienti[$row->ID] = $row->Meno." ".$row->Priezvisko." ".$row->Rodne_cislo;
+        }
 
 
-    //Component SERVICE
+        $form = new UI\Form;
+        foreach($this->theads as $key => $thead){
+            if($key == "id_Pacient"){
+                $form->addSelect($key, $thead.":", $pacienti)
+                    ->setPrompt("Vybrat");
+            }
+            elseif($key == "Poznamky"){
+                $form->addTextArea($key, $thead.":");
+            }
+            elseif($key == "Datum"){
+
+                $form->addTbDateTimePicker('Datum', 'Datum:')
+                    ->setRequired();
+                //$form->addSelect($key, $thead.":", $blood_types)
+                 //   ->setPrompt("Vybrat");
+            }
+            else
+                $form->addText($key, $thead.":");
+
+            //Nastavenie Default values
+            if($visit){
+                $form[$key]->setDefaultValue($visit->$key);
+            }
+            //Nastavenie Required Policok
+            if($key == "id_Pacient" || $key == "Datum")
+                $form[$key]->setRequired('Vyplnte policko '.$thead."!");
+        }
+
+        $form->addSubmit('send', 'Ulozit');
+        $form->onSuccess[] = array($this, 'VisitFormSucceeded');
+        $form->setRenderer(new Bs3FormRenderer);
+        return $form;
+    }
+
+    // volá se po úspěšném odeslání formuláře
+    public function VisitFormSucceeded(UI\Form $form, $values)
+    {
+        Debugger::barDump($values);
+        Debugger::barDump($this->ID);
+        /*
+        //Ak ID neexistuje pridaj ho
+        $this->db->query("INSERT INTO Pacient
+            (ID, Rodne_cislo, Meno, Priezvisko, Adresa, Krvna_skupina, Poznamky, id_Poistovna)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+            Rodne_cislo = ?, Meno = ?, Priezvisko = ?, Adresa = ?, Krvna_skupina = ?, Poznamky = ?, id_Poistovna = ?",
+            $this->ID, $values->Rodne_cislo, $values->Meno, $values->Priezvisko, $values->Adresa, $values->Krvna_skupina, $values->Poznamky, $values->Poistovna,
+            $values->Rodne_cislo, $values->Meno, $values->Priezvisko, $values->Adresa, $values->Krvna_skupina, $values->Poznamky, $values->Poistovna
+        );
+        if(!isset($this->ID)){
+            $id = $this->db->getInsertId('Pacient');
+            $this->flashMessage('Pacient uspesne pridany.');
+            $this->redirect("edit", array($id));
+        }else
+            $this->flashMessage('Pacient uspesne upraveny.');
+        */
+
+
+    }
 
 }

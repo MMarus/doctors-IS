@@ -90,8 +90,7 @@ class PatientPresenter extends BasePresenter
         foreach($poistovneRows as $row){
             $poistovne[$row->ID] = $row->Nazov;
         }
-        $poistovneKeys = array_keys($poistovne);
-        Debugger::barDump($poistovneKeys);
+
         $blood_types = array("A+" => "A+", "A-" => "A-", "B+" => "B+", "B-" => "B-", "AB+" => "AB+", "AB-" => "AB-", "0+" => "0+", "0-" => "0-");
 
         $form = new UI\Form;

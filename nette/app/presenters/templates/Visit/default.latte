@@ -1,29 +1,57 @@
-<div class="container-fluid">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h2><strong>{$title}</strong></h2>
+{block content}
+    <div class="container-fluid">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <h2><strong>{$title}</strong></h2>
+                    </div>
 
-        </div>
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+
+                    </div>
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                    </div>
+                </div>
+            </div>
             <!-- Table with plans -->
             <table id="{*$UpravovanaTabulka*}All" class="table table-striped">
                 <tr>
                     <td><input id="{*$UpravovanaTabulka*}" class="toggle-button" type="checkbox"></td>
-                    {foreach $theads as $thead}
+                    {foreach $theads as $key => $thead}
                         <th>{$thead}</th>
                     {/foreach}
+                    <td>
+                        <a n:href="edit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </a>
+                        <a n:href="edit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </td>
                 </tr>
                 {*form removeRow-$UpravovanaTabulka*}
                 {foreach $rows as $row}
                     <tr>
                         <td><input type="checkbox" name="{*$UpravovanaTabulka*}Sel[]" value={*$row->IDcko*}></td>
-                        {foreach $theads as $thead}
-                            <td>{$row->$thead}</td>
+                        {foreach $theads as $key => $thead}
+                            <td>{$row->$key}</td>
                         {/foreach}
+                        <td>
+                            <a n:href="edit $row->ID" class="btn btn-default">
+                                <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
+                            </a>
+                            <a n:href="show $row->ID" class="btn btn-default">
+                                <span class="glyphicon glyphicon glyphicon-list-alt pull-right" aria-hidden="true"></span>
+                            </a>
+                        </td>
                     </tr>
                 {/foreach}
                 <input type="submit" id="submitRemove{*$UpravovanaTabulka*}" class="hidden"/>
                 {*/form*}
             </table>
 
+        </div>
     </div>
-</div>
+{/block}
+

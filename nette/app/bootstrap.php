@@ -18,4 +18,9 @@ $configurator->addConfig(__DIR__ . '/config/config.local.neon');
 
 $container = $configurator->createContainer();
 
+RadekDostal\NetteComponents\DateTimePicker\DatePicker::register();
+RadekDostal\NetteComponents\DateTimePicker\DateTimePicker::register();
+RadekDostal\NetteComponents\DateTimePicker\TbDatePicker::register();
+RadekDostal\NetteComponents\DateTimePicker\TbDateTimePicker::register();
+
 return $container;

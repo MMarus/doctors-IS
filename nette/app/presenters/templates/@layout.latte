@@ -24,6 +24,9 @@
     <link href="{$basePath}/css/simple-sidebar.css" rel="stylesheet">
     <link rel="stylesheet" href="{$basePath}/css/bootstrap-btn-transparent.css">
     <link href="{$basePath}/css/data.css" rel="stylesheet">
+
+    <!-- styles from latte files -->
+    {include customStyles}
 	
 	{block head}{/block}
 </head>
@@ -89,11 +92,12 @@
     <!-- Bootstrap -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{$basePath}/js/bootstrap.min.js"></script>
+    <script src="{$basePath}/js/bootstrap.js"></script>
     <script src="{$basePath}/js/bootstrap-typeahead.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
 
-
+    <!-- include scripts from latte --!>
+    {include customScripts}
 	<!-- Menu Toggle Script -->
         <script>
         $("#menu-toggle").click(function(e) {
