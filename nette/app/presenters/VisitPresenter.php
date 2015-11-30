@@ -74,6 +74,12 @@ class VisitPresenter extends BasePresenter
     public function renderShow()
     {
         if ($this->ID) {
+            $navsteva = $this->db->table('NavstevaOrdinacie')->get($this->ID);
+            if(! $navsteva){
+                $this->flashMessage('Neexistujuca navsteva ordinacie, chcete ju vytvorit?');
+                $this->redirect("edit", array($this->ID));
+            }
+
             $this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as IDcko FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->ID);
             //Nazvy foriem
             $this->template->form1 = "PocasNavstevy";
@@ -253,21 +259,25 @@ class VisitPresenter extends BasePresenter
 
     public function createComponentAddDrugs()
     {
-        $drugRows = $this->db->table('Liek');
+        $drugRows = $this->db->query("SELECT ID, Nazov, Odporucane_davkovanie FROM Liek WHERE ID NOT IN
+                                        (SELECT id_Liek FROM PredpisanyLiek
+                                        WHERE id_NavstevaOrdinacie = ?)", $this->ID);
+            //$this->db->table('Liek');
         $drugs = [];
         foreach($drugRows as $row){
-            $drugs[$row->ID] = $row->Nazov."    odporucane: ".$row->Odporucane_davkovanie;
+            $drugs[$row->ID] = $row->Nazov." || odporucane: ".$row->Odporucane_davkovanie;
         }
 
         $form = new UI\Form;
-        $form->addSelect('nieco', 'Liek', $drugs)
-            ->setPrompt("Vyber");
+        $form->addSelect('liek', 'Liek*', $drugs)
+            ->setPrompt("Vyber")
+            ->setRequired('Zvolte Liek');
         $form->addText('pocet', 'Pocet baleni*:')
             ->addRule(Form::INTEGER, 'Pocet musí být číslo')
-            ->addRule(Form::RANGE, 'Pocet musí být od 1 do 65356', array(1, 65356));
+            ->addRule(Form::RANGE, 'Pocet musí být od 1 do 65356', array(1, 65356))
+            ->setRequired('Zvolte pocet baleni');
         $form->addText('davkovanie', 'Davkovanie')
-            ->addRule(Form::MAX_LENGTH, 'Prilis vela znakov v Davkovanie!', 20)
-            ->setDefaultValue("val");
+            ->addRule(Form::MAX_LENGTH, 'Prilis vela znakov v Davkovanie!', 20);
         $form->addSubmit('send', 'Ulozit');
         $form->onSuccess[] = array($this, 'AddDrugsSucceeded');
         $form->setRenderer(new Bs3FormRenderer);
@@ -275,7 +285,20 @@ class VisitPresenter extends BasePresenter
     }
 
     public function AddDrugsSucceeded(UI\Form $form, $values){
-        $this->flashMessage('Pacient uspesne upraveny.');
+
+        if ($values && $this->ID > 0) {
+            Debugger::barDump($values);
+            $this->db->query('INSERT INTO PredpisanyLiek', array(
+                'ID' => '',
+                'id_'.$this->presenterName => $this->ID,
+                'id_Liek' => $values->liek,
+                'Davkovanie' => $values->davkovanie,
+                'PocetBaleni' => $values->pocet,
+            ));
+            $this->flashMessage('Liek pridany.');
+            $this->redirect('this');
+        }
+        $this->flashMessage('Liek nepridany.');
     }
 
 }
