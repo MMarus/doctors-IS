@@ -8,10 +8,57 @@ $(function(){
         window.onload = function() {
             startTime();
         };
+
+
+        patientDD.addEventListener( 'keyup', function( e )
+        {
+            if(e.keyCode == 13)//enter
+            {
+                goPatient(this);
+            }
+        } );
+
+
+
     }
 });
 
 
+function goPatient(slf)
+{
+    //delay(200);
+    //console.log(slf.children[0].children[0].children[1].children[1].children[1] );
+    var sel = document.getElementsByClassName("selected");
+    var ind = sel[0].getAttribute("data-original-index");
+    var cls = sel[0].className;
+
+
+    if(cls == "selected" || cls == "selected active" )
+    {
+        //click exists
+        if(ind == 0){return;}
+        console.log("OPEN");
+        window.open("patient/show/" +  ind, "_self");
+        return;
+    }
+    else if(cls == "selected hide")
+    {
+        //new
+        console.log("NEW");
+        window.open("patient/edit", "_self");
+        return;
+    }
+
+
+
+
+
+}
+
+function delay(ms) {
+    ms += new Date().getTime();
+    while (new Date() < ms){}
+}
 
 function basepath()
 {
