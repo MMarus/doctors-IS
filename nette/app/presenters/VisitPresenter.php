@@ -25,7 +25,7 @@ class VisitPresenter extends BasePresenter
     //Musi byt rovnake meno ako meno Tabulky, pre ktoru je tento prezenter
     //inak by sa nedalo vkladat nove zaznamy pomocou addDropdownSubmitSucceeded()
     private $presenterName;
-    private $theads = array("ID" => "ID",
+    private $theads = array(
         "Datum" => "Dátum",
         "Poznamky" => "Poznámky",
         "id_Pacient" => "Pacient");
