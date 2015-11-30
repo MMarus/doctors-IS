@@ -72,19 +72,16 @@
         <div class="row">
             <div class="col-md-6">
             </div>
-             <div class="col-md-6">
+             <div class="col-md-4"   id="patientDD" >
                 {*control addService*}
                 {form addService}
                   <div class="row-fluid pull-right">
                     {if isset($form[service])}
-                      <select n:name=service class="selectpicker" data-live-search="true">
+                      <select n:name=service class="selectpicker" data-live-search="true"  onchange="goPatient();">
                        {foreach $form[service]->items as $key => $label}
                         <option value="{$key}">{$label}</option>
                        {/foreach}
                       </select>
-                      <button n:name=send type="submit" class="btn btn-trans-default" aria-label="Left Align">
-                          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                      </button>
                     {/if}
                   </div>
                 {/form}
