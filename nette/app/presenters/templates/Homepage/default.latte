@@ -48,7 +48,7 @@
                                 {else }
 
                                     <li>
-                                        {$pp}
+                                        {$pp[1]}
                                     </li>
 
                                 {/ifset}
@@ -58,6 +58,11 @@
 
 
                           <td>{$plan[0]->pozn}</td>
+                          <td>
+                          <a n:href="goplan $plan[0]->idp" class="btn btn-default">
+                                <span class="glyphicon glyphicon glyphicon glyphicon-play pull-right" aria-hidden="true"></span>
+                            </a>
+                          </td>
                         </tr>
                       {/foreach}
                     </table>
