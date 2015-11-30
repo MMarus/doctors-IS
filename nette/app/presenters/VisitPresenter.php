@@ -7,6 +7,7 @@ use Nette;
 use App\Model;
 use Test\Bs3FormRenderer;
 use Nette\Application\UI;
+use Nette\Application\UI\Form;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Multiplier;
 
@@ -81,6 +82,10 @@ class VisitPresenter extends BasePresenter
             $this->template->ext = $this->db->query("SELECT ExternePracovisko.*, Odporucenie.ID as IDcko FROM Odporucenie, ExternePracovisko WHERE Odporucenie.id_NavstevaOrdinacie = ? AND Odporucenie.id_ExternePracovisko = ExternePracovisko.ID", $this->ID);
             $this->template->formExt = "Odporucenie";
             $this->template->theadsExt = array("Nazov", "Specializacia", "Lekar");
+
+            $this->template->UpravovanaTabulka = "PredpisanyLiek";
+            $this->template->theads = array("Nazov" => "Nazov", "Davkovanie" => "Davkovanie", "PocetBaleni" => "ks");
+            $this->template->rows = $this->db->query("SELECT Liek.*, PredpisanyLiek.Davkovanie, PredpisanyLiek.PocetBaleni, PredpisanyLiek.ID as IDcko FROM PredpisanyLiek, Liek WHERE PredpisanyLiek.id_NavstevaOrdinacie = ? AND PredpisanyLiek.id_Liek = Liek.ID", $this->ID);
         } else
             $this->error("TEST");
     }
@@ -217,7 +222,6 @@ class VisitPresenter extends BasePresenter
             if($key == "id_Pacient" || $key == "Datum")
                 $form[$key]->setRequired('Vyplnte policko '.$thead."!");
         }
-        $form->addText('txt', 'txt');
         $form->addSubmit('send', 'Ulozit');
         $form->onSuccess[] = array($this, 'VisitFormSucceeded');
         $form->setRenderer(new Bs3FormRenderer);
@@ -229,25 +233,49 @@ class VisitPresenter extends BasePresenter
     {
         Debugger::barDump($values);
         Debugger::barDump($this->ID);
-        /*
+
         //Ak ID neexistuje pridaj ho
-        $this->db->query("INSERT INTO Pacient
-            (ID, Rodne_cislo, Meno, Priezvisko, Adresa, Krvna_skupina, Poznamky, id_Poistovna)
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+        $this->db->query("INSERT INTO NavstevaOrdinacie
+            (ID, Datum, Poznamky, id_Pacient)
+            VALUES(?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE
-            Rodne_cislo = ?, Meno = ?, Priezvisko = ?, Adresa = ?, Krvna_skupina = ?, Poznamky = ?, id_Poistovna = ?",
-            $this->ID, $values->Rodne_cislo, $values->Meno, $values->Priezvisko, $values->Adresa, $values->Krvna_skupina, $values->Poznamky, $values->Poistovna,
-            $values->Rodne_cislo, $values->Meno, $values->Priezvisko, $values->Adresa, $values->Krvna_skupina, $values->Poznamky, $values->Poistovna
+            Datum = ?, Poznamky = ?, id_Pacient = ?",
+            $this->ID, $values->Datum, $values->Poznamky, $values->id_Pacient,
+            $values->Datum, $values->Poznamky, $values->id_Pacient
         );
         if(!isset($this->ID)){
-            $id = $this->db->getInsertId('Pacient');
-            $this->flashMessage('Pacient uspesne pridany.');
+            $id = $this->db->getInsertId('NavstevaOrdinacie');
+            $this->flashMessage('Navsteva ordinacie uspesne pridana.');
             $this->redirect("edit", array($id));
         }else
-            $this->flashMessage('Pacient uspesne upraveny.');
-        */
+            $this->flashMessage('Navsteva ordinacie uspesne upravena.');
+    }
 
+    public function createComponentAddDrugs()
+    {
+        $drugRows = $this->db->table('Liek');
+        $drugs = [];
+        foreach($drugRows as $row){
+            $drugs[$row->ID] = $row->Nazov."    odporucane: ".$row->Odporucane_davkovanie;
+        }
 
+        $form = new UI\Form;
+        $form->addSelect('nieco', 'Liek', $drugs)
+            ->setPrompt("Vyber");
+        $form->addText('pocet', 'Pocet baleni*:')
+            ->addRule(Form::INTEGER, 'Pocet musí být číslo')
+            ->addRule(Form::RANGE, 'Pocet musí být od 1 do 65356', array(1, 65356));
+        $form->addText('davkovanie', 'Davkovanie')
+            ->addRule(Form::MAX_LENGTH, 'Prilis vela znakov v Davkovanie!', 20)
+            ->setDefaultValue("val");
+        $form->addSubmit('send', 'Ulozit');
+        $form->onSuccess[] = array($this, 'AddDrugsSucceeded');
+        $form->setRenderer(new Bs3FormRenderer);
+        return $form;
+    }
+
+    public function AddDrugsSucceeded(UI\Form $form, $values){
+        $this->flashMessage('Pacient uspesne upraveny.');
     }
 
 }

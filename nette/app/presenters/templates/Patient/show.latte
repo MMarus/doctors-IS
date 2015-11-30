@@ -1,119 +1,138 @@
 {block content}
-<div class="container-fluid">
-    <div class="row">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <strong>Meno: </strong> {$patient->Meno} {$patient->Priezvisko}
-                <strong>Rodné číslo: </strong> {$patient->Rodne_cislo}
-                <strong>Adresa: </strong> {$patient->Adresa}
-                <strong>Poznamky: </strong> {$patient->Poznamky}
-            </div>
-        </div>
-    </div> 
-    <div class="row">
-        <div class="col-md-4">
+    <div class="container-fluid">
+        <div class="row">
             <div class="panel panel-primary">
-                <!-- Default panel contents -->
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-md-9">
-                            <h4>Plany</h4>
+                    <div class="col-md-2"><h3>Pacient</h3></div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <strong>Meno: </strong> {$patient->Meno} {$patient->Priezvisko}
                         </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-trans-default pull-right" aria-label="Left Align" data-toggle="modal" data-target="#myModal">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            </button>
+                        <div class="row">
+                            <strong>Rodné číslo: </strong> {$patient->Rodne_cislo}
                         </div>
+                        <div class="row">
+                            <strong>Adresa: </strong> {$patient->Adresa}
+                        </div>
+                        <div class="row">
+                            <strong>Poznamky: </strong> {$patient->Poznamky}
+                        </div>
+                    </div>
                     </div>
                 </div>
-                <!-- Table with plans -->
-                <table class="table table-striped">
-                  <tr>
-                    <th>Datum</th>
-                    <th>Poznamky</th>
-                  </tr>
-                  {foreach $plans as $plan}
-                    <tr>
-                      <td>{$plan->niceDate}</td>
-                      <td>{$plan->Poznamky}</td>
-                    </tr>
-                  {/foreach}
-                </table>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel panel-primary">
-                <!-- Default panel contents -->
-                <div class="panel-heading">
+                <div class="panel-body">
+
+
+
+
                     <div class="row">
-                        <div class="col-md-9">
-                            <h4>Navstevy</h4>
+                        <div class="col-md-4">
+                            <div class="panel panel-primary">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <h4>Plany</h4>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-trans-default pull-right"
+                                                    aria-label="Left Align" data-toggle="modal" data-target="#myModal">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Table with plans -->
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Datum</th>
+                                        <th>Poznamky</th>
+                                    </tr>
+                                    {foreach $plans as $plan}
+                                        <tr>
+                                            <td>{$plan->niceDate}</td>
+                                            <td>{$plan->Poznamky}</td>
+                                        </tr>
+                                    {/foreach}
+                                </table>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <a n:href="Visit:edit 0" class="btn btn-trans-default pull-right" aria-label="Left Align">
-                                <span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                            </a>
+                        <div class="col-md-4">
+                            <div class="panel panel-primary">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <h4>Navstevy</h4>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a n:href="Visit:edit" class="btn btn-trans-default pull-right"
+                                               aria-label="Left Align">
+                                                <span class="glyphicon glyphicon glyphicon-list-alt"
+                                                      aria-hidden="true"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Table with plans -->
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Datum</th>
+                                        <th>Poznamky</th>
+                                    </tr>
+                                    {foreach $visits as $visit}
+                                        <tr>
+                                            <td>{$visit->niceDate}</td>
+                                            <td>{$visit->Poznamky}</td>
+                                        </tr>
+                                    {/foreach}
+                                </table>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-primary">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <h4>Uzivane lieky</h4>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-trans-default pull-right"
+                                                    aria-label="Left Align" data-toggle="modal" data-target="#myModal">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
-                <!-- Table with plans -->
-                <table class="table table-striped">
-                  <tr>
-                    <th>Datum</th>
-                    <th>Poznamky</th>
-                  </tr>
-                  {foreach $visits as $visit}
-                    <tr>
-                      <td>{$visit->niceDate}</td>
-                      <td>{$visit->Poznamky}</td>
-                    </tr>
-                  {/foreach}
-                </table>
-                
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="panel panel-primary">
-                <!-- Default panel contents -->
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <h4>Uzivane lieky</h4>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-trans-default pull-right" aria-label="Left Align" data-toggle="modal" data-target="#myModal">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            </button>
-                        </div>
-                    </div>
+
+    </div>
+    <!-- Modal basic -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-
-
-
-<!-- Modal basic -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-          
-          
 {/block}

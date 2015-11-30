@@ -1,30 +1,103 @@
 {block content}
-
-<div class="container-fluid">
-    <div class="row">
-        <h1>Editacia navstevy</h1>
-    </div>
-    <div class="row">
-        <!-- VYKONY -->
-        <div class="col-md-4">
-            {include '../components/formAddDropdown.latte',
+    <div class="container-fluid">
+        <div class="row">
+            <h1>Editacia navstevy</h1>
+        </div>
+        <div class="row">
+            <!-- VYKONY -->
+            <div class="col-md-4">
+                {include '../components/formAddDropdown.latte',
                 MenoPanelu => 'Vykon',
                 UpravovanaTabulka => $form1,
                 theads => $theads1,
                 rows => $services,
-            }
-        </div>
+                }
+            </div>
 
+            <!-- Ext Pracovisko -->
+            <div class="col-md-4">
+                {include '../components/formAddDropdown.latte',
+                MenoPanelu => 'Ext. Pracovisko',
+                UpravovanaTabulka => $formExt,
+                theads => $theadsExt,
+                rows => $ext,
+                }
+            </div>
 
-        <!-- Ext Pracovisko -->
-       <div class="col-md-4">
-           {include '../components/formAddDropdown.latte',
-           MenoPanelu => 'Ext. Pracovisko',
-           UpravovanaTabulka => $formExt,
-           theads => $theadsExt,
-           rows => $ext,
-           }
+            <!--Predpisany liek -->
+            <div class="col-md-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                <h4>Lieky{*$MenoPanelu*}</h4>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-">
+                                <button type="button" class="btn btn-trans-default"
+                                        aria-label="Left Align" data-toggle="modal" data-target="#myModal">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                                <label for="submitRemove{$UpravovanaTabulka}" class="btn btn-trans-default" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table id="{$UpravovanaTabulka}All" class="table table-striped">
+                        <tr>
+                            <td><input id="{$UpravovanaTabulka}" class="toggle-button" type="checkbox"></td>
+                            {foreach $theads as $key => $thead}
+                                <th>{$thead}</th>
+                            {/foreach}
+                        </tr>
+                        {form removeRow-$UpravovanaTabulka}
+                        {foreach $rows as $row}
+                            <tr>
+                                <td><input type="checkbox" name="{$UpravovanaTabulka}Sel[]" value={$row->IDcko}>
+                                </td>
+                                {foreach $theads as $key => $thead}
+                                    <td>{$row->$key}</td>
+                                {/foreach}
+                            </tr>
+                        {/foreach}
+                            <input type="submit" id="submitRemove{$UpravovanaTabulka}" class="hidden"/>
+                        {/form}
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+    <!-- Modal basic -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Pridat liek</h4>
+                </div>
+                <div class="modal-body">
+                    {control addDrugs}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {/block}
+
+
+
+{*
+<button n:name=send$UpravovanaTabulka type="submit" class="btn btn-trans-default"
+                                            aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    </button>
+<label for="submitRemove{$UpravovanaTabulka}" class="btn btn-trans-default" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </label>
+
+*}

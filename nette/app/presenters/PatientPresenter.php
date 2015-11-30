@@ -22,6 +22,14 @@ class PatientPresenter extends BasePresenter
         "Krvna_skupina" => "Krvná skupina",
         "Poznamky"  => "Poznámky"
     );
+    private $theadsMaxLength = array("Rodne_cislo" => 15,
+        "Meno" => 25,
+        "Priezvisko"  => 25,
+        "Poistovna" => 10,
+        "Adresa" => 100,
+        "Krvna_skupina" => 3,
+        "Poznamky"  => 255
+    );
     
     public function __construct(Nette\Database\Context $database)
     {
@@ -118,6 +126,8 @@ class PatientPresenter extends BasePresenter
             //Nastavenie Required Policok
             if($key == "Meno" || $key == "Priezvisko" || $key == "Rodne_cislo" || $key == "Krvna_skupina" || $key == "Poistovna")
                 $form[$key]->setRequired('Vyplnte policko '.$thead."!");
+
+            $form[$key]->addRule(Form::MAX_LENGTH, 'Prilis vela znakov v '.$thead.'!', $this->theadsMaxLength[$key]);
         }
 
         $form->addSubmit('send', 'Ulozit');
@@ -147,9 +157,6 @@ class PatientPresenter extends BasePresenter
             $this->redirect("edit", array($id));
         }else
             $this->flashMessage('Pacient uspesne upraveny.');
-
-
-
     }
 
 }
