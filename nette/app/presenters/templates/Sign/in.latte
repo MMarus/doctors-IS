@@ -1,6 +1,23 @@
 {block content}
-<h1 n:block=title>Sign in</h1>
 
-{control signInForm}
+<div class="container" xmlns:n="http://www.w3.org/1999/xhtml">
+    {*control signInForm*}
+
+    <form n:name=signInForm class="form-signin">
+        <h2 class="form-signin-heading">Prihlasit sa.</h2>
+        <label n:name=username class="sr-only">Username:</label>
+        <input n:name=username id="inputEmail" class="form-control" size=25 placeholder="Uzivatelske meno" required autofocus>
+        <label n:name=password class="sr-only">Password:</label>
+        <input n:name=password class="form-control" size=25 placeholder="Heslo" required>
+        <div class="checkbox">
+            <label>
+                <input n:name=remember> Zapametat si ma!
+            </label>
+        </div>
+
+        <input n:name=send class="btn btn-lg btn-primary btn-block">
+    </form>
+</div>
+
 
 {* or use {include '../components/form.latte', form => signInForm} *}
