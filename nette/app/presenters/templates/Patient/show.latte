@@ -1,119 +1,126 @@
 {block content}
     <div class="container-fluid">
-        <div class="row">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                    <div class="col-md-2"><h3>Pacient</h3></div>
-                    <div class="col-md-10">
-                        <div class="row">
-                            <strong>Meno: </strong> {$patient->Meno} {$patient->Priezvisko}
-                        </div>
-                        <div class="row">
-                            <strong>Rodné číslo: </strong> {$patient->Rodne_cislo}
-                        </div>
-                        <div class="row">
-                            <strong>Adresa: </strong> {$patient->Adresa}
-                        </div>
-                        <div class="row">
-                            <strong>Poznamky: </strong> {$patient->Poznamky}
-                        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-2">
+                        <h2><strong>Pacient</strong></h2>
                     </div>
+                    <div class="col-md-9">
+                        <a n:href="Patient:show $patient->ID" class="btn btn-trans-default">
+                            <div>
+                                <strong>Meno: </strong> {$patient->Meno} {$patient->Priezvisko}
+                            </div>
+                            <div>
+                                <strong>Rodné číslo: </strong> {$patient->Rodne_cislo}
+                            </div>
+                            <div>
+                                <strong>Adresa: </strong> {$patient->Adresa |truncate:40}
+                            </div>
+                            <div>
+                                <strong>Poznamky: </strong> {$patient->Poznamky |truncate:40}
+                            </div>
+                        </a>
                     </div>
                 </div>
-                <div class="panel-body">
+            </div>
+            <div class="panel-body">
 
 
-
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="panel panel-primary">
-                                <!-- Default panel contents -->
-                                <div class="panel-heading">
-                                    <div class="row">
-                                        <div class="col-md-9">
-                                            <h4>Plany</h4>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button type="button" class="btn btn-trans-default pull-right"
-                                                    aria-label="Left Align" data-toggle="modal" data-target="#myModal">
-                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                            </button>
-                                        </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="panel panel-primary">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h4>Plany</h4>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-trans-default pull-right"
+                                                aria-label="Left Align" data-toggle="modal" data-target="#myModal">
+                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        </button>
                                     </div>
                                 </div>
-                                <!-- Table with plans -->
-                                <table class="table table-striped">
-                                    <tr>
-                                        <th>Datum</th>
-                                        <th>Poznamky</th>
-                                    </tr>
-                                    {foreach $plans as $plan}
-                                        <tr>
-                                            <td>{$plan->niceDate}</td>
-                                            <td>{$plan->Poznamky}</td>
-                                        </tr>
-                                    {/foreach}
-                                </table>
                             </div>
+                            <!-- Table with plans -->
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Datum</th>
+                                    <th>Poznamky</th>
+                                </tr>
+                                {foreach $plans as $plan}
+                                    <tr>
+                                        <td>{$plan->niceDate}</td>
+                                        <td>{$plan->Poznamky}</td>
+                                    </tr>
+                                {/foreach}
+                            </table>
                         </div>
-                        <div class="col-md-4">
-                            <div class="panel panel-primary">
-                                <!-- Default panel contents -->
-                                <div class="panel-heading">
-                                    <div class="row">
-                                        <div class="col-md-9">
-                                            <h4>Navstevy</h4>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <a n:href="Visit:edit" class="btn btn-trans-default pull-right"
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-primary">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h4>Navstevy</h4>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a n:href="Visit:edit" class="btn btn-trans-default pull-right"
+                                           aria-label="Left Align">
+                                                <span class="glyphicon glyphicon glyphicon-plus"
+                                                      aria-hidden="true"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Table with plans -->
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Datum</th>
+                                    <th>Poznamky</th>
+                                </tr>
+                                {foreach $visits as $visit}
+                                    <tr>
+                                        <td>{$visit->niceDate}</td>
+                                        <td>{$visit->Poznamky}</td>
+                                        <td>
+                                            <a n:href="Visit:show $visit->ID" class="btn btn-default"
                                                aria-label="Left Align">
                                                 <span class="glyphicon glyphicon glyphicon-list-alt"
                                                       aria-hidden="true"></span>
                                             </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Table with plans -->
-                                <table class="table table-striped">
-                                    <tr>
-                                        <th>Datum</th>
-                                        <th>Poznamky</th>
+                                        </td>
                                     </tr>
-                                    {foreach $visits as $visit}
-                                        <tr>
-                                            <td>{$visit->niceDate}</td>
-                                            <td>{$visit->Poznamky}</td>
-                                        </tr>
-                                    {/foreach}
-                                </table>
+                                {/foreach}
+                            </table>
 
-                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="panel panel-primary">
-                                <!-- Default panel contents -->
-                                <div class="panel-heading">
-                                    <div class="row">
-                                        <div class="col-md-9">
-                                            <h4>Uzivane lieky</h4>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button type="button" class="btn btn-trans-default pull-right"
-                                                    aria-label="Left Align" data-toggle="modal" data-target="#myModal">
-                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                            </button>
-                                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-primary">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h4>Uzivane lieky</h4>
                                     </div>
+                                    {*<div class="col-md-3">
+                                        <button type="button" class="btn btn-trans-default pull-right"
+                                                aria-label="Left Align" data-toggle="modal" data-target="#myModal">
+                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        </button>
+                                    </div>*}
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
+
 
     </div>
     <!-- Modal basic -->
