@@ -28,10 +28,6 @@ class HomepagePresenter extends BasePresenter
 	{
 		$this->allplans = $this->getPlans();
 
-
-
-
-
 		$this->template->plans = $this->allplans;
 		$date = new Nette\Utils\DateTime();
 		$date->getTimestamp();
@@ -39,10 +35,10 @@ class HomepagePresenter extends BasePresenter
 
 
 
-		if($this->pacientId){
+		/*if($this->pacientId){
 			$this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as serviceID FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->visitId);
 		}
-		else
+		else*/
 			;//$this->error("TEST");
 
 
@@ -82,58 +78,6 @@ class HomepagePresenter extends BasePresenter
 	}
 
 
-
-
-
-
-	public function actionGoplan($id)
-	{
-		//load plan
-		$tmp;
-		$tmpx;
-		$idNav;
-		$date = new Nette\Utils\DateTime();
-		$date->getTimestamp();
-
-		$plans = $this->getPlans();
-
-		$i = 0;
-		foreach ($plans as $plan)
-		{
-			if($plan[0]->idp == $id )
-			{
-				$tmpx = $plans[$i];
-			}
-			$i++;
-		}
-
-		$tmp = $tmpx[0];
-
-		$defPozn = "Planovana navsteva.";
-		$this->db->query("INSERT INTO NavstevaOrdinacie (id_Pacient, Datum, Poznamky) VALUES ( '". $tmp->idPac ."','".$date."' ,'".$defPozn."')");
-		$idNav = $this->db->query("SELECT MAX(ID) as ID FROM NavstevaOrdinacie WHERE Poznamky = '".$defPozn."' AND id_Pacient = '".$tmp->idPac."' AND Datum = '".$date."' ");
-		if($idNav == null){return;}//??halt chyba
-		$idNav = $idNav->fetchAll();
-		foreach ($idNav as $Nav)
-		{
-			$idn = $Nav->ID;
-		}
-
-		$i = 0;
-		foreach ($tmpx as $vyk)
-		{
-			if($i==0){$i++;continue;}//not first
-			$idv = $vyk[0];
-
-			$this->db->query("INSERT INTO PocasNavstevy (id_NavstevaOrdinacie, id_vykon) VALUES( '".$idn."', '".$idv."' )   ");
-		}
-
-
-		$this->db->query("UPDATE Plan SET id_NavstevaOrdinacie = '".$idn."' WHERE ID = '".$id."'");
-
-
-		$this->redirect("Visit:show", $idn);
-	}
 
 
 

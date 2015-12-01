@@ -26,8 +26,12 @@ class PlanPresenter extends BasePresenter
 
 	public function renderDefault()
 	{
-		//$this->allplans = $this->getPlans();
-		;
+		$this->allplans = $this->getPlans();
+
+		$this->template->plans = $this->allplans;
+		$date = new Nette\Utils\DateTime();
+		$date->getTimestamp();
+		$this->template->date = $date;
 
 	}
 

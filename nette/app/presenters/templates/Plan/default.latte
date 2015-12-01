@@ -1,7 +1,84 @@
 {block content}
 
-<p><a n:href="Homepage:default">← zpatek</a></p>
+<div class="container-fluid">
+    <div class="row-sm-flex-center">
+        <div class="" >
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h4>Plány</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <a n:href="Patient:show" class="btn btn-trans-default btn-block btn-fixed">VŠETKO</a>
+                        </div>
+                        <div class="col-md-2">
+                            <a n:href="Patient:show" class="btn btn-trans-default btn-block btn-fixed">DNES</a>
+                        </div>
+                        <div class="col-md-2">
+                            <a n:href="Patient:show" class="btn btn-trans-default btn-block btn-fixed">ZAJTRA</a>
+                        </div>
+                        <div class="col-md-2">
+                            <a n:href="Patient:show" class="btn btn-trans-default btn-block btn-fixed">NEVYBAVENÉ</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Table with plans -->
+                <table class="table table-striped">
+                  <tr>
+                     <th>ID</th>
+                    <th>Čas</th>
+                    <th>Pacient</th>
+                    <th>RČ</th>
+                    <th>Výkon</th>
+                    <th>Pozn.</th>
+                  </tr>
 
-TOTO JE PLAN
+                  {foreach $plans as $plan}
+                    <tr   {if $plan[0]->datum < $date} class="dateWarn" {/if} >
+
+                      <td>{$plan[0]->idp}</td>
+                      <td>{$plan[0]->datum}</td>
+                      <td>{$plan[0]->priez}</td>
+                      <td>{$plan[0]->rc}</td>
+
+                      <td>
+                        <ul>
+                          {foreach $plan as $pp}
+
+                            {ifset $pp->idp}
+                            {else }
+
+                                <li>
+                                    {$pp[1]}
+                                </li>
+
+                            {/ifset}
+                          {/foreach}
+                        </ul>
+                      </td>
+
+
+                      <td>{$plan[0]->pozn}</td>
+                      <td>
+                      <a n:href="goplan $plan[0]->idp" class="btn btn-default">
+                            <span class="glyphicon glyphicon glyphicon glyphicon-play pull-right" aria-hidden="true"></span>
+                        </a>
+                      </td>
+                    </tr>
+                  {/foreach}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{/block}
 
 

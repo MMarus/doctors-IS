@@ -7,3 +7,7 @@
     display: flex;
     align-items: center;
 }
+
+.btn-fixed {
+    width: 110px !important;
+}
