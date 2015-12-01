@@ -5,6 +5,7 @@ namespace App\Forms;
 use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
+use Test\Bs3FormRenderer;
 
 
 class SignFormFactory extends Nette\Object
@@ -31,11 +32,12 @@ class SignFormFactory extends Nette\Object
 		$form->addPassword('password', 'Password:')
 			->setRequired('Please enter your password.');
 
-		$form->addCheckbox('remember', 'Keep me signed in');
+		$form->addCheckbox('remember', 'Zapametat si ma!');
 
-		$form->addSubmit('send', 'Sign in');
+		$form->addSubmit('send', 'Prihlasit');
 
 		$form->onSuccess[] = array($this, 'formSucceeded');
+		$form->setRenderer(new Bs3FormRenderer);
 		return $form;
 	}
 
