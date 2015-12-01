@@ -85,7 +85,7 @@ class PlanPresenter extends BasePresenter
 				}
 			}$x=1;$i++;
 		}
-		Debugger::barDump($xx);
+		//Debugger::barDump($xx);
 		return $xx;
 	}
 
@@ -118,20 +118,20 @@ class PlanPresenter extends BasePresenter
 		$tmp = $tmpx[0];
 
 		$defPozn = "Planovana navsteva.";
-		$this->db->query("INSERT INTO NavstevaOrdinacie (id_Pacient, Datum, Poznamky) VALUES ( '". $tmp->idPac ."','".$date."' ,'".$defPozn."')");
-		$idNav = $this->db->query("SELECT MAX(ID) as ID FROM NavstevaOrdinacie WHERE Poznamky = '".$defPozn."' AND id_Pacient = '".$tmp->idPac."' AND Datum = '".$date."' ");
-		if($idNav == null){return;}//??halt chyba
-		$idNav = $idNav->fetchAll();
-		foreach ($idNav as $Nav)
-		{
-			$idn = $Nav->ID;
-		}
+		$idn = $this->db->table("NavstevaOrdinacie")->insert(array(
+				"id_Pacient" 	=> $tmp->idPac,
+				"Datum"			=> $date,
+				"Poznamky"		=> "Planovana navsteva..."));
 
-		$i = 0;
+		$idn = $idn->getPrimary();
+
+
+
 		foreach ($tmpx as $vyk)
 		{
-			if($i==0){$i++;continue;}//not first
+			if(isset( $vyk->idp )){continue;}//not first
 			$idv = $vyk[0];
+			//Debugger::barDump($idv);
 
 			$this->db->query("INSERT INTO PocasNavstevy (id_NavstevaOrdinacie, id_vykon) VALUES( '".$idn."', '".$idv."' )   ");
 		}
