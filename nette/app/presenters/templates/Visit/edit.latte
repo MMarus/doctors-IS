@@ -4,19 +4,26 @@
 {/block}
 
 {block content}
-
-<div class="container-fluid">
-    <div class="row">
-        <h1>{$title}</h1></div>
-    </div>
-    <div class="row">
-        <div class="col-md-8 col-lg-8 col-sm-8">
-            {control visitForm}
+    <div class="container-fluid">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h2>
+                            <strong>{$title}</strong>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8 col-lg-8 col-sm-8">
+                        {control visitForm}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-</div>
-
 {/block}
 
 
@@ -26,8 +33,7 @@
     <script src="{$basePath}/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
 
-        $(document).ready(function()
-        {
+        $(document).ready(function () {
             $('#frm-visitForm-Datum').datetimepicker(
                     {
                         locale: 'cs',  // en
