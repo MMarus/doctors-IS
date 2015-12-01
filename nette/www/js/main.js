@@ -218,10 +218,276 @@ function checkTime(i) {
 
 
 
+
+
+
+
+
+
+function plan(slf,mode)
+{
+    var plans = document.getElementsByName("oneplan");
+    //clear
+    for (var index = 0, len = plans.length; index < len; ++index)
+    {
+        plans[index].setAttribute("hide",0);
+    }
+
+    switch (mode)
+    {
+
+        case 'all':
+        {
+
+            for (var index = 0, len = plans.length; index < len; ++index)
+            {
+                plans[index].setAttribute("hide",0);
+            }
+            break;
+        }
+
+
+
+        case 'today':
+        {
+            var dte = fdate("today","ymd");
+
+            for (var index = 0, len = plans.length; index < len; ++index)
+            {
+                var xx = plans[index].getElementsByTagName("td");
+
+                for (var ind = 0, len2 = xx.length; ind < len2; ++ind)
+                {
+                    if(xx[ind].getAttribute("name") == "date")
+                    {
+                        if(  !(xx[ind].getAttribute("value").indexOf(dte) > -1 )  )
+                         {
+                            //je to mimo today tak to skovaj !
+                             plans[index].setAttribute("hide",1);
+                         }
+                    }
+                }
+            }
+            break;
+        }
+
+
+
+        case 'tomorrow':
+        {
+            var dte = fdate("today","ymd",1);
+
+            for (var index = 0, len = plans.length; index < len; ++index)
+            {
+                var xx = plans[index].getElementsByTagName("td");
+
+                for (var ind = 0, len2 = xx.length; ind < len2; ++ind)
+                {
+                    if(xx[ind].getAttribute("name") == "date")
+                    {
+                        if(  !(xx[ind].getAttribute("value").indexOf(dte) > -1 )  )
+                        {
+                            //je to mimo today tak to skovaj !
+                            plans[index].setAttribute("hide",1);
+                        }
+                    }
+                }
+            }
+            break;
+        }
+
+        case 'notfin':
+        {
+
+            for (var index = 0, len = plans.length; index < len; ++index)
+            {
+                if(plans[index].getAttribute("state") == "done" )
+                {
+                    plans[index].setAttribute("hide",1);
+                }
+            }
+
+            break;
+        }
+
+
+        default:
+        {
+            break;
+        }
+    }
+
+
+
+    //make clear and hide
+    var temp = "";
+    for (var index = 0, len = plans.length; index < len; ++index)
+    {
+        var lst = plans[index].classList;
+        for(var ind = 0, len2 = lst.length; ind < len2; ++ind)
+        {
+            if(lst[ind] != "hidden")
+            {
+                temp += " " + lst[ind];
+            }
+
+
+        }
+        plans[index].className = temp;
+        temp = "";
+
+        if(plans[index].getAttribute("hide")==1 )
+        {
+            plans[index].className += " hidden";
+        }
+    }
+
+
+
+
+    return;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Toto je na zakliknutie vsetkych checkboxov
 $('.toggle-button').click( function () {
     var id = this.id;
 
     $( '#'+id+'All input[type="checkbox"]' ).prop('checked', this.checked)
 })
+
+
+
+
+
+
+
+
+
+function num2(x)
+{
+    x = x.toString();
+    if(x.length==1)
+    {
+        return "0"+x;
+    }
+    return x;
+
+}
+
+function fdate(data,format,shift,shiftmode)
+{
+    //data in format 2015-05-05
+    if(shiftmode == undefined){shiftmode = "day";}
+    if(shift == undefined){shift= 0;}
+
+    if(data == "today")
+    {
+        var today = new Date();
+        var day = today.getDate();//1-31 DAY
+        var mon = (today.getMonth()+1);//0-11 MONTH
+        var yea = today.getFullYear();//2015 YEAR
+        data = yea + "-" + num2(mon) + "-" +   num2(day);
+    }
+
+    var tmp;
+
+
+    var mm = parseInt( data.substring(5, 7) );
+    var dd = parseInt( data.substring(8, 10) );
+    var yy = parseInt( data.substring(0, 4) );
+
+    //if(shiftmode == "day"){dd = dd + shift;    }
+    if(shiftmode == "day"){ myDate = new Date( data ); myDate.setDate(myDate.getDate() + shift); mm = myDate.getMonth() + 1; dd = myDate.getDate(); yy = myDate.getFullYear(); }
+    if(shiftmode == "month"){mm = mm + shift;} if(mm > 12){mm = 1; yy++;}; if(mm < 1){mm = 12; yy--;};
+    if(shiftmode == "year"){yy = yy + shift;}
+
+    mm = num2(mm);
+    dd = num2(dd);
+    yy = yy.toString();
+
+
+
+    switch (format)
+    {
+        //01-01-2015
+        case 'dmy':
+        {
+            tmp = dd + ". " + mm  + ". " + yy;
+            break;
+        }
+
+        case 'dm':
+        {
+            tmp = dd + ". " + mm  + ". ";
+            break;
+        }
+
+
+
+        //2015-01-01
+        case 'ymd':
+        {
+            tmp = yy + "-" + mm + "-" + dd;
+            break;
+        }
+
+        case 'ym':
+        {
+            tmp = yy + "-" + mm;
+            break;
+        }
+
+        //2015-01-01 HH:MM:SS
+        case 'ymd+':
+        {
+            //$tmp = $dto->format('Y-m-d H:i:s');
+            break;
+        }
+
+        //week day number
+        case 'wdnr':
+        {
+            //$tmp = $dto->format('w');
+            break;
+
+        }
+
+        //first day month
+        case 'fdm':
+        {
+            tmp = yy + "-" + mm + "-" + "01";
+            break;
+        }
+
+        default:
+
+            break;
+    }
+
+
+    return tmp;
+}
+
 
