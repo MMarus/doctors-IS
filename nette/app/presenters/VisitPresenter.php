@@ -15,8 +15,7 @@ use Tracy\Debugger;
 
 
 
-//TODO: treba pridat editacia datumu + pacienta + poznamky
-//TODO: pridavanie novej navstevy
+//TODO: Do visit/show/ pridaj vypis info o danej navsteve(datum, poznamky, .. )
 
 
 class VisitPresenter extends BasePresenter
@@ -80,7 +79,7 @@ class VisitPresenter extends BasePresenter
                 $this->flashMessage('Neexistujuca navsteva ordinacie, chcete ju vytvorit?');
                 $this->redirect("edit", array($this->ID));
             }
-
+            $this->template->nasteva = $navsteva;
             $this->template->patient = $this->db->table('Pacient')->get($navsteva->id_Pacient);
 
             $this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as IDcko FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->ID);
