@@ -17,10 +17,10 @@
                                     <strong>Rodné číslo: </strong> {$patient->Rodne_cislo}
                                 </div>
                                 <div>
-                                    <strong>Adresa: </strong> {$patient->Adresa}
+                                    <strong>Adresa: </strong> {$patient->Adresa |truncate:40}
                                 </div>
                                 <div>
-                                    <strong>Poznamky: </strong> {$patient->Poznamky}
+                                    <strong>Poznamky: </strong> {$patient->Poznamky |truncate:40}
                                 </div>
                             </a>
                         </div>
