@@ -11,16 +11,16 @@
                             <h4>Plány</h4>
                         </div>
                         <div class="col-md-2">
-                            <a n:href="Patient:show" class="btn btn-trans-default btn-block btn-fixed">VŠETKO</a>
+                            <a href="#" onclick="plan(this,'all');" class="btn btn-trans-default btn-block btn-fixed">VŠETKO</a>
                         </div>
                         <div class="col-md-2">
-                            <a n:href="Patient:show" class="btn btn-trans-default btn-block btn-fixed">DNES</a>
+                            <a href="#" onclick="plan(this,'today');" class="btn btn-trans-default btn-block btn-fixed">DNES</a>
                         </div>
                         <div class="col-md-2">
-                            <a n:href="Patient:show" class="btn btn-trans-default btn-block btn-fixed">ZAJTRA</a>
+                            <a href="#" onclick="plan(this,'tomorrow');" class="btn btn-trans-default btn-block btn-fixed">ZAJTRA</a>
                         </div>
                         <div class="col-md-2">
-                            <a n:href="Patient:show" class="btn btn-trans-default btn-block btn-fixed">NEVYBAVENÉ</a>
+                            <a href="#" onclick="plan(this,'notfin');" class="btn btn-trans-default btn-block btn-fixed">NEVYBAVENÉ</a>
                         </div>
                     </div>
                 </div>
@@ -36,10 +36,10 @@
                   </tr>
 
                   {foreach $plans as $plan}
-                    <tr   {if $plan[0]->datum < $date} class="dateWarn" {/if} >
+                    <tr name="oneplan" class="{if $plan[0]->datum < $date}dateWarn{/if} {if $plan[0]->done }dateDone{/if}" {if $plan[0]->done }state="done"{/if} hide="0" >
 
                       <td>{$plan[0]->idp}</td>
-                      <td>{$plan[0]->datum}</td>
+                      <td name="date" value="{$plan[0]->datum}">{$plan[0]->datum}</td>
                       <td>{$plan[0]->priez}</td>
                       <td>{$plan[0]->rc}</td>
 
@@ -62,9 +62,17 @@
 
                       <td>{$plan[0]->pozn}</td>
                       <td>
-                      <a n:href="goplan $plan[0]->idp" class="btn btn-default">
-                            <span class="glyphicon glyphicon glyphicon glyphicon-play pull-right" aria-hidden="true"></span>
+                      {if $plan[0]->done }
+                        <a n:href="Visit:show $plan[0]->done" class="btn btn-default">
+                            <span class="glyphicon glyphicon-eye-open pull-right" aria-hidden="true"></span>
                         </a>
+                      {elseif $plan[0]->datum < $date }
+                        <a n:href="goplan $plan[0]->idp" class="btn btn-default">
+                        <span class="glyphicon glyphicon-play pull-right" aria-hidden="true"></span>
+                        </a>
+                      {/if}
+
+
                       </td>
                     </tr>
                   {/foreach}

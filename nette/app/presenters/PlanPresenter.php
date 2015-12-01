@@ -38,8 +38,8 @@ class PlanPresenter extends BasePresenter
 
 	private function getPlans()
 	{
-		$idp 	= $this->db->query("SELECT P.ID as idp ,count(*) as cntx FROM Plan P JOIN VykonMaPlan VM ON VM.id_Plan = P.ID WHERE P.id_NavstevaOrdinacie is NULL group by P.ID");
-		$plans 	= $this->db->query("SELECT P.ID as idp , C.ID as idPac, V.ID as idVyk,  P.Planovany_datum as datum, C.Priezvisko as priez, C.Rodne_cislo as rc, V.Nazov  as vykon, P.Poznamky as pozn FROM Plan P JOIN Pacient C ON P.id_Pacient = C.ID JOIN VykonMaPlan VM ON VM.id_Plan = P.ID JOIN Vykon V ON VM.id_Vykon = V.ID WHERE P.id_NavstevaOrdinacie is NULL");
+		$idp 	= $this->db->query("SELECT P.ID as idp ,count(*) as cntx FROM Plan P JOIN VykonMaPlan VM ON VM.id_Plan = P.ID group by P.ID");
+		$plans 	= $this->db->query("SELECT P.ID as idp , C.ID as idPac, V.ID as idVyk, P.id_NavstevaOrdinacie as done ,  P.Planovany_datum as datum, C.Priezvisko as priez, C.Rodne_cislo as rc, V.Nazov  as vykon, P.Poznamky as pozn FROM Plan P JOIN Pacient C ON P.id_Pacient = C.ID JOIN VykonMaPlan VM ON VM.id_Plan = P.ID JOIN Vykon V ON VM.id_Vykon = V.ID ");
 
 		$plans 	= $plans->fetchAll();
 		$idp	= $idp->fetchAll();
@@ -65,6 +65,7 @@ class PlanPresenter extends BasePresenter
 				}
 			}$x=1;$i++;
 		}
+		Debugger::barDump($xx);
 		return $xx;
 	}
 

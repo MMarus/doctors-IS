@@ -3,6 +3,14 @@
     background: red !important;
 }
 
+.dateDone {
+    background: green !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
 .vcenter {
     display: flex;
     align-items: center;
