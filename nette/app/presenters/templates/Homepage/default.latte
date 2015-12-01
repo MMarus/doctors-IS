@@ -11,14 +11,25 @@
                     <!-- Default panel contents -->
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-9">
-                                <h4>Plány</h4>
+                            <div class="col-md-1">
+                                <a n:href="Plan:" class="btn btn-trans-default">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </a>
                             </div>
-                            <div class="col-md-3">
-                                <button type="button" class="btn btn-trans-default pull-right" aria-label="Left Align" data-toggle="modal" data-target="#myModal">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                </button>
+                            <div class="col-md-4">
+                                <h4>Plány na dnes</h4>
                             </div>
+                            <div class="col-md-2">
+                                 <a href="#" onclick="plan(this,'all');" class="btn btn-trans-default">
+                                    VŠETKY
+                                 </a>
+                            </div>
+                            <div class="col-md-2">
+                                 <a href="#" onclick="plan(this,'notfin');" class="btn btn-trans-default">
+                                    NEVYBAVENÉ
+                                 </a>
+                            </div>
+
                         </div>
                     </div>
                     <!-- Table with plans -->
@@ -33,7 +44,7 @@
                       </tr>
 
                       {foreach $plans as $plan}
-                        <tr   {if $plan[0]->datum < $date} class="dateWarn" {/if} >
+                        <tr name="oneplan" class="{if $plan[0]->datum < $date}dateWarn{/if} {if $plan[0]->done }dateDone{/if}" {if $plan[0]->done }state="done"{/if} hide="0" >
 
                           <td>{$plan[0]->idp}</td>
                           <td>{$plan[0]->datum}</td>

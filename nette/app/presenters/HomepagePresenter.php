@@ -26,7 +26,12 @@ class HomepagePresenter extends BasePresenter
 
 	public function renderDefault()
 	{
-		$this->allplans = $this->getPlans();
+		$pln = new PlanPresenter($this->db);
+		$this->allplans = $pln->getPlans("today");
+
+
+
+
 
 		$this->template->plans = $this->allplans;
 		$date = new Nette\Utils\DateTime();
@@ -43,43 +48,6 @@ class HomepagePresenter extends BasePresenter
 
 
 	}
-
-
-	private function getPlans()
-	{
-		$idp 	= $this->db->query("SELECT P.ID as idp ,count(*) as cntx FROM Plan P JOIN VykonMaPlan VM ON VM.id_Plan = P.ID WHERE P.id_NavstevaOrdinacie is NULL group by P.ID");
-		$plans 	= $this->db->query("SELECT P.ID as idp , C.ID as idPac, V.ID as idVyk,  P.Planovany_datum as datum, C.Priezvisko as priez, C.Rodne_cislo as rc, V.Nazov  as vykon, P.Poznamky as pozn FROM Plan P JOIN Pacient C ON P.id_Pacient = C.ID JOIN VykonMaPlan VM ON VM.id_Plan = P.ID JOIN Vykon V ON VM.id_Vykon = V.ID WHERE P.id_NavstevaOrdinacie is NULL");
-
-		$plans 	= $plans->fetchAll();
-		$idp	= $idp->fetchAll();
-
-		$xx = array();
-		$x = 1;
-		$i = 0;
-
-
-
-		foreach ($idp as $idpx)
-		{
-
-			foreach ($plans as $plansx)
-			{
-
-				if( $idpx->idp == $plansx->idp )
-				{
-					$xx[$i][$x][0] = $plansx->idVyk;
-					$xx[$i][$x][1] = $plansx->vykon;
-					$x++;
-					$xx[$i][0] = $plansx;
-				}
-			}$x=1;$i++;
-		}
-		return $xx;
-	}
-
-
-
-
 
 
 

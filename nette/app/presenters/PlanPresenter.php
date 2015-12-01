@@ -17,6 +17,7 @@ class PlanPresenter extends BasePresenter
 	private $id;
 	public $pacientId;
 	public $allplans;
+	public $date;
 
 	public function __construct(Nette\Database\Context $database)
 	{
@@ -26,20 +27,39 @@ class PlanPresenter extends BasePresenter
 
 	public function renderDefault()
 	{
-		$this->allplans = $this->getPlans();
+		$this->date = new Nette\Utils\DateTime();
+		$this->date->getTimestamp();
+		$this->template->date = $this->date;
 
+		$this->allplans = $this->getPlans("all");
 		$this->template->plans = $this->allplans;
-		$date = new Nette\Utils\DateTime();
-		$date->getTimestamp();
-		$this->template->date = $date;
+
 
 	}
 
 
-	private function getPlans()
+	public function getPlans($mode = "all")
 	{
-		$idp 	= $this->db->query("SELECT P.ID as idp ,count(*) as cntx FROM Plan P JOIN VykonMaPlan VM ON VM.id_Plan = P.ID group by P.ID");
-		$plans 	= $this->db->query("SELECT P.ID as idp , C.ID as idPac, V.ID as idVyk, P.id_NavstevaOrdinacie as done ,  P.Planovany_datum as datum, C.Priezvisko as priez, C.Rodne_cislo as rc, V.Nazov  as vykon, P.Poznamky as pozn FROM Plan P JOIN Pacient C ON P.id_Pacient = C.ID JOIN VykonMaPlan VM ON VM.id_Plan = P.ID JOIN Vykon V ON VM.id_Vykon = V.ID ");
+		$tools = new ToolsPresenter($this->db);
+		$date = $tools->fdate("today","ymd");
+
+
+
+
+
+		if($mode == "today")
+		{
+			Debugger::barDump("today");
+			$idp 	= $this->db->query("SELECT P.ID as idp ,count(*) as cntx FROM Plan P JOIN VykonMaPlan VM ON VM.id_Plan = P.ID WHERE P.Planovany_datum LIKE '%".$date."%' group by P.ID");
+			$plans 	= $this->db->query("SELECT P.ID as idp , C.ID as idPac, V.ID as idVyk, P.id_NavstevaOrdinacie as done ,  P.Planovany_datum as datum, C.Priezvisko as priez, C.Rodne_cislo as rc, V.Nazov  as vykon, P.Poznamky as pozn FROM Plan P JOIN Pacient C ON P.id_Pacient = C.ID JOIN VykonMaPlan VM ON VM.id_Plan = P.ID JOIN Vykon V ON VM.id_Vykon = V.ID WHERE P.Planovany_datum LIKE '%".$date."%' ");
+		}
+		else
+		{
+			Debugger::barDump("all");
+			$idp 	= $this->db->query("SELECT P.ID as idp ,count(*) as cntx FROM Plan P JOIN VykonMaPlan VM ON VM.id_Plan = P.ID group by P.ID");
+			$plans 	= $this->db->query("SELECT P.ID as idp , C.ID as idPac, V.ID as idVyk, P.id_NavstevaOrdinacie as done ,  P.Planovany_datum as datum, C.Priezvisko as priez, C.Rodne_cislo as rc, V.Nazov  as vykon, P.Poznamky as pozn FROM Plan P JOIN Pacient C ON P.id_Pacient = C.ID JOIN VykonMaPlan VM ON VM.id_Plan = P.ID JOIN Vykon V ON VM.id_Vykon = V.ID ");
+
+		}
 
 		$plans 	= $plans->fetchAll();
 		$idp	= $idp->fetchAll();
