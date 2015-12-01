@@ -35,7 +35,7 @@
                     <tr>
                         <td><input type="checkbox" name="{*$UpravovanaTabulka*}Sel[]" value={*$row->IDcko*}></td>
                         {foreach $theads as $key => $thead}
-                            <td>{$row->$key}</td>
+                            <td>{$row->$key |truncate:20}</td>
                         {/foreach}
                         <td>
                             <a n:href="edit $row->ID" class="btn btn-default">
