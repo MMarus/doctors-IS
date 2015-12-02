@@ -2,7 +2,6 @@ Bocne menu
 +navstevy link
 +pacienti link
 
-
 Faktura
 -vytvorit prehlad faktur
 -vytvorit view faktura
@@ -11,7 +10,6 @@ Faktura
 -pridat ceny do vykon, liek, ext. prac
 
 Pacient
--pridat link na navstevu (v panely s navstevami)
 
 Navsteva
 -pridat obrazok zamku po fakturacii
