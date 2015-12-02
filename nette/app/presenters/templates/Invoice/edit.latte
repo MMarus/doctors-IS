@@ -2,7 +2,6 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link href="{$basePath}/css/bootstrap-datetimepicker.css" rel="stylesheet">
 {/block}
-
 {block content}
     <div class="container-fluid">
         <div class="panel panel-primary">
@@ -18,7 +17,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-8 col-lg-8 col-sm-8">
-                        {control visitForm}
+                        {control invoiceForm}
                     </div>
                 </div>
             </div>
@@ -28,19 +27,20 @@
 
 
 {block customScripts}
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <script src="{$basePath}/js/moment-with-locales.js"></script>
-    <script src="{$basePath}/js/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="{$basePath}/js/moment-with-locales.js"></script>
+<script src="{$basePath}/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript">
 
-        $(document).ready(function () {
-            $('#frm-visitForm-Datum').datetimepicker(
-                    {
-                        defaultDate: moment().format(),
-                        locale: 'cs',  // en
-                        format: 'DD.MM.YYYY H:mm'  // MM/DD/YYYY H:mm
-                    });
-        });
+    $(document).ready(function () {
+        console.log(moment().format());
+        $("[id^=frm-invoiceForm-Datum_]").datetimepicker(
+                {
+                    defaultDate: moment().format(),
+                    locale: 'sk',  // en
+                    format: 'DD.MM.YYYY H:mm'  // MM/DD/YYYY H:mm
+                });
+    });
 
-    </script>
+</script>
 {/block}

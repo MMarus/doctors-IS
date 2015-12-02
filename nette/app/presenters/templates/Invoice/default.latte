@@ -1,0 +1,79 @@
+{block content}
+    <div class="container-fluid" xmlns:n="http://www.w3.org/1999/xhtml">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <h2><strong>{$title}</strong></h2>
+                    </div>
+
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+
+                    </div>
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                    </div>
+                </div>
+            </div>
+            <!-- Table with plans -->
+            <table id="{$UpravovanaTabulka}All" class="table table-striped">
+                <tr>
+                    {*<td><input id="{$UpravovanaTabulka}" class="toggle-button" type="checkbox"></td>*}
+                    {foreach $theads as $key => $thead}
+                        <th>{$thead}</th>
+                    {/foreach}
+                    <td>
+                        {*<button type="button" class="btn btn-default"
+                                aria-label="Left Align" data-toggle="modal" data-target="#areYouSure">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>*}
+                    </td>
+                </tr>
+                {*form removeRow-$UpravovanaTabulka*}
+                {foreach $rows as $row}
+                    <tr>
+                        {*<td><input type="checkbox" name="{$UpravovanaTabulka}Sel[]" value={$row->ID}></td>*}
+                        {foreach $theads as $key => $thead}
+                            <td>{$row->$key}</td>
+                        {/foreach}
+                        <td>
+                            <a n:href="edit $row->ID" class="btn btn-default">
+                                <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
+                            </a>
+                            <a n:href="show $row->ID" class="btn btn-default">
+                                <span class="glyphicon glyphicon glyphicon-list-alt pull-right" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {/foreach}
+                    {*<input type="submit" id="submitRemove{$UpravovanaTabulka}" class="hidden"/>*}
+                {*/form*}
+            </table>
+
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-sm" id="areYouSure" tabindex="-1" role="dialog" aria-labelledby="areYouSure">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Určite chcete pokračovať?</h4>
+                </div>
+                <div class="modal-body">
+                    Ste si naozaj istý, že chceťe vymazať označené údaje?<br \>
+                    <strong>Tieto údaje už nebude možné vrátiť späť.</strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zavriet</button>
+                    <label for="submitRemove{$UpravovanaTabulka}" class="btn btn-danger" aria-label="Left Align">
+                        <span>Ano, chcem.</span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{/block}
+
