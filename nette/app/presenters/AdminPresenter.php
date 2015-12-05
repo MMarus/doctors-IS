@@ -76,14 +76,26 @@ class AdminPresenter extends BasePresenter
 	//Components
 	protected function createComponentZamestnanecForm()
 	{
+		//make form
+		$form = new UI\Form;
 
 		$zam = $this->db->table('Zamestnanec')->get($this->ID);
 
-		if($zam)
+		if(!isset($this->ID))
 		{
+			$this->mode = "new";
+		}
+		else
+		{
+			if($zam){$this->mode = "edit";}
+			else{$this->mode = "err"; return $form ;}
+		}
 
+
+
+		if($this->mode == "edit")
+		{
 			$zam = $this->db->query("SELECT * FROM Zamestnanec WHERE ID = '" . $this->ID . "';")->fetchAll()[0];
-			Debugger::barDump($zam);
 		}
 
 
@@ -92,8 +104,6 @@ class AdminPresenter extends BasePresenter
 
 		$roles = array("admin" => "admin", "doktor" => "doktor", "sestra" => "sestra");
 
-
-		$form = new UI\Form;
 
 
 		foreach($this->theads as $key => $thead)
@@ -116,17 +126,16 @@ class AdminPresenter extends BasePresenter
 
 
 			//defs
-			if($this->mode != "edit")
+			if($this->mode == "edit")
 			{
-				Debugger::barDump($key);
-				Debugger::barDump( $zam[$key] );
-
 				$form[$key]->setDefaultValue($zam->$key);
 			}
 
 
-			if($key == "meno" || $key == "priezvisko" || $key == "uid" || $key == "upx" || $key == "role")
+			if($key == "meno" || $key == "priezvisko" || $key == "uid" || $key == "role" || ($this->mode == "new" && $key == "upx"))
 				$form[$key]->setRequired('Vyplnte policko '.$thead."!");
+
+
 
 			$form[$key]->addRule(Form::MAX_LENGTH, 'Prilis vela znakov v '.$thead.'!', $this->theadsMaxLength[$key]);
 		}
@@ -172,7 +181,7 @@ class AdminPresenter extends BasePresenter
 			if(!$ERR)
 				$this->redirect("edit", $id     );
 		}else
-			$this->flashMessage($msq);
+			$this->flashMessage($msg);
 	}
 
 
@@ -194,10 +203,10 @@ class AdminPresenter extends BasePresenter
 		if($this->mode == "edit")
 		{
 			$tt = "";
-			$i;
+			$i = 0;
 			foreach($vals as $key => $val)
 			{
-				if($i!=0){$tt .=", ";}
+				if($i++!=0){$tt .=", ";}
 				$tt .= $key . " = '" . $val . "' ";
 			}
 			$this->db->query("UPDATE Zamestnanec SET " . $tt . " WHERE uid = '" . $vals["uid"] . "';" );
