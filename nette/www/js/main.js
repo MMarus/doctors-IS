@@ -28,9 +28,14 @@ function goPatient(slf)
 {
     //delay(200);
     //console.log(slf.children[0].children[0].children[1].children[1].children[1] );
+    var opt = document.getElementsByClassName("selectpicker")[0].children;
     var sel = document.getElementsByClassName("selected");
     var ind = sel[0].getAttribute("data-original-index");
+    ind = opt[ind].getAttribute("value");
     var cls = sel[0].className;
+    var dat = sel[0].children[0].children[0].textContent;
+
+
 
 
     if(cls == "selected" || cls == "selected active" )
