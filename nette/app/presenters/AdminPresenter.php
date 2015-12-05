@@ -187,6 +187,8 @@ class AdminPresenter extends BasePresenter
 
 	public function register($data)
 	{
+		$tools = new ToolsPresenter($this->db);
+		$date = $tools->fdate("today","ymd+");
 		$login = $this->db->table("Zamestnanec")->select("uid")->where(array("uid"=>$data["uid"]))->fetchAll();
 
 		if(   $this->mode != "edit" && count($login) != 0 ){return "EXIST";}//create new check exists
@@ -197,6 +199,7 @@ class AdminPresenter extends BasePresenter
 		$vals["meno"] 		= $data["meno"];
 		$vals["priezvisko"] = $data["priezvisko"];
 		$vals["adresa"] 	= $data["adresa"];
+		$vals["chng"]		= $date;
 
 		if($data["upx"] != ""){$vals["upx"] = Passwords::hash($data["upx"]);}
 

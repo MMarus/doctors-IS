@@ -32,7 +32,7 @@ CREATE TABLE Zamestnanec (
     uid VARCHAR(30) NOT NULL,
     upx VARCHAR(100) NOT NULL,
     role VARCHAR(10) NULL DEFAULT 'user',
-    lang VARCHAR(3) NULL,
+    lang VARCHAR(3) NULL DEFAULT 'SK',
 
     meno VARCHAR(30) NULL,
     priezvisko VARCHAR(30) NULL,
