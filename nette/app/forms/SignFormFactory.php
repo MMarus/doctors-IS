@@ -6,6 +6,7 @@ use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
 use Test\Bs3FormRenderer;
+use Tracy\Debugger;
 
 
 class SignFormFactory extends Nette\Object
@@ -54,6 +55,9 @@ class SignFormFactory extends Nette\Object
 			$this->user->login($values->username, $values->password);
 		} catch (Nette\Security\AuthenticationException $e) {
 			$form->addError($e->getMessage());
+
+			$form->render('errors');
+
 		}
 	}
 

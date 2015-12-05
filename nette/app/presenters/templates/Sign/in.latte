@@ -4,18 +4,19 @@
     {*control signInForm*}
 
     <form n:name=signInForm class="form-signin">
-        <h2 class="form-signin-heading">Prihlasit sa.</h2>
-        <label n:name=username class="sr-only">Username:</label>
+        <center><h2 class="form-signin-heading">Prihlasite sa</h2></center>
+        <label n:name=username class="sr-only">Login:</label>
         <input n:name=username id="inputEmail" class="form-control" size=25 placeholder="Uzivatelske meno" required autofocus>
-        <label n:name=password class="sr-only">Password:</label>
+        <label n:name=password class="sr-only">Heslo:</label>
         <input n:name=password class="form-control" size=25 placeholder="Heslo" required>
         <div class="checkbox">
             <label>
-                <input n:name=remember> Zapametat si ma!
+                <input n:name=remember> Zapametaj si ma!
             </label>
         </div>
 
         <input n:name=send class="btn btn-lg btn-primary btn-block">
+        <div id="errbox"></div>
     </form>
 </div>
 

@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Nette;
 use Nette\Security\Passwords;
+use Tracy\Debugger;
 
 
 /**
@@ -41,15 +42,27 @@ class UserManager extends Nette\Object implements Nette\Security\IAuthenticator
 		$row = $this->database->table(self::TABLE_NAME)->where(self::COLUMN_NAME, $username)->fetch();
 
 		if (!$row) {
-			throw new Nette\Security\AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
+			throw new Nette\Security\AuthenticationException('Prístup zamietnutý', self::IDENTITY_NOT_FOUND);
 
 		} elseif (!Passwords::verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
-			throw new Nette\Security\AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
+			throw new Nette\Security\AuthenticationException('Prístup zamietnutý', self::INVALID_CREDENTIAL);
 
 		} elseif (Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
 			$row->update(array(
 				self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
 			));
+		}
+
+
+		if($row["deleted"] == 1)
+		{
+			Debugger::barDump("Váš účet bol zmazaný");
+			throw new Nette\Security\AuthenticationException('Prístup zamietnutý. Váš účet bol zmazaný !', self::INVALID_CREDENTIAL);
+		}
+		if($row["disabled"] == 1)
+		{
+			Debugger::barDump("Váš účet bol zablokovaný");
+			throw new Nette\Security\AuthenticationException('Prístup zamietnutý. Váš účet bol zablokovaný !', self::INVALID_CREDENTIAL);
 		}
 
 		$arr = $row->toArray();

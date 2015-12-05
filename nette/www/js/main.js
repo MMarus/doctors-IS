@@ -18,6 +18,28 @@ $(function(){
             }
         } );
 
+    }
+
+    if(pathArray[pathArray.length-2]=="sign")
+    {
+        var ebox = document.getElementById("errbox");
+        var tmp;
+        var x = document.getElementsByClassName("error");
+
+        for (var index = 0, len = x.length; index < len; ++index)
+        {
+            tmp = x[index].textContent;
+            tmp = tmp.replace(/\s\s+/g,"");
+
+
+            x[index].parentNode.removeChild(x[index]);//delete
+            ebox.innerHTML =  "<center class='red'>" + tmp + "</center>";
+
+
+
+            console.log();
+        }
+
 
 
     }
