@@ -41,7 +41,7 @@ CREATE TABLE Zamestnanec (
 
     chng DATETIME NULL,
 
-    KEY (ID)
+	PRIMARY KEY (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
