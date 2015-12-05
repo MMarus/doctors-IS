@@ -1,3 +1,16 @@
+.red {
+    background: lightcoral !important;
+}
+
+.orange {
+    background: orange !important;
+}
+
+.green {
+    background: lightgreen !important;
+}
+
+
 
 .dateWarn {
     background: red !important;

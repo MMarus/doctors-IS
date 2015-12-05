@@ -21,6 +21,7 @@ class AdminPresenter extends BasePresenter
 	public $pacientId;
 	public $allplans;
 	public $mode;
+	public $zam;
 
 	private $theads = array(
 			"uid" => "Login",
@@ -44,6 +45,8 @@ class AdminPresenter extends BasePresenter
 	{
 		$this->db = $database;
 
+
+
 	}
 
 
@@ -51,9 +54,44 @@ class AdminPresenter extends BasePresenter
 	{
 		//$this->allplans = $this->getPlans();
 		$this->template->title = "Zamestnanci";
-		$this->template->rows  = $this->db->table("Zamestnanec");
+		$this->template->rows  = $this->db->table("Zamestnanec")->order("deleted ASC, disabled ASC");
+		$this->template->zam = $this->zam;
+		$this->template->mode = $this->mode;
+	}
 
-		;
+	public function actionDelete($id)
+	{
+		if(isset($id))
+		{
+			$this->db->query("UPDATE Zamestnanec SET deleted = 1 WHERE ID = " . $id . ";");
+		}
+		$this->redirect("Admin:");
+	}
+
+	public function actionUndelete($id)
+	{
+		if(isset($id))
+		{
+			$this->db->query("UPDATE Zamestnanec SET deleted = 0 WHERE ID = " . $id . ";");
+		}
+		$this->redirect("Admin:");
+	}
+
+	public function actionDisable($id)
+	{
+		if(isset($id))
+		{
+			$this->db->query("UPDATE Zamestnanec SET disabled = 1 WHERE ID = " . $id . ";");
+		}
+		$this->redirect("Admin:");
+	}
+	public function actionUndisable($id)
+	{
+		if(isset($id))
+		{
+			$this->db->query("UPDATE Zamestnanec SET disabled = 0 WHERE ID = " . $id . ";");
+		}
+		$this->redirect("Admin:");
 	}
 
 
@@ -63,12 +101,37 @@ class AdminPresenter extends BasePresenter
 		$this->mode = "new";
 		if($id)
 			$this->mode = "edit";
+
+		$zam = $this->db->table('Zamestnanec')->get($this->ID);
+
+		if(!isset($this->ID))
+		{
+			$this->mode = "new";
+		}
+		else
+		{
+			if($zam){$this->mode = "edit";}
+			else{$this->mode = "err";}
+		}
+
+
+
+		if($this->mode == "edit")
+		{
+			$zam = $this->db->query("SELECT * FROM Zamestnanec WHERE ID = '" . $this->ID . "';")->fetchAll()[0];
+		}
+		$this->zam = $zam;
+
 		$this->template->title = "Zamestnanci";
+		$this->template->zam = $this->zam;
+		$this->template->mode = $this->mode;
 	}
 
 	public function renderEdit()
 	{
 		$this->template->title = "Zamestnanci";
+		$this->template->zam = $this->zam;
+		$this->template->mode = $this->mode;
 		//$this->ID = 1;
 	}
 
@@ -82,25 +145,10 @@ class AdminPresenter extends BasePresenter
 	{
 		//make form
 		$form = new UI\Form;
+		if($this->mode == "err"){return $form ;}
 
-		$zam = $this->db->table('Zamestnanec')->get($this->ID);
+		$zam = $this->zam;
 
-		if(!isset($this->ID))
-		{
-			$this->mode = "new";
-		}
-		else
-		{
-			if($zam){$this->mode = "edit";}
-			else{$this->mode = "err"; return $form ;}
-		}
-
-
-
-		if($this->mode == "edit")
-		{
-			$zam = $this->db->query("SELECT * FROM Zamestnanec WHERE ID = '" . $this->ID . "';")->fetchAll()[0];
-		}
 
 
 

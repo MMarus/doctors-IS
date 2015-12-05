@@ -3,13 +3,18 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-sm-4 col-lg-4 col-md-4">
+                    <div class="col-sm-2 col-lg-2 col-md-2">
                         <h2><strong>{$title}</strong></h2>
                     </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-
+                     <div class="col-sm-1 col-lg-1 col-md-1">
+                        <a n:href="edit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-plus pull-right" aria-hidden="true"></span>
+                        </a>
                     </div>
+
+
+
+
                     <div class="col-sm-4 col-lg-4 col-md-4">
                     </div>
                 </div>
@@ -25,16 +30,37 @@
                 </tr>
 
                 {foreach $rows as $row}
-                    <tr>
+                    <tr {if $row->deleted == 1}class="red"{/if}{if $row->disabled == 1 && $row->deleted == 0 }class="orange"{/if}>
                         <td>{$row->uid}</td>
                         <td>{$row->role}</td>
                         <td>{$row->meno}</td>
                         <td>{$row->priezvisko}</td>
+                        <td>{$row->adresa}</td>
                         <td>
                             <a n:href="edit $row->ID" class="btn btn-default">
                                 <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
                             </a>
+                            {if $row->disabled == 0}
+                            <a n:href="disable $row->ID" class="btn btn-default" id="admindelete" value="0">
+                                <span class="glyphicon glyphicon-stop pull-right" aria-hidden="true"></span>
+                            </a>
+                            {else}
+                            <a n:href="undisable $row->ID" class="btn btn-default" id="admindelete" value="1">
+                                <span class="glyphicon glyphicon-play pull-right" aria-hidden="true"></span>
+                            </a>
+                            {/if}
+
+                            {if $row->deleted == 0}
+                            <a n:href="delete $row->ID" class="btn btn-default" id="admindisable" value="0">
+                                <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
+                            </a>
+                            {else}
+                            <a n:href="undelete $row->ID" class="btn btn-default" id="admindisable" value="1">
+                                <span class="glyphicon glyphicon-share-alt pull-right" aria-hidden="true"></span>
+                            </a>
+                            {/if}
                         </td>
+
                     </tr>
                 {/foreach}
 

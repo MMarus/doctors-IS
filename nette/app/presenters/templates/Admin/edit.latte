@@ -3,11 +3,28 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-2">
                         <h2>
                             <strong>{$title}</strong>
                         </h2>
                     </div>
+                    {if $mode == "edit"}
+                    <div class="col-md-1">
+
+                        <a n:href="Admin:edit $zam->ID " class="btn btn-trans-default">
+                            <div>
+                                <strong>Login: </strong>{$zam->uid}
+                            </div>
+                            <div>
+                                <strong>Práva: </strong>{$zam->role}
+                            </div>
+                            <div>
+                                <strong>Meno: </strong>{$zam->meno} {$zam->priezvisko}
+                            </div>
+
+                        </a>
+                    </div>
+                   {/if}
                 </div>
             </div>
             <div class="panel-body">
