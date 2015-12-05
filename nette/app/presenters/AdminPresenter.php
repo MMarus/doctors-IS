@@ -43,12 +43,15 @@ class AdminPresenter extends BasePresenter
 	public function __construct(Nette\Database\Context $database)
 	{
 		$this->db = $database;
+
 	}
 
 
 	public function renderDefault()
 	{
 		//$this->allplans = $this->getPlans();
+		$this->template->title = "Zamestnanci";
+		$this->template->rows  = $this->db->table("Zamestnanec");
 
 		;
 	}
@@ -60,6 +63,7 @@ class AdminPresenter extends BasePresenter
 		$this->mode = "new";
 		if($id)
 			$this->mode = "edit";
+		$this->template->title = "Zamestnanci";
 	}
 
 	public function renderEdit()

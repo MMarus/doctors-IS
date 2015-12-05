@@ -66,10 +66,10 @@
                         <a n:href="Invoice:">Faktúry</a>
                     </li>
                     <li>
-                        <a href="#">Administrcia</a>
+                        <a n:href="Admin:">Administrcia</a>
                     </li>
                     <li>
-                        <a href="#">About</a>
+                        <a href="#" aria-label="Left Align" data-toggle="modal" data-target="#about">O systéme</a>
                     </li>
 
 
@@ -92,8 +92,37 @@
         </div>
 
         <!-- /#wrapper -->
+
 	{/block}
 
+	{block modal}
+	<div class="modal fade bs-example-modal-sm" id="about" tabindex="-1" role="dialog" aria-labelledby="about">
+            <div class="modal-dialog">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><strong>Online Ambulancia</strong></h4>
+                        </div>
+                        <div class="modal-body">
+                            <strong>Online ambulancia je webová aplikácia Informačného systému pre lekára.</strong></br>
+                            Vznikla vrámci projektu k predmetu IIS na VUT FIT, Brno.</br></br>
+
+                            Autori: Marek Maršic (xmarus02), Filip Ježovica (xjezov01)</br></br></br></br>
+
+
+
+
+                            <center>05.12.2015</center>
+
+                        </div>
+
+                    </div>
+
+            </div>
+        </div>
+	{/block}
 
 
 

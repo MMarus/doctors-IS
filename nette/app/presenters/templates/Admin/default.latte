@@ -1,7 +1,48 @@
 {block content}
-    <div class="container-fluid">
-        hello
-    </div>
-{/block}
+    <div class="container-fluid" xmlns:n="http://www.w3.org/1999/xhtml">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <h2><strong>{$title}</strong></h2>
+                    </div>
 
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+
+                    </div>
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                    </div>
+                </div>
+            </div>
+            <!-- Table with plans -->
+            <table class="table table-striped">
+
+                <tr>
+                    <th>Login</th>
+                    <th>Práva</th>
+                    <th>Meno</th>
+                    <th>Priezvisko</th>
+                </tr>
+
+                {foreach $rows as $row}
+                    <tr>
+                        <td>{$row->uid}</td>
+                        <td>{$row->role}</td>
+                        <td>{$row->meno}</td>
+                        <td>{$row->priezvisko}</td>
+                        <td>
+                            <a n:href="edit $row->ID" class="btn btn-default">
+                                <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {/foreach}
+
+            </table>
+
+        </div>
+    </div>
+
+
+{/block}
 
