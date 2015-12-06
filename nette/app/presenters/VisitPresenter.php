@@ -73,26 +73,38 @@ class VisitPresenter extends BasePresenter
 
     public function renderShow()
     {
+        $suma = 0;
         if ($this->ID) {
             $navsteva = $this->db->table('NavstevaOrdinacie')->get($this->ID);
             if(! $navsteva){
                 $this->flashMessage('Neexistujuca navsteva ordinacie, chcete ju vytvorit?');
                 $this->redirect("edit", array($this->ID));
             }
+            $faktura = $this->db->query("SELECT * FROM Faktura WHERE id_NavstevaOrdinacie = ?", $this->ID);
+            $faktura = $faktura->fetch();
+            if($faktura){
+                $this->template->faktura = $faktura->ID;
+                $this->template->suma = $faktura->Suma;
+                $this->template->fakturovane = 1;
+            }else{
+                $this->template->suma = $this->__getSuma();
+                $this->template->fakturovane = 0;
+            }
+
             $this->template->nasteva = $navsteva;
             $this->template->patient = $this->db->table('Pacient')->get($navsteva->id_Pacient);
 
             $this->template->services = $this->db->query("SELECT Vykon.*, PocasNavstevy.ID as IDcko FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $this->ID);
             //Nazvy foriem
             $this->template->form1 = "PocasNavstevy";
-            $this->template->theads1 = array("Nazov", "Popis");
+            $this->template->theads1 = array("Nazov" => "Názov", "Popis" => "Popis");
 
             $this->template->ext = $this->db->query("SELECT ExternePracovisko.*, Odporucenie.ID as IDcko FROM Odporucenie, ExternePracovisko WHERE Odporucenie.id_NavstevaOrdinacie = ? AND Odporucenie.id_ExternePracovisko = ExternePracovisko.ID", $this->ID);
             $this->template->formExt = "Odporucenie";
-            $this->template->theadsExt = array("Nazov", "Specializacia", "Lekar");
+            $this->template->theadsExt = array("Nazov" => "Názov", "Specializacia" => "Špecializácia", "Lekar" => "Lekár");
 
             $this->template->UpravovanaTabulka = "PredpisanyLiek";
-            $this->template->theads = array("Nazov" => "Nazov", "Davkovanie" => "Davkovanie", "PocetBaleni" => "ks");
+            $this->template->theads = array("Nazov" => "Názov", "Davkovanie" => "Dávkovanie", "PocetBaleni" => "ks");
             $this->template->rows = $this->db->query("SELECT Liek.*, PredpisanyLiek.Davkovanie, PredpisanyLiek.PocetBaleni, PredpisanyLiek.ID as IDcko FROM PredpisanyLiek, Liek WHERE PredpisanyLiek.id_NavstevaOrdinacie = ? AND PredpisanyLiek.id_Liek = Liek.ID", $this->ID);
         } else
             $this->error("TEST");
@@ -125,10 +137,10 @@ class VisitPresenter extends BasePresenter
             }
             Debugger::barDump($options);
             $form = new UI\Form;
-            if ($options) {
+            //if ($options) {
                 $form->addMultiSelect($tableTo, 'Vyber', $options);
-                $form->addSubmit('send'.$tableTo, '');
-            }
+                $form->addSubmit('send'.$tableTo, 'Uložiť');
+            //}
 
             $form->onSuccess[] = function($form) use($tableTo, $tableFrom) {
                 $this->addDropdownSubmitSucceeded($form, $tableTo, $tableFrom);
@@ -301,6 +313,48 @@ class VisitPresenter extends BasePresenter
             $this->redirect('this');
         }
         $this->flashMessage('Liek nepridany.');
+    }
+
+    public function createComponentFakturacia()
+    {
+        $form = new UI\Form;
+        $form->addHidden('poistovna');
+        $form->addSubmit('fakturovat', 'Faktúrovať');
+        $form->onSuccess[] = array($this, 'FakturaciaSucceeded');
+        $form->setRenderer(new Bs3FormRenderer);
+        return $form;
+    }
+
+    public function FakturaciaSucceeded(UI\Form $form, $values){
+        $suma = $this->__getSuma();
+        if(!$suma)
+            $suma = 0.00;
+        $this->db->query("INSERT INTO Faktura (ID, Datum_vystavenia, Suma, Splatnost, id_NavstevaOrdinacie, id_Poistovna)
+                          VALUES ('', NOW(), ?, NOW() + INTERVAL 30 DAY, ?, ?)",$suma, $this->ID, $values['poistovna']);
+
+        $id = $this->db->getInsertId('Faktura');
+        $this->redirect("Invoice:show", array($id));
+
+    }
+
+    private function __getSuma(){
+        $suma = 0.00;
+        $sumaVykony = $this->db->query("SELECT SUM(CenaVykon) as VYKONY FROM PocasNavstevy, Vykon
+                              WHERE PocasNavstevy.id_NavstevaOrdinacie = ?
+                              AND PocasNavstevy.id_Vykon = Vykon.ID", $this->ID);
+        //if($sumaVykony->fetch()->VYKONY > 0 )
+        $suma += $sumaVykony->fetch()->VYKONY;
+        $sumaLieky = $this->db->query("SELECT SUM(CenaLiek) as LIEKY FROM PredpisanyLiek, Liek
+                              WHERE PredpisanyLiek.id_NavstevaOrdinacie = ?
+                              AND PredpisanyLiek.id_Liek = Liek.ID", $this->ID);
+        //if($sumaLieky->fetch()->LIEKY > 0 )
+        $suma += $sumaLieky->fetch()->LIEKY;
+        $sumaExtern = $this->db->query("SELECT SUM(CenaExt) as EXTERNE FROM Odporucenie, ExternePracovisko
+                              WHERE Odporucenie.id_NavstevaOrdinacie = ?
+                              AND Odporucenie.id_ExternePracovisko = ExternePracovisko.ID", $this->ID);
+        //if($sumaExtern->fetch()->EXTERNE > 0 )
+        $suma += $sumaExtern->fetch()->EXTERNE;
+        return $suma;
     }
 
 }

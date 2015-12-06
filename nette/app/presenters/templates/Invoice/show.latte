@@ -1,50 +1,17 @@
 
 
 {block content}
-    <!--<div class="container-fluid">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-md-2">
-                        <h2><strong>{$title}</strong></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-body">
-                <table id="All" class="table table-striped">
-                    <tr>
-                        <td><input id="id" class="toggle-button" type="checkbox"></td>
-                        {*foreach $theads as $key => $thead}
-                            <th>{$thead}</th>
-                        {/foreach*}
-                    </tr>
-
-                    {*foreach $rows as $row*}
-                        <tr>
-                            <td><input type="checkbox" name="Sel[]" value=>
-                            </td>
-                            {*foreach $theads as $key => $thead}
-                                <td>{$row->$key}</td>
-                            {/foreach*}
-                        </tr>
-                    {*/foreach*}
-                </table>
-            </div>
-        </div>
-    </div>-->
-
-
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
                 <div class="invoice-title">
-                    <h2>Invoice</h2><h3 class="pull-right">Order # 12345</h3>
+                    <h2>{$title}</h2><h3 class="pull-right">Návšteva č.{$invoice->id_Navsteva}</h3>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-xs-6">
                         <address>
-                            <strong>Billed To:</strong><br>
+                            <strong>Adresa:</strong><br>
                             John Smith<br>
                             1234 Main<br>
                             Apt. 4B<br>
@@ -53,7 +20,7 @@
                     </div>
                     <div class="col-xs-6 text-right">
                         <address>
-                            <strong>Shipped To:</strong><br>
+                            <strong>Fakturacna Adresa:</strong><br>
                             Jane Smith<br>
                             1234 Main<br>
                             Apt. 4B<br>
@@ -64,14 +31,16 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <address>
-                            <strong>Payment Method:</strong><br>
+                            <strong>Platobna metoda:</strong><br>
                             Visa ending **** 4242<br>
                             jsmith@email.com
                         </address>
                     </div>
                     <div class="col-xs-6 text-right">
                         <address>
-                            <strong>Order Date:</strong><br>
+                            <strong>Datum vystavenia:</strong><br>
+                            March 7, 2014<br>
+                            <strong>Datum splatnosti:</strong><br>
                             March 7, 2014<br><br>
                         </address>
                     </div>
@@ -83,7 +52,7 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Order summary</strong></h3>
+                        <h3 class="panel-title"><strong>Prehlad Navstevy</strong></h3>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">

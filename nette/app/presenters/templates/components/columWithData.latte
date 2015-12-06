@@ -1,0 +1,25 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-4">
+                <h4>{$MenoPanelu}</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table with plans -->
+     <table id="{$UpravovanaTabulka}All" class="table table-striped">
+        <tr>
+            {foreach $theads as $key => $thead}
+                <th>{$thead}</th>
+            {/foreach}
+        </tr>
+        {foreach $rows as $row}
+            <tr>
+                {foreach $theads as $key => $thead}
+                    <td>{$row->$key}</td>
+                {/foreach}
+            </tr>
+        {/foreach}
+    </table>
+</div>

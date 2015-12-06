@@ -82,9 +82,26 @@ class InvoicePresenter extends BasePresenter
     {
         $this->template->title = "Faktúra";
 
-        $invoice = $this->db->query("SELECT Faktura.* FROM Faktura WHERE ID = ?", $this->ID);
+        //jeden krasny select pre vsetko (Pacient, Navsteva, Faktura, Nazov positovne)
+        /*$invoice = $this->db->query("
+            SELECT Faktura.*,
+            Poistovna.Nazov as Poistovna,
+            NavstevaOrdinacie.id_Pacient, NavstevaOrdinacie.Datum as NavstevaDatum,
+            CONCAT_WS(' ', Pacient.Meno, Pacient.Priezvisko) as Pacient, Pacient.Adresa, Pacient.Rodne_cislo
+            FROM Faktura, Poistovna, NavstevaOrdinacie, Pacient
+            WHERE Faktura.ID = 1
+            AND Poistovna.ID = Faktura.id_Poistovna
+            AND NavstevaOrdinacie.ID = Faktura.id_NavstevaOrdinacie
+            AND Pacient.ID = NavstevaOrdinacie.id_Pacient
+        ");*/
+        $invoice = $this->db->table('Faktura')->get($this->ID);
         if($invoice){
             $this->template->invoice = $invoice;
+            $visit = $this->db->table('NavstevaOrdinacie')->get($invoice->id_NavstevaOrdinacie);
+            $this->template->visit = $visit;
+            $this->template->pacient = $this->db->table('Pacient')->get($visit->id_Pacient);
+            $this->template->drugs = ""; //$this->db->table('Liek')->get(visit->id_Pacient);
+            $this->template->services = "";
         }
         else{
             $this->error('Dana Faktura nexistuje');

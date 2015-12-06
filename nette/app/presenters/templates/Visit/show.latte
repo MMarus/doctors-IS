@@ -1,6 +1,5 @@
 {block content}
     <div class="container-fluid">
-
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="row">
@@ -8,7 +7,7 @@
                             <h2><strong>Navsteva</strong></h2>
                             {$nasteva->Datum |date:'%d.%m.%Y %H:%M'}
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <a n:href="Patient:show $patient->ID" class="btn btn-trans-default">
                                 <div>
                                     <strong>Meno: </strong> {$patient->Meno} {$patient->Priezvisko}
@@ -24,11 +23,31 @@
                                 </div>
                             </a>
                         </div>
+                        <div class="col-md-2">
+                            <row>
+                                Suma: {$suma} &euro;
+                            </row>
+                            {if $fakturovane != 1}
+                                <row>
+                                    {form fakturacia}
+                                        <input type="hidden" n:name=poistovna value={$patient->id_Poistovna}>
+                                        <input n:name=fakturovat class="btn btn-trans-default">
+                                    {/form}
+                                </row>
+                            {else}
+                                <row>
+                                    <a n:href="Invoice:show $faktura" class="btn btn-trans-default">
+                                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                                    </a>
+                                </row>
+                            {/if}
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <!-- VYKONY -->
+                {if $fakturovane != 1}
                 <div class="col-md-4">
                     {include '../components/formAddDropdown.latte',
                     MenoPanelu => 'Vykon',
@@ -64,9 +83,6 @@
                                     <label for="submitRemove{$UpravovanaTabulka}" class="btn btn-trans-default" aria-label="Left Align">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </label>
-                                    <a n:href="print" class="btn btn-trans-default">
-                                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
-                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -93,10 +109,36 @@
                         </table>
                     </div>
                 </div>
+                {else}
+                <div class="col-md-4">
+                    {include '../components/columWithData.latte',
+                    MenoPanelu => 'Vykon',
+                    UpravovanaTabulka => $form1,
+                    theads => $theads1,
+                    rows => $services,
+                    }
+                </div>
+                <div class="col-md-4">
+                    {include '../components/columWithData.latte',
+                    MenoPanelu => 'Ext. Pracovisko',
+                    UpravovanaTabulka => $formExt,
+                    theads => $theadsExt,
+                    rows => $ext,
+                    }
+                </div>
+                <div class="col-md-4">
+                    {include '../components/columWithData.latte',
+                    MenoPanelu => "Liek",
+                    UpravovanaTabulka => $UpravovanaTabulka,
+                    theads => $theads,
+                    rows => $rows,
+                    }
+                </div>
+                {/if}
             </div>
 
     </div>
-    <!-- Modal basic -->
+    <!-- Modal lieky -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -111,6 +153,7 @@
             </div>
         </div>
     </div>
+
 {/block}
 
 
