@@ -48,16 +48,51 @@ class VisitPresenter extends BasePresenter
         $this->ID = $id;
     }
 
+    public function actionDelete($id)
+    {
+        if(isset($id))
+        {
+            $table = "NavstevaOrdinacie";
+            $val = $id;
+            $this->db->query("UPDATE ".$table." SET deleted = 1 WHERE ID = ?", $val);
+        }
+        $this->redirect("Visit:show",$id);
+        return;
+    }
+    public function actionUndelete($id)
+    {
+        if(isset($id))
+        {
+            $table = "NavstevaOrdinacie";
+            $val = $id;
+            $this->db->query("UPDATE ".$table." SET deleted = 0 WHERE ID = ?", $val);
+        }
+        $this->redirect("Visit:show",$id);
+        return;
+    }
+
     //Renderers
     public function renderDefault()
     {
         $this->template->title = "Navsteva Ordinacie";
 
-        $visits = $this->db->query("
+        if(!$this->user->isInRole("admin"))
+        {
+            $visits = $this->db->query("
             SELECT NavstevaOrdinacie.ID, NavstevaOrdinacie.Datum, NavstevaOrdinacie.Poznamky,
-            CONCAT_WS(' ', Pacient.Meno, Pacient.Priezvisko)  as id_Pacient FROM NavstevaOrdinacie
+            CONCAT_WS(' ', Pacient.Meno, Pacient.Priezvisko)  as id_Pacient , NavstevaOrdinacie.deleted FROM NavstevaOrdinacie
+            LEFT JOIN Pacient ON NavstevaOrdinacie.id_Pacient = Pacient.ID WHERE NavstevaOrdinacie.deleted = 0
+            ");
+        }
+        else
+        {
+            $visits = $this->db->query("
+            SELECT NavstevaOrdinacie.ID, NavstevaOrdinacie.Datum, NavstevaOrdinacie.Poznamky,
+            CONCAT_WS(' ', Pacient.Meno, Pacient.Priezvisko)  as id_Pacient , NavstevaOrdinacie.deleted FROM NavstevaOrdinacie
             LEFT JOIN Pacient ON NavstevaOrdinacie.id_Pacient = Pacient.ID
-        ");
+            ");
+        }
+
         if (!$visits) {
             $this->error('Stránka nebyla nalezena');
         }
@@ -73,6 +108,7 @@ class VisitPresenter extends BasePresenter
 
     public function renderShow()
     {
+        $this->template->role = $this->user->isInRole("admin");
         $suma = 0;
         if ($this->ID) {
             $navsteva = $this->db->table('NavstevaOrdinacie')->get($this->ID);
@@ -186,7 +222,7 @@ class VisitPresenter extends BasePresenter
 
                 if ($valuesChecked) {
                     foreach ($valuesChecked as $val) {
-                        $this->db->query("DELETE FROM ".$table." WHERE ID = ?", $val);
+                        $this->db->query("UPDATE ".$table." SET deleted = 1 WHERE ID = ?", $val);
                     }
                 } else {
                     $this->flashMessage('Zle zadany formular');

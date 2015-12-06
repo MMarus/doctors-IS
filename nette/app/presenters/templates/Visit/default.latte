@@ -33,7 +33,7 @@
                 </tr>
                 {form removeRow-$UpravovanaTabulka}
                 {foreach $rows as $row}
-                    <tr>
+                    <tr {if $row->deleted == 1}class="red"{/if}>
                         <td><input type="checkbox" name="{$UpravovanaTabulka}Sel[]" value={$row->ID}></td>
                         {foreach $theads as $key => $thead}
                             <td>{$row->$key}</td>

@@ -7,6 +7,8 @@
                             <h2><strong>Navsteva</strong></h2>
                             {$nasteva->Datum |date:'%d.%m.%Y %H:%M'}
                         </div>
+
+
                         <div class="col-md-8">
                             <a n:href="Patient:show $patient->ID" class="btn btn-trans-default">
                                 <div>
@@ -23,6 +25,21 @@
                                 </div>
                             </a>
                         </div>
+
+                        {if $role == true}
+                        <div class="col-md-2">
+                            {if $nasteva->deleted == 1}
+                            <a n:href="Visit:undelete $nasteva->ID" class="btn btn-default">
+                                <span class="glyphicon glyphicon-wrench pull-right" aria-hidden="true"></span>
+                            </a>
+                            {else}
+                            <a n:href="Visit:delete $nasteva->ID" class="btn btn-default">
+                                <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
+                            </a>
+                            {/if}
+                        </div>
+                        {/if}
+
                         <div class="col-md-2">
                             <row>
                                 Suma: {$suma} &euro;
@@ -46,7 +63,9 @@
                 </div>
             </div>
             <div class="row">
+
                 <!-- VYKONY -->
+
                 {if $fakturovane != 1}
                 <div class="col-md-4">
                     {include '../components/formAddDropdown.latte',

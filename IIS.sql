@@ -52,6 +52,7 @@ CREATE TABLE NavstevaOrdinacie (
 	Datum DATETIME NOT NULL,
 	Poznamky VARCHAR(255),
 	id_Pacient INT NOT NULL,
+	deleted INT NULL DEFAULT 0,
   
 	
 	PRIMARY KEY (ID)
@@ -107,6 +108,7 @@ CREATE TABLE Pacient (
 	Krvna_skupina VARCHAR(3) NOT NULL,
 	Poznamky VARCHAR(255),
 	id_Poistovna INT NOT NULL,
+	deleted INT NULL DEFAULT 0,
 
 	PRIMARY KEY (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
