@@ -12,19 +12,15 @@
                     <div class="col-xs-6">
                         <address>
                             <strong>Adresa:</strong><br>
-                            John Smith<br>
-                            1234 Main<br>
-                            Apt. 4B<br>
-                            Springfield, ST 54321
+                            {$pacient->Meno} {$pacient->Priezvisko}<br>
+                            {$pacient->Adresa |truncate:40}
                         </address>
                     </div>
                     <div class="col-xs-6 text-right">
                         <address>
                             <strong>Fakturacna Adresa:</strong><br>
-                            Jane Smith<br>
-                            1234 Main<br>
-                            Apt. 4B<br>
-                            Springfield, ST 54321
+                            {$pacient->Meno} {$pacient->Priezvisko}<br>
+                            {$pacient->Adresa |truncate:40}
                         </address>
                     </div>
                 </div>
@@ -32,16 +28,15 @@
                     <div class="col-xs-6">
                         <address>
                             <strong>Platobna metoda:</strong><br>
-                            Visa ending **** 4242<br>
-                            jsmith@email.com
+                            Hotovosť<br>
                         </address>
                     </div>
                     <div class="col-xs-6 text-right">
                         <address>
                             <strong>Datum vystavenia:</strong><br>
-                            March 7, 2014<br>
+                            {$invoice->Datum_vystavenia |date:'%d.%m.%Y'}<br>
                             <strong>Datum splatnosti:</strong><br>
-                            March 7, 2014<br><br>
+                            {$invoice->Splatnost |date:'%d.%m.%Y'}<br>
                         </address>
                     </div>
                 </div>
@@ -59,49 +54,69 @@
                             <table class="table table-condensed">
                                 <thead>
                                 <tr>
-                                    <td><strong>Item</strong></td>
-                                    <td class="text-center"><strong>Price</strong></td>
-                                    <td class="text-center"><strong>Quantity</strong></td>
-                                    <td class="text-right"><strong>Totals</strong></td>
+                                    <td><strong>Výkon</strong></td>
+                                    <td class="text-center"><strong>Cena/ks</strong></td>
+                                    <td class="text-center"><strong>Počet kusov</strong></td>
+                                    <td class="text-right"><strong>Spolu</strong></td>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                {foreach $services as $row}
+                                    <tr>
+                                        <td>{$row->Nazov}</td>
+                                        <td class="text-center">{$row->CenaVykon}&euro;</td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-right">{$row->CenaVykon}&euro;</td>
+                                    </tr>
+                                {/foreach}
+                                </tbody>
+
+
+
+                                <thead>
                                 <tr>
-                                    <td>BS-200</td>
-                                    <td class="text-center">$10.99</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-right">$10.99</td>
+                                    <td><strong>Liek</strong></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-right"></td>
                                 </tr>
+                                </thead>
+                                <tbody>
+                                <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                {foreach $drugs as $row}
+                                    <tr>
+                                        <td>{$row->Nazov}</td>
+                                        <td class="text-center">{$row->CenaLiek}&euro;</td>
+                                        <td class="text-center">{$row->PocetBaleni}</td>
+                                        <td class="text-right">{$row->CenaLiek*$row->PocetBaleni}&euro;</td>
+                                    </tr>
+                                {/foreach}
+                                </tbody>
+
+                                <thead>
                                 <tr>
-                                    <td>BS-400</td>
-                                    <td class="text-center">$20.00</td>
-                                    <td class="text-center">3</td>
-                                    <td class="text-right">$60.00</td>
+                                    <td><strong>Odporučenie</strong></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-right"></td>
                                 </tr>
-                                <tr>
-                                    <td>BS-1000</td>
-                                    <td class="text-center">$600.00</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-right">$600.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="thick-line"></td>
-                                    <td class="thick-line"></td>
-                                    <td class="thick-line text-center"><strong>Subtotal</strong></td>
-                                    <td class="thick-line text-right">$670.99</td>
-                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                {foreach $exts as $row}
+                                    <tr>
+                                        <td>{$row->Nazov}</td>
+                                        <td class="text-center">{$row->CenaExt}&euro;</td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-right">{$row->CenaExt}&euro;</td>
+                                    </tr>
+                                {/foreach}
                                 <tr>
                                     <td class="no-line"></td>
                                     <td class="no-line"></td>
-                                    <td class="no-line text-center"><strong>Shipping</strong></td>
-                                    <td class="no-line text-right">$15</td>
-                                </tr>
-                                <tr>
-                                    <td class="no-line"></td>
-                                    <td class="no-line"></td>
-                                    <td class="no-line text-center"><strong>Total</strong></td>
-                                    <td class="no-line text-right">$685.99</td>
+                                    <td class="no-line text-center"><strong>Spolu všetko</strong></td>
+                                    <td class="no-line text-right">{$invoice->Suma}&euro;</td>
                                 </tr>
                                 </tbody>
                             </table>

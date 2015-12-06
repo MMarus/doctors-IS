@@ -344,11 +344,14 @@ class VisitPresenter extends BasePresenter
                               AND PocasNavstevy.id_Vykon = Vykon.ID", $this->ID);
         //if($sumaVykony->fetch()->VYKONY > 0 )
         $suma += $sumaVykony->fetch()->VYKONY;
-        $sumaLieky = $this->db->query("SELECT SUM(CenaLiek) as LIEKY FROM PredpisanyLiek, Liek
+        $sumaLieky = $this->db->query("SELECT Liek.CenaLiek, PredpisanyLiek.PocetBaleni FROM PredpisanyLiek, Liek
                               WHERE PredpisanyLiek.id_NavstevaOrdinacie = ?
                               AND PredpisanyLiek.id_Liek = Liek.ID", $this->ID);
-        //if($sumaLieky->fetch()->LIEKY > 0 )
-        $suma += $sumaLieky->fetch()->LIEKY;
+
+        foreach($sumaLieky as $row){
+            $suma += $row->CenaLiek * $row->PocetBaleni;
+        }
+
         $sumaExtern = $this->db->query("SELECT SUM(CenaExt) as EXTERNE FROM Odporucenie, ExternePracovisko
                               WHERE Odporucenie.id_NavstevaOrdinacie = ?
                               AND Odporucenie.id_ExternePracovisko = ExternePracovisko.ID", $this->ID);

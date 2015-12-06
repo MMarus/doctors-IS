@@ -60,7 +60,7 @@ CREATE TABLE NavstevaOrdinacie (
 CREATE TABLE Faktura (
 	ID INT NOT NULL AUTO_INCREMENT,
 	Datum_vystavenia DATETIME NOT NULL,
-	Suma INT NOT NULL,
+	Suma DECIMAL(7,2) NOT NULL,
 	Splatnost DATETIME NOT NULL,
 	id_NavstevaOrdinacie INT NOT NULL,
 	id_Poistovna INT NOT NULL,
@@ -75,6 +75,7 @@ CREATE TABLE Liek (
 	Forma_podania VARCHAR(50) NOT NULL,
 	Odporucane_davkovanie VARCHAR(50) NOT NULL,
 	Popis VARCHAR(255) NOT NULL,
+  CenaLiek DECIMAL(7,2),
 
 	PRIMARY KEY (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -117,7 +118,8 @@ CREATE TABLE ExternePracovisko (
 	Adresa VARCHAR(100) NOT NULL,
  	Specializacia VARCHAR(50) NOT NULL,
  	Lekar VARCHAR(50) NOT NULL,
-  	ICPE INT NOT NULL,
+	ICPE INT NOT NULL,
+  CenaExt DECIMAL(7,2),  
 
   	PRIMARY KEY (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -127,6 +129,7 @@ CREATE TABLE Vykon (
 	Nazov VARCHAR(30) NOT NULL,
 	Popis VARCHAR(255) NOT NULL,
   kontorla INT DEFAULT '0',
+  CenaVykon DECIMAL(7,2),  
 
 	PRIMARY KEY (ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -246,38 +249,38 @@ INSERT INTO Poistovna (Nazov,Adresa) VALUES
 ('MALA poistovna', '42000 Brno');
 
 -- Pracoviska
-INSERT INTO ExternePracovisko  (Nazov,Adresa,Specializacia,Lekar,ICPE) VALUES
-( 'Nemocnica v Brne' , 'Semilasso, 11111 Brno' , 'Ocne oddelenie' , 'MuDr. Jaro Jaroslav', '10023612'),
-( 'NsP NMNV' , 'Nemocnicna 21, 99999 Nove Mesto nad Vahom' , 'Krcne oddelenie' , 'MuDr. Jan Janíček', '10023612'),
-( 'Nemocnica v Brne' , 'Ulice 33 55555 Uherske hradiste' , 'Kardio oddelenie' , 'MuDr. Peter Petríček', '10023612'),
-( 'NsP v Brode' , 'Ulice 34 55555 Uherske hradiste' , 'Ušné oddelenie' , 'MuDr. Juraj Jurkový', '10023612'),
-( 'Poliklinika a.s.' , 'Ulica 12 333333 Bratislava' , 'Úrazove oddelenie' , 'MuDr. Aneta Anetová', '10023612');
+INSERT INTO ExternePracovisko  (Nazov,Adresa,Specializacia,Lekar,ICPE, CenaExt) VALUES
+( 'Nemocnica v Brne' , 'Semilasso, 11111 Brno' , 'Ocne oddelenie' , 'MuDr. Jaro Jaroslav', '10023612',10.99),
+( 'NsP NMNV' , 'Nemocnicna 21, 99999 Nove Mesto nad Vahom' , 'Krcne oddelenie' , 'MuDr. Jan Janíček', '10023612',10.99),
+( 'Nemocnica v Brne' , 'Ulice 33 55555 Uherske hradiste' , 'Kardio oddelenie' , 'MuDr. Peter Petríček', '10023612',10.99),
+( 'NsP v Brode' , 'Ulice 34 55555 Uherske hradiste' , 'Ušné oddelenie' , 'MuDr. Juraj Jurkový', '10023612',10.99),
+( 'Poliklinika a.s.' , 'Ulica 12 333333 Bratislava' , 'Úrazove oddelenie' , 'MuDr. Aneta Anetová', '10023612',10.99);
 
 -- Lieky (AUTOINCREMENT)
-INSERT INTO Liek (Nazov,Zlozenie,Forma_podania,Odporucane_davkovanie,Popis) VALUES
-( 'Penicilin 500mg', 'latka1 15mg, latka2 20mg' , 'oralne' , '1tbl/8h', 'Nejaky popis'),
-( 'Ibalgin 500mg', 'latka1 20mg, latka2 20mg' , 'oralne' , '2tbl/4h', 'Nejaky popis2'),
-( 'Brufen 250', 'latka1 1mg, latka2 200mg' , 'oralne' , '20ml/5h', 'Nejaky popis3'),
-( 'Nasivin 15', 'latka16 1mg, latka2 3mg' , 'nasalne' , '2x/8h', 'Nejaky popis4'),
-( 'Nasivin 25', 'latka51 15mg, latka2 3mg' , 'nasalne' , '2x/8h', 'Nejaky popis5'),
-( 'Liecivo1', 'latka15 12mg, latka2 3mg' , 'oralne' , '2x/8h', 'Nejaky popis1'),
-( 'Liecivo2', 'latka21 51mg, latka2 3mg' , 'nasalne' , '2x/5h', 'Nejaky popis2'),
-( 'Liecivo3', 'latka21 51mg, latka2 3mg' , 'oralne' , '3x/14h', 'Nejaky popis3'),
-( 'Liecivo4', 'latka21 51mg, latka2 3mg' , 'nasalne' , '2x/2h', 'Nejaky popis4'),
-( 'Liecivo5', 'latka21 51mg, latka2 3mg' , 'oralne' , '4x/3h', 'Nejaky popis5'),
-( 'Liecivo6', 'latka15 12mg, latka2 3mg' , 'oralne' , '2x/5h', 'Nejaky popis6'),
-( 'Liecivo7', 'latka21 51mg, latka2 3mg' , 'oralne' , '2x/7h', 'Nejaky popis7'),
-( 'Liecivo8', 'latka21 51mg, latka2 3mg' , 'nasalne' , '5x/1h', 'Nejaky popis8'),
-( 'Liecivo9', 'latka21 51mg, latka2 3mg' , 'nasalne' , '2x/2h', 'Nejaky popis9'),
-( 'Liecivo10', 'latka21 51mg, latka2 3mg' , 'nasalne' , '2x/8h', 'Nejaky popis10');
+INSERT INTO Liek (Nazov,Zlozenie,Forma_podania,Odporucane_davkovanie,Popis, CenaLiek) VALUES
+( 'Penicilin 500mg', 'latka1 15mg, latka2 20mg' , 'oralne' , '1tbl/8h', 'Nejaky popis',10.99),
+( 'Ibalgin 500mg', 'latka1 20mg, latka2 20mg' , 'oralne' , '2tbl/4h', 'Nejaky popis2',10.99),
+( 'Brufen 250', 'latka1 1mg, latka2 200mg' , 'oralne' , '20ml/5h', 'Nejaky popis3',10.99),
+( 'Nasivin 15', 'latka16 1mg, latka2 3mg' , 'nasalne' , '2x/8h', 'Nejaky popis4',10.99),
+( 'Nasivin 25', 'latka51 15mg, latka2 3mg' , 'nasalne' , '2x/8h', 'Nejaky popis5',10.99),
+( 'Liecivo1', 'latka15 12mg, latka2 3mg' , 'oralne' , '2x/8h', 'Nejaky popis1',10.99),
+( 'Liecivo2', 'latka21 51mg, latka2 3mg' , 'nasalne' , '2x/5h', 'Nejaky popis2',10.99),
+( 'Liecivo3', 'latka21 51mg, latka2 3mg' , 'oralne' , '3x/14h', 'Nejaky popis3',10.99),
+( 'Liecivo4', 'latka21 51mg, latka2 3mg' , 'nasalne' , '2x/2h', 'Nejaky popis4',10.99),
+( 'Liecivo5', 'latka21 51mg, latka2 3mg' , 'oralne' , '4x/3h', 'Nejaky popis5',10.99),
+( 'Liecivo6', 'latka15 12mg, latka2 3mg' , 'oralne' , '2x/5h', 'Nejaky popis6',10.99),
+( 'Liecivo7', 'latka21 51mg, latka2 3mg' , 'oralne' , '2x/7h', 'Nejaky popis7',10.99),
+( 'Liecivo8', 'latka21 51mg, latka2 3mg' , 'nasalne' , '5x/1h', 'Nejaky popis8',10.99),
+( 'Liecivo9', 'latka21 51mg, latka2 3mg' , 'nasalne' , '2x/2h', 'Nejaky popis9',10.99),
+( 'Liecivo10', 'latka21 51mg, latka2 3mg' , 'nasalne' , '2x/8h', 'Nejaky popis10',10.99);
 
 -- Vykon
-INSERT INTO Vykon (Nazov,Popis) VALUES
-( 'Prehliadka', 'Pravidelna.'),
-( 'Meranie tlaku', 'meranie tlakovym digitalnym pristrojom'),
-( 'Odber krvi', 'Iihla 2mm.'),
-( 'Ockovanie TBC', 'Iihla 1mm.'),
-( 'Ockovanie ZLTACKA', 'Davka c.1');
+INSERT INTO Vykon (Nazov,Popis, CenaVykon) VALUES
+( 'Prehliadka', 'Pravidelna.',10.99),
+( 'Meranie tlaku', 'meranie tlakovym digitalnym pristrojom',10.99),
+( 'Odber krvi', 'Iihla 2mm.',10.99),
+( 'Ockovanie TBC', 'Iihla 1mm.',10.99),
+( 'Ockovanie ZLTACKA', 'Davka c.1',10.99);
 
 -- Ockovanie (prve je FK pre Ockovanie) preratane na mesiace
 INSERT INTO Ockovanie (ID,Doba_ucinku,Vyrobca) VALUES

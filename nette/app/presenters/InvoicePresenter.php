@@ -100,8 +100,10 @@ class InvoicePresenter extends BasePresenter
             $visit = $this->db->table('NavstevaOrdinacie')->get($invoice->id_NavstevaOrdinacie);
             $this->template->visit = $visit;
             $this->template->pacient = $this->db->table('Pacient')->get($visit->id_Pacient);
-            $this->template->drugs = ""; //$this->db->table('Liek')->get(visit->id_Pacient);
-            $this->template->services = "";
+            $this->template->drugs = $this->db->query("SELECT Liek.*, PredpisanyLiek.PocetBaleni FROM PredpisanyLiek, Liek
+WHERE PredpisanyLiek.id_NavstevaOrdinacie = ? AND PredpisanyLiek.id_Liek = Liek.ID",$visit->ID);
+            $this->template->services = $this->db->query("SELECT Vykon.* FROM PocasNavstevy, Vykon WHERE PocasNavstevy.id_NavstevaOrdinacie = ? AND PocasNavstevy.id_Vykon = Vykon.ID", $visit->ID);
+            $this->template->exts = $this->db->query("SELECT ExternePracovisko.* FROM Odporucenie, ExternePracovisko WHERE Odporucenie.id_NavstevaOrdinacie = ? AND Odporucenie.id_ExternePracovisko = ExternePracovisko.ID",$visit->ID);
         }
         else{
             $this->error('Dana Faktura nexistuje');
