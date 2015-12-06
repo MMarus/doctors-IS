@@ -83,7 +83,7 @@
                                     <th>Poznamky</th>
                                 </tr>
                                 {foreach $visits as $visit}
-                                    <tr>
+                                    <tr {if $visit->deleted == 1}class="red"{/if}>
                                         <td>{$visit->niceDate}</td>
                                         <td>{$visit->Poznamky}</td>
                                         <td>

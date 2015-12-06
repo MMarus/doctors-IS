@@ -104,9 +104,18 @@ class PatientPresenter extends BasePresenter
             $plans = $this->db->query("SELECT *, DATE_FORMAT(Planovany_datum,'%H:%i %d.%m.%Y') AS niceDate FROM Plan WHERE id_Pacient = ? ORDER BY Planovany_datum DESC ", $this->ID);
             
             $this->template->plans = $plans;
-            
-            $this->template->visits = $this->db->query("SELECT *, DATE_FORMAT(Datum,'%H:%i %d.%m.%Y') AS niceDate FROM NavstevaOrdinacie WHERE id_Pacient = ? ORDER BY Datum DESC ", $this->ID);
-            
+
+            if($this->user->isInRole("admin"))
+            {
+                $this->template->visits = $this->db->query("SELECT *, DATE_FORMAT(Datum,'%H:%i %d.%m.%Y') AS niceDate FROM NavstevaOrdinacie WHERE id_Pacient = ? ORDER BY Datum DESC ", $this->ID);
+            }
+            else
+            {
+                $this->template->visits = $this->db->query("SELECT *, DATE_FORMAT(Datum,'%H:%i %d.%m.%Y') AS niceDate FROM NavstevaOrdinacie WHERE id_Pacient = ? AND deleted = 0 ORDER BY Datum DESC ", $this->ID);
+
+            }
+
+
     }
 
 
