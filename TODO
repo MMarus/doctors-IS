@@ -1,19 +1,19 @@
-Bocne menu
-+navstevy link
-+pacienti link
+Mazanie chobotin
+Dokumentacia
+zmazat print liekov, ext pracovisk a nechat to iba vo fakturacii ?
 
 Faktura
--vytvorit prehlad faktur
--vytvorit view faktura
+??-vytvorit prehlad faktur
+??-vytvorit view faktura
 -podla id_NavstevaOrdinacie v tab Faktura -> fakturovane/nefakturovane
 -pridat sumu do navstevy
--pridat ceny do vykon, liek, ext. prac
+//-pridat ceny do vykon, liek, ext. prac
 
 Pacient
 
 Navsteva
 -pridat obrazok zamku po fakturacii
--pridat fakturova/vytlaci fakturu
+-pridat fakturova/vytlacit fakturu
 -pridat sumu za veci v navsteve
 
 Administracia
