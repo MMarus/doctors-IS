@@ -3,7 +3,8 @@ $(function(){
 
     //clock - only homepage
     var pathArray = location.href.split( '/' );
-    if(pathArray[pathArray.length-2]=="www")
+    console.log(pathArray);
+    if(pathArray[pathArray.length-1]=="")
     {
         window.onload = function() {
             startTime();
@@ -124,8 +125,10 @@ function delay(ms) {
     while (new Date() < ms){}
 }
 
-function basepath()
+function basepath(xx)
 {
+
+
     var pth;
     var pathArray = location.href.split( '/' );
     var protocol = pathArray[0];
@@ -140,7 +143,14 @@ function basepath()
             break;
         }
     }
-    pth = protocol + '//' + host;
+
+    if(xx == "yi")
+    {
+        return protocol + '/' + host;
+    }
+
+    pth = protocol + '/' + host;
+    pth = protocol;
     return pth;
 }
 
@@ -168,8 +178,9 @@ function menu_load()
         }
     }
     var post = "action=load";
-    console.log(basepath()  + '/myajax.php');
-    xhr.open('POST', basepath()  + '/myajax.php');
+    var lnk = basepath()  + '/myajax.php';
+    console.log(lnk);
+    xhr.open('POST', lnk);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(post);
 
@@ -219,8 +230,9 @@ function menu(action)
         data = document.getElementById("wrapper").className;
 
         var post = "action=" + act + "&" + "data="  + data;
-        console.log(post);
-        xhr.open('POST', basepath() + '/myajax.php');
+        var lnk = basepath()  + '/myajax.php';
+        console.log(lnk);
+        xhr.open('POST', lnk);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.send(post);
     }
