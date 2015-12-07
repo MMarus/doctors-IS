@@ -1,7 +1,10 @@
 /*Still need to fit the :hove efect*/
 
     /* CSS used here will be applied after bootstrap.css */
-
+.form-group.required .control-label:after {
+    content:"*";
+    color:red;
+}
 
 
 
