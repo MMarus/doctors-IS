@@ -8,6 +8,7 @@ use App\Model;
 use Test\Bs3FormRenderer;
 use Nette\Application\UI;
 use Nette\Application\UI\Control;
+use Nette\Application\UI\Form;
 
 
 
@@ -18,6 +19,7 @@ class PlanPresenter extends BasePresenter
 	public $pacientId;
 	public $allplans;
 	public $date;
+	public $ID;
 
 	public function __construct(Nette\Database\Context $database)
 	{
@@ -143,5 +145,105 @@ class PlanPresenter extends BasePresenter
 		$this->redirect("Visit:show", $idn);
 	}
 
+	public function actionEdit($id)
+	{
+		$this->ID = $id;
+	}
+
+	public function renderEdit()
+	{
+		$this->template->title = "Plan editacia";
+	}
+
+	public function createComponentAddPlan()
+	{
+
+		//Ak je uz vytvoreny
+		$plan = $this->db->table('Plan')->get($this->ID);
+
+		$vykony = array();
+		$rows = $this->db->query("SELECT * FROM VykonMaPlan WHERE id_Plan = ?", $this->ID);
+		foreach($rows as $row){
+			$vykony[] = $row->id_Vykon;
+		}
+
+		$services = [];
+		$rows = $this->db->table("Vykon");
+		foreach($rows as $row){
+			$services[$row->ID] = $row->Nazov;
+		}
+
+		$rows = $this->db->table('Pacient');
+		$patients = NULL;
+		foreach($rows as $row) {
+			$rc = substr($row->Rodne_cislo,0, -4)  . "/"   . substr($row->Rodne_cislo, -4);
+			$patients[$row->ID] = "RC: ( "  .  $rc . " )  ~  " .  $row->Meno . " " . $row->Priezvisko;
+		}
+
+
+		$form = new UI\Form;
+
+		$form->addSelect("id_Pacient", "Pacient*", $patients)
+			->setPrompt("Vyber pacienta")
+			->setRequired('Zvolte pacienta');
+		if($plan)
+			$form["id_Pacient"]->setDefaultValue($plan->id_Pacient);
+
+		$form->addMultiSelect("vykony", "Vykony:*", $services)
+			->setRequired('Zvolte vykon');
+		if(!empty($vykony))
+			$form["vykony"]->setValue($vykony);
+
+		$form->addTbDateTimePicker('Datum', 'Datum:*')
+			->setRequired();
+		if($plan)
+			$form["Datum"]->setDefaultValue($plan->Planovany_datum);
+
+		$form->addTextArea("Poznamky", "Poznamky:")
+			->addRule(Form::MAX_LENGTH, 'Prilis vela znakov', 255);
+		if($plan)
+			$form["Poznamky"]->setDefaultValue($plan->Poznamky);
+
+
+		$form->addSubmit('send', 'Ulozit');
+		$form->onSuccess[] = array($this, 'AddPlanSucceeded');
+		$form->setRenderer(new Bs3FormRenderer);
+		return $form;
+	}
+
+	public function AddPlanSucceeded(UI\Form $form, $values){
+
+
+
+		//ak id neexistuje pridame ho
+		$this->db->query("INSERT INTO Plan
+            (ID, Planovany_datum, Poznamky, id_Pacient)
+            VALUES(?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+            Planovany_datum = ?, Poznamky = ?, id_Pacient = ?",
+			$this->ID, $values->Datum, $values->Poznamky, $values->id_Pacient,
+			$values->Datum, $values->Poznamky, $values->id_Pacient
+		);
+		$idcko = $this->db->getInsertId('Plan');
+
+		//Povkladat naplanovane vykony
+		foreach( $values->vykony as $val ){
+			Debugger::barDump($val);
+			$this->db->table("VykonMaPlan")->insert(array(
+				"ID" => "",
+				"id_Vykon" => $val,
+				"id_Plan" => $idcko
+			));
+		}
+
+		if(!isset($this->ID)){
+			$this->flashMessage('Plan uspesne pridany.');
+			$this->redirect("Plan:default");
+		}else{
+			$this->flashMessage('Plan uspesne upraveny.');
+			$this->redirect("Plan:default");
+		}
+
+	}
 
 }

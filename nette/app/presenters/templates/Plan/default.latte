@@ -22,6 +22,9 @@
                         <div class="col-md-2">
                             <a href="#" onclick="plan(this,'notfin');" class="btn btn-trans-default btn-block btn-fixed">NEVYBAVENÉ</a>
                         </div>
+                        <div class="col-md-2">
+                            <a n:href="edit" class="btn btn-trans-default btn-block btn-fixed">PRIDAŤ</a>
+                        </div>
                     </div>
                 </div>
                 <!-- Table with plans -->
@@ -66,14 +69,15 @@
                         <a n:href="Visit:show $plan[0]->done" class="btn btn-default">
                             <span class="glyphicon glyphicon-eye-open pull-right" aria-hidden="true"></span>
                         </a>
-                      {elseif $plan[0]->datum < $date }
+                      {else}
                         <a n:href="goplan $plan[0]->idp" class="btn btn-default">
                         <span class="glyphicon glyphicon-play pull-right" aria-hidden="true"></span>
                         </a>
                       {/if}
-
-
-                      </td>
+                          <a n:href="edit $plan[0]->idp" class="btn btn-default">
+                              <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
+                          </a>
+                        </td>
                     </tr>
                   {/foreach}
                 </table>
