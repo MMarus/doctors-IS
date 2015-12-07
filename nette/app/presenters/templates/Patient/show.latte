@@ -51,15 +51,51 @@
                             <!-- Table with plans -->
                             <table class="table table-striped">
                                 <tr>
-                                    <th>Datum</th>
-                                    <th>Poznamky</th>
-                                </tr>
-                                {foreach $plans as $plan}
-                                    <tr>
-                                        <td>{$plan->niceDate}</td>
-                                        <td>{$plan->Poznamky}</td>
+                                    <th>Čas</th>
+                                    <th>Výkon</th>
+
+                                  </tr>
+
+                                  {foreach $plans as $plan}
+                                    <tr name="oneplan" class="{if $plan[0]->datum < $date}dateWarn{/if} {if $plan[0]->done }dateDone{/if}" {if $plan[0]->done }state="done"{/if} hide="0" >
+
+
+                                      <td name="date" value="{$plan[0]->datum}">{$plan[0]->datum}</td>
+
+                                      <td>
+                                        <ul>
+                                          {foreach $plan as $pp}
+
+                                            {ifset $pp->idp}
+                                            {else }
+
+                                                <li>
+                                                    {$pp[1]}
+                                                </li>
+
+                                            {/ifset}
+                                          {/foreach}
+                                        </ul>
+                                      </td>
+
+
+
+                                      <td>
+                                      {if $plan[0]->done }
+                                        <a n:href="Visit:show $plan[0]->done" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-eye-open pull-right" aria-hidden="true"></span>
+                                        </a>
+                                      {else}
+                                        <a n:href="Plan:goplan $plan[0]->idp" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-play pull-right" aria-hidden="true"></span>
+                                        </a>
+                                      {/if}
+                                          <a n:href="Plan:edit $plan[0]->idp" class="btn btn-default">
+                                              <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
+                                          </a>
+                                        </td>
                                     </tr>
-                                {/foreach}
+                                  {/foreach}
                             </table>
                         </div>
                     </div>

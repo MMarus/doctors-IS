@@ -40,7 +40,7 @@ class PlanPresenter extends BasePresenter
 	}
 
 
-	public function getPlans($mode = "all")
+	public function getPlans($mode = "all", $who = "all")
 	{
 		$tools = new ToolsPresenter($this->db);
 		$date = $tools->fdate("today","ymd");
@@ -48,20 +48,30 @@ class PlanPresenter extends BasePresenter
 
 
 
-
-		if($mode == "today")
+		if($who == "all")
 		{
-			Debugger::barDump("today");
-			$idp 	= $this->db->query("SELECT P.ID as idp ,count(*) as cntx FROM Plan P JOIN VykonMaPlan VM ON VM.id_Plan = P.ID WHERE P.Planovany_datum LIKE '%".$date."%' group by P.ID");
-			$plans 	= $this->db->query("SELECT P.ID as idp , C.ID as idPac, V.ID as idVyk, P.id_NavstevaOrdinacie as done ,  P.Planovany_datum as datum, C.Priezvisko as priez, C.Rodne_cislo as rc, V.Nazov  as vykon, P.Poznamky as pozn FROM Plan P JOIN Pacient C ON P.id_Pacient = C.ID JOIN VykonMaPlan VM ON VM.id_Plan = P.ID JOIN Vykon V ON VM.id_Vykon = V.ID WHERE P.Planovany_datum LIKE '%".$date."%' ");
+			if($mode == "today")
+			{
+				Debugger::barDump("today");
+				$idp 	= $this->db->query("SELECT P.ID as idp ,count(*) as cntx FROM Plan P JOIN VykonMaPlan VM ON VM.id_Plan = P.ID WHERE P.Planovany_datum LIKE '%".$date."%' group by P.ID");
+				$plans 	= $this->db->query("SELECT P.ID as idp , C.ID as idPac, V.ID as idVyk, P.id_NavstevaOrdinacie as done ,  P.Planovany_datum as datum, C.Priezvisko as priez, C.Rodne_cislo as rc, V.Nazov  as vykon, P.Poznamky as pozn FROM Plan P JOIN Pacient C ON P.id_Pacient = C.ID JOIN VykonMaPlan VM ON VM.id_Plan = P.ID JOIN Vykon V ON VM.id_Vykon = V.ID WHERE P.Planovany_datum LIKE '%".$date."%' ");
+			}
+			else
+			{
+				Debugger::barDump("all");
+				$idp 	= $this->db->query("SELECT P.ID as idp ,count(*) as cntx FROM Plan P JOIN VykonMaPlan VM ON VM.id_Plan = P.ID group by P.ID");
+				$plans 	= $this->db->query("SELECT P.ID as idp , C.ID as idPac, V.ID as idVyk, P.id_NavstevaOrdinacie as done ,  P.Planovany_datum as datum, C.Priezvisko as priez, C.Rodne_cislo as rc, V.Nazov  as vykon, P.Poznamky as pozn FROM Plan P JOIN Pacient C ON P.id_Pacient = C.ID JOIN VykonMaPlan VM ON VM.id_Plan = P.ID JOIN Vykon V ON VM.id_Vykon = V.ID ");
+
+			}
 		}
-		else
+		else//id
 		{
-			Debugger::barDump("all");
-			$idp 	= $this->db->query("SELECT P.ID as idp ,count(*) as cntx FROM Plan P JOIN VykonMaPlan VM ON VM.id_Plan = P.ID group by P.ID");
-			$plans 	= $this->db->query("SELECT P.ID as idp , C.ID as idPac, V.ID as idVyk, P.id_NavstevaOrdinacie as done ,  P.Planovany_datum as datum, C.Priezvisko as priez, C.Rodne_cislo as rc, V.Nazov  as vykon, P.Poznamky as pozn FROM Plan P JOIN Pacient C ON P.id_Pacient = C.ID JOIN VykonMaPlan VM ON VM.id_Plan = P.ID JOIN Vykon V ON VM.id_Vykon = V.ID ");
+			Debugger::barDump("all-onlyID");
+			$idp 	= $this->db->query("SELECT P.ID as idp ,count(*) as cntx FROM Plan P JOIN VykonMaPlan VM ON VM.id_Plan = P.ID WHERE P.id_navstevaordinacie is NULL group by P.ID ");
+			$plans 	= $this->db->query("SELECT P.ID as idp , C.ID as idPac, V.ID as idVyk, P.id_NavstevaOrdinacie as done ,  P.Planovany_datum as datum, C.Priezvisko as priez, C.Rodne_cislo as rc, V.Nazov  as vykon, P.Poznamky as pozn FROM Plan P JOIN Pacient C ON P.id_Pacient = C.ID JOIN VykonMaPlan VM ON VM.id_Plan = P.ID JOIN Vykon V ON VM.id_Vykon = V.ID WHERE C.ID = ?", $who);
 
 		}
+
 
 		$plans 	= $plans->fetchAll();
 		$idp	= $idp->fetchAll();
@@ -123,7 +133,7 @@ class PlanPresenter extends BasePresenter
 		$idn = $this->db->table("NavstevaOrdinacie")->insert(array(
 				"id_Pacient" 	=> $tmp->idPac,
 				"Datum"			=> $date,
-				"Poznamky"		=> "Planovana navsteva..."));
+				"Poznamky"		=> $defPozn));
 
 		$idn = $idn->getPrimary();
 

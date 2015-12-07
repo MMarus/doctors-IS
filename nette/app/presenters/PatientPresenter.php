@@ -101,8 +101,14 @@ class PatientPresenter extends BasePresenter
             }
             $this->template->patient = $patient;
             
-            $plans = $this->db->query("SELECT *, DATE_FORMAT(Planovany_datum,'%H:%i %d.%m.%Y') AS niceDate FROM Plan WHERE id_Pacient = ? ORDER BY Planovany_datum DESC ", $this->ID);
-            
+            //$plans = $this->db->query("SELECT *, DATE_FORMAT(Planovany_datum,'%H:%i %d.%m.%Y') AS niceDate FROM Plan WHERE id_Pacient = ? AND id_navstevaordinacie is NULL ORDER BY Planovany_datum DESC ", $this->ID);
+            $pl = new PlanPresenter($this->db);
+            $tools = new ToolsPresenter($this->db);
+            $date = $tools->fdate("today","ymd");
+            $this->template->date = $date;
+
+            $plans = $pl->getPlans("all",$this->ID);
+
             $this->template->plans = $plans;
 
             if($this->user->isInRole("admin"))
