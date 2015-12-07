@@ -318,10 +318,39 @@ INSERT INTO NavstevaOrdinacie (Datum,Poznamky,id_Pacient) VALUES
 -- Plany (nakonci PACIENT)
 INSERT INTO Plan (Planovany_datum,Poznamky,id_Pacient) VALUES
 ( '2015-11-24 15:00:00' , 'Priniest karticku poistenca.' , '001'),
-( '2015-11-25 14:00:00' , 'ajajajjj' , '002'),
+( '2015-11-25 14:00:00' , '' , '002'),
 ( '2015-11-25 16:00:00' , 'volaco' , '003'),
-( '2015-11-25 17:00:00' , 'popit volaco' , '004'),
-( '2015-11-26 17:00:00' , 'Nejaka poznamka.' , '001');
+( '2015-12-25 17:00:00' , 'popit' , '004'),
+( '2015-12-25 17:00:00' , 'popit' , '004'),
+( '2015-12-25 17:00:00' , 'popit' , '004'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '004'),
+( '2015-12-25 17:00:00' , '' , '004'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '001'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '002'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '003'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '004'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '001'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '002'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '003'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '004'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '001'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '002'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '003'),
+( '2015-12-25 17:00:00' , 'Priniest karticku poistenca.' , '004'),
+( '2016-12-25 17:00:00' , 'Priniest karticku poistenca.' , '001'),
+( '2016-12-25 17:00:00' , 'Priniest karticku poistenca.' , '002'),
+( '2016-12-25 17:00:00' , 'Priniest karticku poistenca.' , '003'),
+( '2016-12-25 17:00:00' , 'Priniest karticku poistenca.' , '004'),
+( '2016-12-25 17:00:00' , 'Priniest karticku poistenca.' , '001'),
+( '2016-12-25 17:00:00' , 'Priniest karticku poistenca.' , '002'),
+( '2016-12-25 17:00:00' , 'Priniest karticku poistenca.' , '003'),
+( '2016-1-25 17:00:00' , 'Priniest karticku poistenca.' , '004'),
+( '2016-1-25 17:00:00' , 'Priniest karticku poistenca.' , '001'),
+( '2016-1-25 17:00:00' , 'Priniest karticku poistenca.' , '002'),
+( '2016-1-25 17:00:00' , 'Priniest karticku poistenca.' , '003'),
+( '2016-1-25 17:00:00' , 'Priniest karticku poistenca.' , '004'),
+( '2016-1-25 17:00:00' , '' , '004'),
+( '2016-1-26 17:00:00' , 'Nejaka poznamka.' , '001');
 
 -- Faktury (ma : Navstevu ordinacie, Poistovnu)
 INSERT INTO Faktura (Datum_vystavenia,Suma,Splatnost,id_NavstevaOrdinacie,id_Poistovna) VALUES
@@ -375,6 +404,55 @@ INSERT INTO PocasNavstevy (id_NavstevaOrdinacie,id_Vykon) VALUES
 INSERT INTO VykonMaPlan (id_Vykon,id_Plan) VALUES
 ( '001', '001'),
 ( '002', '001'),
+( '003', '001'),
+( '004', '001'),
+
+( '001', '002'),
+( '002', '002'),
 ( '003', '002'),
-( '005', '002'),
-( '003', '001');
+
+( '001', '003'),
+( '002', '003'),
+( '003', '003'),
+
+( '001', '004'),
+( '002', '004'),
+( '003', '004'),
+
+
+( '001', '005'),
+( '002', '005'),
+( '003', '005'),
+
+( '001', '006'),
+( '002', '006'),
+( '003', '006'),
+
+( '001', '007'),
+( '002', '007'),
+( '003', '007'),
+
+( '001', '008'),
+( '002', '008'),
+( '003', '008'),
+
+( '001', '009'),
+( '002', '009'),
+( '003', '009'),
+
+( '001', '010'),
+( '002', '010'),
+( '003', '010'),
+
+( '001', '011'),
+( '002', '011'),
+( '003', '011'),
+
+( '001', '012'),
+( '002', '012'),
+( '003', '012'),
+
+( '001', '013'),
+( '002', '013'),
+( '003', '013');
+
