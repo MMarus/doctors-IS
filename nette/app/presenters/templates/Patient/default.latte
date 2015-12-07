@@ -17,7 +17,6 @@
             <!-- Table with plans -->
             <table id="{*$UpravovanaTabulka*}All" class="table table-striped">
                 <tr>
-                    <td><input id="{*$UpravovanaTabulka*}" class="toggle-button" type="checkbox"></td>
                     {foreach $theads as $key => $thead}
                         <th>{$thead}</th>
                     {/foreach}
@@ -25,15 +24,11 @@
                         <a n:href="edit" class="btn btn-default">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </a>
-                        <a n:href="edit" class="btn btn-default">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>
                     </td>
                 </tr>
                 {*form removeRow-$UpravovanaTabulka*}
                 {foreach $rows as $row}
                     <tr>
-                        <td><input type="checkbox" name="{*$UpravovanaTabulka*}Sel[]" value={*$row->IDcko*}></td>
                         {foreach $theads as $key => $thead}
                             <td>{$row->$key |truncate:20}</td>
                         {/foreach}
