@@ -80,16 +80,16 @@ class VisitPresenter extends BasePresenter
         {
             $visits = $this->db->query("
             SELECT NavstevaOrdinacie.ID, NavstevaOrdinacie.Datum, NavstevaOrdinacie.Poznamky,
-            CONCAT_WS(' ', Pacient.Meno, Pacient.Priezvisko)  as id_Pacient , NavstevaOrdinacie.deleted FROM NavstevaOrdinacie
-            LEFT JOIN Pacient ON NavstevaOrdinacie.id_Pacient = Pacient.ID WHERE NavstevaOrdinacie.deleted = 0
+            CONCAT_WS(' ', Pacient.Meno, Pacient.Priezvisko)  as id_Pacient , NavstevaOrdinacie.deleted, FF.ID as FID FROM NavstevaOrdinacie
+            LEFT JOIN Pacient ON NavstevaOrdinacie.id_Pacient = Pacient.ID LEFT JOIN Faktura FF ON FF.id_navstevaordinacie = NavstevaOrdinacie.ID   WHERE NavstevaOrdinacie.deleted = 0
             ");
         }
         else
         {
             $visits = $this->db->query("
             SELECT NavstevaOrdinacie.ID, NavstevaOrdinacie.Datum, NavstevaOrdinacie.Poznamky,
-            CONCAT_WS(' ', Pacient.Meno, Pacient.Priezvisko)  as id_Pacient , NavstevaOrdinacie.deleted FROM NavstevaOrdinacie
-            LEFT JOIN Pacient ON NavstevaOrdinacie.id_Pacient = Pacient.ID
+            CONCAT_WS(' ', Pacient.Meno, Pacient.Priezvisko)  as id_Pacient , NavstevaOrdinacie.deleted, FF.ID as FID FROM NavstevaOrdinacie
+            LEFT JOIN Pacient ON NavstevaOrdinacie.id_Pacient = Pacient.ID LEFT JOIN Faktura FF ON FF.id_navstevaordinacie = NavstevaOrdinacie.ID
             ");
         }
 

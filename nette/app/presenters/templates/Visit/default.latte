@@ -45,6 +45,11 @@
                             <a n:href="show $row->ID" class="btn btn-default">
                                 <span class="glyphicon glyphicon glyphicon-list-alt pull-right" aria-hidden="true"></span>
                             </a>
+                            {if $row->FID}
+                            <a n:href="Invoice:show $row->FID" >
+                                <span class="glyphicon glyphicon-lock pull-right" aria-hidden="true"></span>
+                            </a>
+                            {/if}
                         </td>
                     </tr>
                 {/foreach}
