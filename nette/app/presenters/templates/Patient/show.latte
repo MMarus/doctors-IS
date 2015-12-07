@@ -1,3 +1,7 @@
+{block customStyles}
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link href="{$basePath}/css/bootstrap-datetimepicker.css" rel="stylesheet">
+{/block}
 {block content}
     <div class="container-fluid">
         <div class="panel panel-primary">
@@ -38,7 +42,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <button type="button" class="btn btn-trans-default pull-right"
-                                                aria-label="Left Align" data-toggle="modal" data-target="#myModal">
+                                                aria-label="Left Align" data-toggle="modal" data-target="#PlanModal">
                                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                         </button>
                                     </div>
@@ -124,7 +128,7 @@
 
     </div>
     <!-- Modal basic -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="PlanModal" tabindex="-1" role="dialog" aria-labelledby="PlanModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -133,13 +137,27 @@
                     <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                 </div>
                 <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    {control addPlan}
                 </div>
             </div>
         </div>
     </div>
+{/block}
+
+{block customScripts}
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="{$basePath}/js/moment-with-locales.js"></script>
+    <script src="{$basePath}/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#frm-addPlan-Datum').datetimepicker(
+                    {
+                        defaultDate: moment().format(),
+                        locale: 'cs',  // en
+                        format: 'DD.MM.YYYY H:mm'  // MM/DD/YYYY H:mm
+                    });
+        });
+
+    </script>
 {/block}

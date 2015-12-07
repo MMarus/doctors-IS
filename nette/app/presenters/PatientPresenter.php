@@ -211,4 +211,68 @@ class PatientPresenter extends BasePresenter
             $this->flashMessage('Pacient uspesne upraveny.');
     }
 
+
+    public function createComponentAddPlan()
+    {
+
+        $services = [];
+        $rows = $this->db->table("Vykon");
+        foreach($rows as $row){
+            $services[$row->ID] = $row->Nazov;
+        }
+
+        $rows = $this->db->table('Pacient');
+        $patients = NULL;
+        foreach($rows as $row) {
+            $rc = substr($row->Rodne_cislo,0, -4)  . "/"   . substr($row->Rodne_cislo, -4);
+            $patients[$row->ID] = "RC: ( "  .  $rc . " )  ~  " .  $row->Meno . " " . $row->Priezvisko;
+        }
+
+
+        $form = new UI\Form;
+
+        //$form->addSelect("pacient", "Pacient*", $patients)
+            //->setPrompt("Vyber pacienta")
+            //->setRequired('Zvolte pacienta');
+        $form->addMultiSelect("vykony", "Vykony:*", $services)
+            ->setRequired('Zvolte vykon');
+        $form->addTbDateTimePicker('Datum', 'Datum:*')
+            ->setRequired();
+        $form->addTextArea("Poznamky", "Poznamky:")
+            ->addRule(Form::MAX_LENGTH, 'Prilis vela znakov', 255);
+
+
+        $form->addSubmit('send', 'Ulozit');
+        $form->onSuccess[] = array($this, 'AddPlanSucceeded');
+        $form->setRenderer(new Bs3FormRenderer);
+        return $form;
+    }
+
+    public function AddPlanSucceeded(UI\Form $form, $values){
+        if ($values && $this->ID > 0) {
+            //Vytvorit plan
+            $idcko = $this->db->table("Plan")->insert(array(
+                "ID" => "",
+                "Planovany_datum" => $values->Datum,
+                "Poznamky" => $values->Poznamky,
+                "id_Pacient" => $this->ID
+            ));
+
+
+            //Povkladat naplanovane vykony
+            foreach( $values->vykony as $val ){
+                Debugger::barDump($val);
+                $this->db->table("VykonMaPlan")->insert(array(
+                    "ID" => "",
+                    "id_Vykon" => $val,
+                    "id_Plan" => $idcko
+                ));
+            }
+
+            $this->flashMessage('Plan pridany.');
+            $this->redirect('this');
+        }
+        $this->flashMessage('Chybicka se vloudila.');
+    }
+
 }
