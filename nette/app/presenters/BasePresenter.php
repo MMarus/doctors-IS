@@ -4,6 +4,7 @@ namespace App\Presenters;
 
 use Nette;
 use App\Model;
+use Tracy\Debugger;
 
 
 /**
@@ -27,6 +28,19 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         if (isset($_SESSION['menu_wrapper'])){$mm=$_SESSION['menu_wrapper'];}
         else{$_SESSION['menu_wrapper'] = $mm;}
         $this->template->menu_wrapper = $mm;
+
+
+
+        //permissions
+        if($this->user->isAllowed($this->presenter->name,$this->action))
+        {
+            Debugger::barDump("ALLOWED: YES!" );
+        }
+        else
+        {
+            Debugger::barDump("ALLOWED: NO!" );
+        }
+
 
     }
 

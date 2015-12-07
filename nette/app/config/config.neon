@@ -23,3 +23,30 @@ services:
 	- App\Model\UserManager
 	- App\Forms\SignFormFactory
 	router: App\RouterFactory::createRouter
+
+	acl:
+		class: Nette\Security\Permission
+		setup:
+			- addRole('sestra')
+			- addRole('doktor','sestra')
+			- addRole('admin','doktor')
+
+			- addResource('Admin')
+			- addResource('Homepage')
+			- addResource('Invoice')
+			- addResource('Patient')
+			- addResource('Plan')
+			- addResource('Sign')
+			- addResource('Tools')
+			- addResource('Visit')
+
+
+			- allow('admin')
+
+			- allow('sestra','Patient') #all z pacienta
+			- allow('sestra','Plan')
+
+
+			- allow('doktor','Visit','delete')
+
+
