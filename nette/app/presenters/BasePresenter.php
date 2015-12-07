@@ -30,7 +30,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         $this->template->menu_wrapper = $mm;
 
 
-
+        Debugger::barDump("GOTO: ". $this->presenter->name    . ">>" . $this->action );
         //permissions
         if($this->user->isAllowed($this->presenter->name,$this->action))
         {

@@ -57,5 +57,6 @@ services:
 
 			# DOKTOR
 			- deny('doktor','Admin')
+			- allow('doktor')
 
 
