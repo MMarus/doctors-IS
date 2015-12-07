@@ -62,9 +62,12 @@
                     <li>
                         <a n:href="Invoice:">Faktúry</a>
                     </li>
-                    <li>
-                        <a n:href="Admin:">Administrácia</a>
-                    </li>
+                    {if $ADMIN}
+                        <li>
+                            <a n:href="Admin:">Administrácia</a>
+                        </li>
+                    {/if}
+
                     <li>
                         <a href="#" aria-label="Left Align" data-toggle="modal" data-target="#about">O systéme</a>
                     </li>
