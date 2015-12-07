@@ -1,12 +1,13 @@
 Dokumentacia
-Mazanie Navsteva, pacient --- TESTNUT
---potestovat
 
 Navsteva
 -pridat obrazok zamku po fakturacii
+=rola sestricka
 
 Administracia
 -edit zamestnancov
+=role
+
 
 Automaticke objednavanie pacientov
 -v SQL trigger nejaky, pri inserte rovno vytvori plan

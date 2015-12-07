@@ -19,51 +19,60 @@
 	<dt>Autoři</dt>
 	<dd>Filip Ježovica <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
 	    <a href="mailto:xjezov01@stud.fit.vutbr.cz">xjezov01@stud.fit.vutbr.cz</a> -
-		<!--správa uživatelů a uživatelské rozhraní. --> 
-    Hlavna stranka, sprava uzivatelov, zobrazenie planov, hlavne menu. Databaza.
-    HomepagePresenter, PlanPresenter, AdminPresenter, SignPresenter
-	</dd>
-	<dd>Marek Marušic <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+    		Hlavná stranka, sprava uzivatelov, prihlasovanie, zobrazenie plánov, hlavné menu. Databáza.
+		<!--HomepagePresenter, PlanPresenter, AdminPresenter, SignPresenter.-->
+        </dd>
+        <dd>Marek Marušic <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
 	    <a href="mailto:xmarus05@stud.fit.vutbr.cz">xmarus05@stud.fit.vutbr.cz</a> - 
-		<!--databázový subsystém--> VisitPresenter, PatientPresenter, InvoicePresenter, PlanPresenter editacia planov
-    Zobrazenie a editacia navstevy, pacientov, faktur. Editacia planov. Databaza.
-	</dd>
-	<dt>URL aplikace</dt>
-	<dd><a href="http://iis.mstav.eu/">http://iis.mstav.eu/</a></dd>
-</dl>
+			Zobrazenie a editacia návštevy ordinácie, pacientov, faktúr. Editácia plánov. Databáza. Uživaťeľské rozhranie.
+			<!--VisitPresenter, PatientPresente, InvoicePresenter, PlanPresenter. -->
+        </dd>
+        <dt>URL aplikace</dt>
+        <dd><a href="http://iis.mstav.eu/">http://iis.mstav.eu/</a></dd>
+    </dl>
 
-<h2>Uživatelé systému pro testování</h2>
-<table>
-<tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
-<tr><td>admin</td><td>admin</td><td>Administrátor</td></tr>
-<tr><td>0</td><td>0</td><td>Doktor</td></tr>
-<tr><td>1</td><td>1</td><td>Sestra</td></tr>
-</tbody></table>
+    <h2>Uživatelé systému pro testování</h2>
+    <table>
+    <tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+    <tr><td>admin</td><td>admin</td><td>Administrátor</td></tr>
+    <tr><td>0</td><td>0</td><td>Doktor</td></tr>
+    <tr><td>1</td><td>1</td><td>Sestra</td></tr>
+    </tbody></table>
 
-<h2>Implementace</h2>
-<p>/nette/app/presenters/HomepagePresenter.php predstavuje hlavnú stránku.<br/>
-/nette/app/presenters/VisitPresenter.php zabezpečuje prácu s jednotlivými návštevami ordinácie.<br/>
-/nette/app/presenters/PatientPresenter.php zabezpečuje prácu s jednotlivými pacientami.<br/>
-/nette/app/presenters/PlanPresenter.php umožnuje vytváranie a prácu s plánmi.<br/>
-/nette/app/presenters/InvoicePresenter.php predstavuje prehľad faktúr a umožnuje tlač jednotlivých faktúr.<br/>
-/nette/app/presenters/SignPresenter.php prihlasovanie užívateľov.<br/>
-/nette/app/presenters/AdminPresenter.php administrátorské prostredie pre prácu s užívateľmi.</p>
+    <h2>Implementace</h2>
+    <p>Pri tvorbe bol použitý framework nette spolu s bootstrap css frameworkom.</p>
+    <p>/nette/app/presenters/HomepagePresenter.php predstavuje hlavnú stránku. Je tu zobrazený rýchly výber pacientov a
+    nasledujúce plány. Pokiaľ príde nový pacient stačí zadať meno do vyhľadávača a vytvorí sa formulár so zadaným menom / rodným číslom.</p>
+    <p>/nette/app/presenters/VisitPresenter.php zabezpečuje prácu s jednotlivými návštevami ordinácie. Je možné pridať, zmazať,
+    editovať návštevu.<br/>
+    V zobrazení informácií k návšteve je možné pridať jednotlivé výkony, lieky atď použité počas návštevy ordinácie.<br/>
+    Po úspešnej návšteve je možné vygenerovať faktúru, čím sa editácia danej návštevy uzamkne, aby nebolo možné po vytlačení
+    faktúry manipulovať s týmito dátami (keďže pacient dostal faktúru).</p>
+    <p>
+    /nette/app/presenters/PatientPresenter.php zabezpečuje prácu s jednotlivými pacientami. Navyše je tu možné pridať rôzne plány danému pacientovi.</p>
+    <p>/nette/app/presenters/PlanPresenter.php umožnuje vytváranie a prácu s plánmi.</p>
+    <p>/nette/app/presenters/InvoicePresenter.php predstavuje prehľad faktúr a umožnuje tlač jednotlivých faktúr.</p>
+    <p>/nette/app/presenters/SignPresenter.php prihlasovanie užívateľov.</p>
+    <p>/nette/app/presenters/AdminPresenter.php administrátorské prostredie pre prácu s užívateľmi.</p>
+
+    <p>V zložke /nette/app/templates/ sa nachádzajú vytvorené html šablóny jednotlivých stránok.</p>
 
 
-<h2>Instalace</h2>
-<ul>
-<li>Zložku nette je nutné nakopírovať na server.</li>
-<li>V nette/app/config.local.neon je nutné zmeniť prihlasovacie údaje k databáze.</li>
-<li>Je nutné naplniť databázu pomocou skriptu IIS.sql.</li>
-<li>Aplikácia vyžaduje PHP 5.3.1 alebo vyššie, je kompatibilná aj s PHP 7 a MySQL5</li>
-</ul>
+    <h2>Instalace</h2>
+    <ul>
+    <li>Zložku nette je nutné nakopírovať na server.</li>
+    <li>V nette/app/config.local.neon je nutné zmeniť prihlasovacie údaje k databáze.</li>
+    <li>Je nutné naplniť databázu pomocou skriptu IIS.sql.</li>
+    <li>Aplikácia vyžaduje PHP 5.3.1 alebo vyššie, je kompatibilná aj s PHP 7 a MySQL5</li>
+    </ul>
 
-<h2>Známé problémy</h2>
-<!--
-<p>Zde popište, které body zadání (IDS a IIS) nejsou implementovány a z 
-jakého důvodu. Např. &#8222;Z časových důvodů nebyla implementována správa 
-uživatelů.&#8221; Pomůžete tím zrychlit opravování, když neimplementované 
-funkce nebudeme muset dlouze hledat.</p>-->
+    <h2>Známé problémy</h2>
+    <p>Žiadne</p>
+    <!--
+    <p>Zde popište, které body zadání (IDS a IIS) nejsou implementovány a z
+    jakého důvodu. Např. &#8222;Z časových důvodů nebyla implementována správa
+    uživatelů.&#8221; Pomůžete tím zrychlit opravování, když neimplementované
+    funkce nebudeme muset dlouze hledat.</p>-->
 
 
 
