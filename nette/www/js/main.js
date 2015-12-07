@@ -21,7 +21,7 @@ $(function(){
 
     }
 
-    if(pathArray[4]=="sign")
+    if(pathArray[3]=="sign")
     {
         var ebox = document.getElementById("errbox");
         var tmp;
