@@ -28,8 +28,8 @@ services:
 		class: Nette\Security\Permission
 		setup:
 			- addRole('sestra')
-			- addRole('doktor','sestra')
-			- addRole('admin','doktor')
+			- addRole('doktor')
+			- addRole('admin')
 
 			- addResource('Admin')
 			- addResource('Homepage')
@@ -41,12 +41,21 @@ services:
 			- addResource('Visit')
 
 
-			- allow('admin')
+			- allow('admin') # allow all
 
-			- allow('sestra','Patient') #all z pacienta
+            # SESTRA
+			- allow(null,'Homepage')
+			- allow('sestra','Patient')
 			- allow('sestra','Plan')
+			- allow('sestra','Sign')
+			- allow('sestra','Tools')
+			- allow('sestra','Visit','show')
+			- allow('sestra','Visit','edit')
+			- allow('sestra','Visit','default')
+			# visit nejako obmedzit add drugs, odporucanie  = moze z formov len vykony pridat
 
 
-			- allow('doktor','Visit','delete')
+			# DOKTOR
+			- deny('doktor','Admin')
 
 
