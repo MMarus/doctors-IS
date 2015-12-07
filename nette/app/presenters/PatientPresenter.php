@@ -96,11 +96,17 @@ class PatientPresenter extends BasePresenter
     
     public function renderShow()
     {
+
             $this->template->id = $this->ID;
             $patient = $this->db->table('Pacient')->get($this->ID);
             
             if (!$patient) {
                 $this->redirect("default");
+            }
+            if($patient->deleted == 1 ){
+                if (!$this->user->isInRole('admin')) { // je uživatel v roli admina?
+                    $this->redirect("default");
+                }
             }
             $this->template->patient = $patient;
             
