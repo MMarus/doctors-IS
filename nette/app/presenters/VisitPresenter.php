@@ -221,8 +221,12 @@ class VisitPresenter extends BasePresenter
                 Debugger::barDump($valuesChecked);
 
                 if ($valuesChecked) {
+                    if(in_array($table, array("PocasNavstevy","Odporucenie", "PredpisanyLiek")))
+                        $query= "DELETE FROM ".$table." WHERE ID = ?";
+                    else
+                        $query = "UPDATE ".$table." SET deleted = 1 WHERE ID = ?";
                     foreach ($valuesChecked as $val) {
-                        $this->db->query("UPDATE ".$table." SET deleted = 1 WHERE ID = ?", $val);
+                        $this->db->query($query, $val);
                     }
                 } else {
                     $this->flashMessage('Zle zadany formular');
@@ -302,9 +306,13 @@ class VisitPresenter extends BasePresenter
         if(!isset($this->ID)){
             $id = $this->db->getInsertId('NavstevaOrdinacie');
             $this->flashMessage('Navsteva ordinacie uspesne pridana.');
-            $this->redirect("edit", array($id));
-        }else
+            $this->redirect("show", array($id));
+        }else{
             $this->flashMessage('Navsteva ordinacie uspesne upravena.');
+            $this->redirect("show", array($this->ID));
+        }
+
+
     }
 
     public function createComponentAddDrugs()
