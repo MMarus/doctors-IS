@@ -129,6 +129,13 @@ class PatientPresenter extends BasePresenter
                 $this->template->visits = $this->db->query("SELECT *, DATE_FORMAT(Datum,'%H:%i %d.%m.%Y') AS niceDate FROM NavstevaOrdinacie WHERE id_Pacient = ? AND deleted = 0 ORDER BY Datum DESC ", $this->ID);
 
             }
+        $drugs = [];
+        $drugs = $this->db->query("SELECT Liek.*, PredpisanyLiek.Davkovanie, PredpisanyLiek.PocetBaleni
+FROM PredpisanyLiek, Liek
+WHERE id_NavstevaOrdinacie IN
+(SELECT ID FROM NavstevaOrdinacie WHERE id_Pacient = ?)
+AND PredpisanyLiek.id_Liek = Liek.ID", $this->ID);
+        $this->template->drugs = $drugs;
 
 
     }
