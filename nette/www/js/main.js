@@ -1,5 +1,5 @@
 $(function(){
-    menu();
+
 
     //clock - only homepage
     var pathArray = location.href.split( '/' );
@@ -21,6 +21,7 @@ $(function(){
 
     }
 
+    console.log(pathArray[3]);
     if(pathArray[3]=="sign")
     {
         var ebox = document.getElementById("errbox");
@@ -38,12 +39,16 @@ $(function(){
 
 
 
-            console.log();
+            console.log("okk");
         }
 
-
-
     }
+    else
+    {
+        menu();
+    }
+
+
 });
 
 
