@@ -223,26 +223,29 @@ class PlanPresenter extends BasePresenter
 
 	public function AddPlanSucceeded(UI\Form $form, $values){
 
+		if(!isset($this->ID))
+		{
+			//new
+			$res = $this->db->table("Plan")->insert(array(
+					"Planovany_datum" => $values->Datum ,
+					"Poznamky" => $values->Poznamky,
+					"id_Pacient" => $values->id_Pacient
+			));
+
+			$this->ID = $res->getPrimary();
+
+		}
 
 
-		//ak id neexistuje pridame ho
-		$this->db->query("INSERT INTO Plan
-            (ID, Planovany_datum, Poznamky, id_Pacient)
-            VALUES(?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE
-            Planovany_datum = ?, Poznamky = ?, id_Pacient = ?",
-			$this->ID, $values->Datum, $values->Poznamky, $values->id_Pacient,
-			$values->Datum, $values->Poznamky, $values->id_Pacient
-		);
-		$idcko = $this->db->getInsertId('Plan');
+		$rr = $this->db->query("DELETE FROM VykonMaPlan WHERE id_plan = ? ", $this->ID );
+
 
 		//Povkladat naplanovane vykony
 		foreach( $values->vykony as $val ){
 			Debugger::barDump($val);
 			$this->db->table("VykonMaPlan")->insert(array(
-				"ID" => "",
 				"id_Vykon" => $val,
-				"id_Plan" => $idcko
+				"id_Plan" => $this->ID
 			));
 		}
 
