@@ -7,6 +7,8 @@ use App\Model;
 use Test\Bs3FormRenderer;
 use Nette\Application\UI;
 use Nette\Application\UI\Form;
+use Nette\Application\UI\Control;
+use Nette\Application\UI\Multiplier;
 use Tracy\Debugger;
 
 
@@ -57,6 +59,7 @@ class PatientPresenter extends BasePresenter
     {
 
         $this->template->title = "Pacienti";
+        $this->template->UpravovanaTabulka = "Pacient";
 
         $patients = $this->db->query("
             SELECT Pacient.*, Poistovna.Nazov as Poistovna FROM Pacient
@@ -279,6 +282,38 @@ class PatientPresenter extends BasePresenter
             $this->redirect('this');
         }
         $this->flashMessage('Chybicka se vloudila.');
+    }
+
+
+    protected function createComponentRemoveRow()
+    {
+
+        return new Multiplier(function ($table) {
+            $form = new UI\Form;
+            $form->onSuccess[] = function($form) use($table) {
+
+                //Debugger::barDump($form);
+                $valuesChecked = $form->getHttpData($form::DATA_TEXT | $form::DATA_KEYS, $table."Sel[]");
+                Debugger::barDump($valuesChecked);
+
+                if ($valuesChecked) {
+                        $query1 = "UPDATE ".$table." SET deleted = 1 WHERE ID = ?";
+                        $query2 = "UPDATE NavstevaOrdinacie SET deleted = 1 WHERE id_Pacient = ?";
+                        $query3 = "DELETE FROM Plan WHERE id_Pacient = ?";
+                    foreach ($valuesChecked as $val) {
+                        $this->db->query($query1, $val);
+                        $this->db->query($query2, $val);
+                        $this->db->query($query3, $val);
+                    }
+                } else {
+                    $this->flashMessage('Zle zadany formular');
+                }
+            };
+
+            $form->setRenderer(new Bs3FormRenderer);
+
+            return $form;
+        });
     }
 
 }
