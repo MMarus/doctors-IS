@@ -109,6 +109,7 @@ class VisitPresenter extends BasePresenter
     public function renderShow()
     {
         $this->template->role = $this->user->isInRole("admin");
+        $this->template->sestraa = $this->user->isInRole("sestra");
         $suma = 0;
         if ($this->ID) {
             $navsteva = $this->db->table('NavstevaOrdinacie')->get($this->ID);
@@ -213,6 +214,7 @@ class VisitPresenter extends BasePresenter
                     'id_'.$this->presenterName => $this->ID,
                     'id_'.$tableFrom => $val));
             }
+            $this->flashMessage('Pridanie uspesne.');
             $this->redirect('this');
         } else
             $this->flashMessage('Zle zadany formular');
