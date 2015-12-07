@@ -306,14 +306,20 @@ INSERT INTO Pacient (Rodne_cislo,Meno,Priezvisko,Adresa,Krvna_skupina,Poznamky,i
 ( '0000001111', 'Filip', 'Jezovica', 'Bozetechova 2, 61200 Brno', 'A+', 'Alergia na Penicilin.', '001'),
 ( '1111112222', 'Marek', 'Marusic',  'Bozetechova 2, 61200 Brno', 'AB+', 'Alergia na Ibalgin.', '002'),
 ( '2222223333', 'Nikto', 'Niktos',  'Bozetechova 1, 61200 Brno', '0-', 'Bez poznamky.', '002'),
-( '3333334444', 'Volakto', 'Nejaky',  'Bozetechova 1, 61200 Brno', 'B+', 'Bez poznamky.', '002');
+( '2227823333', 'Fero', 'Mrkva',  'Bozetechova 2, 61200 Brno', '0-', 'Bez poznamky.', '001'),
+( '2276623333', 'Janko', 'Hrasko',  'Bozetechova 1, 61200 Brno', '0-', 'Bez poznamky.', '002'),
+( '3333334444', 'Volakto', 'Nejaky',  'Bozetechova 2, 61200 Brno', 'B+', 'Bez poznamky.', '002');
 
 -- NavstevaOrdinacie (ma pacienta) (AUTOINCREMENT)
 INSERT INTO NavstevaOrdinacie (Datum,Poznamky,id_Pacient) VALUES
 ( '2015-05-05 15:00:00', 'Vsetko prebehlo ok.', '001'),
 ( '2015-05-05 16:00:00', 'Toto bol novy pacient, novo registrovany.', '003'),
 ( '2015-05-05 16:00:00', 'Bez popisu', '003'),
-( '2015-05-05 17:00:00', 'abcdcdcsdvgs', '004');
+( '2015-05-05 17:00:00', 'Popis', '004'),
+( '2015-05-05 17:00:00', 'OK', '005'),
+( '2015-05-06 17:00:00', 'OK', '005'),
+( '2015-05-05 17:00:00', 'Bez popisu', '004'),
+( '2015-05-05 17:00:00', 'Ozaj', '002');
 
 -- Plany (nakonci PACIENT)
 INSERT INTO Plan (Planovany_datum,Poznamky,id_Pacient) VALUES
@@ -350,6 +356,24 @@ INSERT INTO Plan (Planovany_datum,Poznamky,id_Pacient) VALUES
 ( '2016-1-25 17:00:00' , 'Priniest karticku poistenca.' , '003'),
 ( '2016-1-25 17:00:00' , 'Priniest karticku poistenca.' , '004'),
 ( '2016-1-25 17:00:00' , '' , '004'),
+	( '2015-12-10 13:00:00' , 'Karticku' , '001'),
+	( '2015-12-11 17:00:00' , 'Kartacik' , '002'),
+	( '2015-12-12 10:00:00' , 'Kartu' , '003'),
+	( '2015-12-13 11:00:00' , 'Vysledky' , '004'),
+	( '2015-12-14 17:00:00' , 'prevent' , '005'),
+
+	( '2015-12-15 11:00:00' , 'bez popisu' , '001'),
+	( '2015-12-16 17:00:00' , 'bez popisu' , '002'),
+	( '2015-12-17 10:00:00' , 'Kartu' , '003'),
+	( '2015-12-18 17:00:00' , 'Zmena poistovne?' , '004'),
+	( '2015-12-19 17:00:00' , 'Vysledky' , '005'),
+
+	( '2015-12-20 11:00:00' , 'bez popisu' , '001'),
+	( '2015-12-21 17:00:00' , 'bez popisu' , '002'),
+	( '2015-12-22 10:00:00' , 'Kartu' , '003'),
+	( '2015-12-23 17:00:00' , 'Zmena poistovne?' , '004'),
+	( '2015-12-24 17:00:00' , 'Vysledky' , '005'),
+
 ( '2016-1-26 17:00:00' , 'Nejaka poznamka.' , '001');
 
 -- Faktury (ma : Navstevu ordinacie, Poistovnu)

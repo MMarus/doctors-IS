@@ -4,7 +4,7 @@ $(function(){
     //clock - only homepage
     var pathArray = location.href.split( '/' );
     console.log(pathArray);
-    if(pathArray[pathArray.length-1]=="")
+    if(pathArray.length== 4 )
     {
         window.onload = function() {
             startTime();
@@ -21,7 +21,7 @@ $(function(){
 
     }
 
-    if(pathArray[pathArray.length-2]=="sign")
+    if(pathArray[4]=="sign")
     {
         var ebox = document.getElementById("errbox");
         var tmp;
@@ -146,10 +146,10 @@ function basepath(xx)
 
     if(xx == "yi")
     {
-        return protocol + '/' + host;
+        return protocol + '//' + host;
     }
 
-    pth = protocol + '/' + host;
+    pth = protocol + '//' + host;
     pth = protocol;
     return pth;
 }
