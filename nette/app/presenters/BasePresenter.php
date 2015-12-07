@@ -21,6 +21,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
             if($this->name == 'Sign'){return;}
             $this->redirect('Sign:in');
         }
+        $this->template->ADMIN = $this->user->isInRole('admin');
         $this->template->username = $this->user->getIdentity()->meno . " " . $this->user->getIdentity()->priezvisko;
         $this->template->userinfo = $this->user->getIdentity();
 
