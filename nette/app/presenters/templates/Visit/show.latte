@@ -66,7 +66,7 @@
 
                 <!-- VYKONY -->
 
-                {if $fakturovane != 1}
+                {if $fakturovane != 1 && ! $sestraa}
                 <div class="col-md-4">
                     {include '../components/formAddDropdown.latte',
                     MenoPanelu => 'Vykon',
