@@ -11,3 +11,7 @@ Administracia
 
 Automaticke objednavanie pacientov
 -v SQL trigger nejaky, pri inserte rovno vytvori plan
+
+Po implementácii 
+
+používateľského prípadu mazania pacienta, sme sa rozhodli, tento use case zrušiť z dôvodu že aj po úmrtí pacienta je nutné uchovávať jeho záznamy pre prípadné vyšetrovania a výskumné účely.
