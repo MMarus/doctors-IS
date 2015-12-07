@@ -140,6 +140,7 @@ function basepath()
             break;
         }
     }
+    pth = protocol + '//' + host;
     return pth;
 }
 
