@@ -197,6 +197,13 @@ class VisitPresenter extends BasePresenter
     public function addDropdownSubmitSucceeded($form, $tableTo, $tableFrom){
         $values = $form->getValues();
 
+
+        if(  $this->user->isInRole("sestra") && $tableTo == "Odporucenie"   )
+        {
+            $this->noperm("Visit:show", $this->ID);
+            return;
+        }
+
         if ($values[$tableTo] && $this->ID > 0) {
 
             foreach( $values[$tableTo] as $val ){
