@@ -97,7 +97,7 @@ class PatientPresenter extends BasePresenter
             $patient = $this->db->table('Pacient')->get($this->ID);
             
             if (!$patient) {
-                $this->error('Stránka nebyla nalezena');
+                $this->redirect("default");
             }
             $this->template->patient = $patient;
             
@@ -231,12 +231,12 @@ class PatientPresenter extends BasePresenter
 
         $form = new UI\Form;
 
-        //$form->addSelect("pacient", "Pacient*", $patients)
+        //$form->addSelect("pacient", "Pacient:", $patients)
             //->setPrompt("Vyber pacienta")
             //->setRequired('Zvolte pacienta');
-        $form->addMultiSelect("vykony", "Vykony:*", $services)
+        $form->addMultiSelect("vykony", "Vykony:", $services)
             ->setRequired('Zvolte vykon');
-        $form->addTbDateTimePicker('Datum', 'Datum:*')
+        $form->addTbDateTimePicker('Datum', 'Datum:')
             ->setRequired();
         $form->addTextArea("Poznamky", "Poznamky:")
             ->addRule(Form::MAX_LENGTH, 'Prilis vela znakov', 255);

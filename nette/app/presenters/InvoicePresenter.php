@@ -106,7 +106,8 @@ WHERE PredpisanyLiek.id_NavstevaOrdinacie = ? AND PredpisanyLiek.id_Liek = Liek.
             $this->template->exts = $this->db->query("SELECT ExternePracovisko.* FROM Odporucenie, ExternePracovisko WHERE Odporucenie.id_NavstevaOrdinacie = ? AND Odporucenie.id_ExternePracovisko = ExternePracovisko.ID",$visit->ID);
         }
         else{
-            $this->error('Dana Faktura nexistuje');
+            $this->flashMessage('Dana Faktura nexistuje');
+            $this->redirect("default");
         }
     }
 

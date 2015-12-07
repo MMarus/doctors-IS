@@ -183,18 +183,18 @@ class PlanPresenter extends BasePresenter
 
 		$form = new UI\Form;
 
-		$form->addSelect("id_Pacient", "Pacient*", $patients)
+		$form->addSelect("id_Pacient", "Pacient:", $patients)
 			->setPrompt("Vyber pacienta")
 			->setRequired('Zvolte pacienta');
 		if($plan)
 			$form["id_Pacient"]->setDefaultValue($plan->id_Pacient);
 
-		$form->addMultiSelect("vykony", "Vykony:*", $services)
+		$form->addMultiSelect("vykony", "Vykony:", $services)
 			->setRequired('Zvolte vykon');
 		if(!empty($vykony))
 			$form["vykony"]->setValue($vykony);
 
-		$form->addTbDateTimePicker('Datum', 'Datum:*')
+		$form->addTbDateTimePicker('Datum', 'Datum:')
 			->setRequired();
 		if($plan)
 			$form["Datum"]->setDefaultValue($plan->Planovany_datum);

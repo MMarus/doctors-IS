@@ -142,8 +142,10 @@ class VisitPresenter extends BasePresenter
             $this->template->UpravovanaTabulka = "PredpisanyLiek";
             $this->template->theads = array("Nazov" => "Názov", "Davkovanie" => "Dávkovanie", "PocetBaleni" => "ks");
             $this->template->rows = $this->db->query("SELECT Liek.*, PredpisanyLiek.Davkovanie, PredpisanyLiek.PocetBaleni, PredpisanyLiek.ID as IDcko FROM PredpisanyLiek, Liek WHERE PredpisanyLiek.id_NavstevaOrdinacie = ? AND PredpisanyLiek.id_Liek = Liek.ID", $this->ID);
-        } else
-            $this->error("TEST");
+        } else {
+            $this->redirect("default");
+        }
+
     }
 
     //Component SERVICE
@@ -327,10 +329,10 @@ class VisitPresenter extends BasePresenter
         }
 
         $form = new UI\Form;
-        $form->addSelect('liek', 'Liek*', $drugs)
+        $form->addSelect('liek', 'Liek:', $drugs)
             ->setPrompt("Vyber")
             ->setRequired('Zvolte Liek');
-        $form->addText('pocet', 'Pocet baleni*:')
+        $form->addText('pocet', 'Pocet baleni:')
             ->addRule(Form::INTEGER, 'Pocet musí být číslo')
             ->addRule(Form::RANGE, 'Pocet musí být od 1 do 65356', array(1, 65356))
             ->setRequired('Zvolte pocet baleni');
