@@ -155,6 +155,20 @@
                                     </div>*}
                                 </div>
                             </div>
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Názov</th>
+                                    <th>Dávkovanie</th>
+                                    <th>ks</th>
+                                </tr>
+                                {foreach $drugs as $drug}
+                                    <tr>
+                                        <td>{$drug->Nazov}</td>
+                                        <td>{$drug->Davkovanie}</td>
+                                        <td>{$drug->PocetBaleni}</td>
+                                    </tr>
+                                {/foreach}
+                            </table>
                         </div>
                     </div>
                 </div>
