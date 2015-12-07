@@ -183,7 +183,9 @@ function menu_load()
         }
     }
     var post = "action=load";
-    var lnk = basepath()  + '/myajax.php';
+    var lnk = basepath("yi")  + '/myajax.php';
+
+    //console.log("TST: " + basepath("yi"));
     console.log(lnk);
     xhr.open('POST', lnk);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -235,7 +237,7 @@ function menu(action)
         data = document.getElementById("wrapper").className;
 
         var post = "action=" + act + "&" + "data="  + data;
-        var lnk = basepath()  + '/myajax.php';
+        var lnk = basepath("yi")  + '/myajax.php';
         console.log(lnk);
         xhr.open('POST', lnk);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
