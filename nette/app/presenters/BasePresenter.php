@@ -39,14 +39,29 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         }
         else
         {
-            Debugger::barDump("ALLOWED: NO!" );
-            $this->flashMessage("Nemáte dostatočné práva na vykonanie tejto akcie!");
-            //Debugger::barDump($this->presenter->getParent());
-            $this->redirect("Homepage:");
+            $this->noperm("Homepage:");
         }
 
 
     }
+
+
+
+    function noperm($red,$id = null)
+    {
+        Debugger::barDump("ALLOWED: NO!" );
+        $this->flashMessage("Nemáte dostatočné práva na vykonanie tejto akcie!");
+        if($id == null)
+        {
+            $this->redirect($red);
+        }
+        else
+        {
+            $this->redirect($red,$id);
+        }
+
+    }
+
 
 
 }

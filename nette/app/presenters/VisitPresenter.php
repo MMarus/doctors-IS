@@ -346,6 +346,12 @@ class VisitPresenter extends BasePresenter
 
     public function AddDrugsSucceeded(UI\Form $form, $values){
 
+        if(  $this->user->isInRole("sestra")   )
+        {
+            $this->noperm("Visit:show", $this->ID);
+            return;
+        }
+
         if ($values && $this->ID > 0) {
             Debugger::barDump($values);
             $this->db->query('INSERT INTO PredpisanyLiek', array(
