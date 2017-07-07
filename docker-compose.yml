@@ -1,0 +1,21 @@
+version: "2"
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    depends_on:
+          - "db"
+    links:
+      - "db:mysql"
+  db:
+    image: mysql:5.6
+    environment:
+      - MYSQL_DATABASE=ordinacia
+      - MYSQL_USER=ordinacia
+      - MYSQL_PASSWORD=ordinacia
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    expose:
+        - "3306"
+    volumes:
+          - ./db-dump:/docker-entrypoint-initdb.d

@@ -1,9 +1,8 @@
 parameters:
 
-
 database:
-	dsn: 'mysql:host=mariadb55.websupport.sk:3310;dbname=ordinacia'
-	user: 'yp6st6wu'
-	password: '{Quatsov7'
+	dsn: 'mysql:host=db:3306;dbname=ordinacia'
+	user: 'ordinacia'
+	password: 'ordinacia'
 	options:
 		lazy: yes
