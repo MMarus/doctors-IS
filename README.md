@@ -14,7 +14,7 @@ There are three different types of accounts. You can try them in the demo applic
 |----------     |:-------------:    |------:    |
 | Doctor        |  0                | 0         |
 | Nurse         |  1                | 0         |
-| Administrator | admin             | 00        |
+| Administrator | admin             | admin     |
 
 Live demo:
 ---------------
