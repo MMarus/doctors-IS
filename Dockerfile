@@ -15,5 +15,7 @@ WORKDIR /app
 
 COPY nette/ /app
 
+RUN mkdir temp
+
 RUN chmod 777 log temp && \
 sed -i "s/DocumentRoot \/var\/www\/html/DocumentRoot \/app\/www/g" /etc/apache2/sites-available/000-default.conf
