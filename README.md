@@ -18,7 +18,7 @@ There are three different types of accounts. You can try them in the demo applic
 
 Live demo:
 ---------------
-http://iis.mstav.eu/
+http://mmarusic.eu:8080/
 
 Technologies used:
 ------------------
